@@ -1,6 +1,6 @@
-Hallo Daniel,
+Hallo Johannes,
 
-ich lerne git. Schau mal hier ist eine neue Datei.
+Nutze immer val und nicht var!!!
 
 Viele Grüße
 
