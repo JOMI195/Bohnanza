@@ -1,0 +1,7 @@
+Hallo Johannes,
+
+Nutze immer val und nicht var !!!
+
+Mfg
+
+Daniel
