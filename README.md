@@ -1,10 +1,8 @@
-# Bohnanza
+## sbt project compiled with Scala 3
 
-<p align="center">
-<img alt="bohnanza" src="https://github.com/JOMI195/Bohnanza/assets/57303615/9ff67416-81bc-4e6a-bb5e-08585779e5a7" height="300">
-</p>
+### Usage
 
-## Game instructions
-<p align="center">
-<img alt="bohnanza-anleitung" src="https://github.com/JOMI195/Bohnanza/assets/57303615/07a90f45-82d3-4ccc-acde-9478fc7e3aee" height="500">
-</p>
+This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
+
+For more information on the sbt-dotty plugin, see the
+[scala3-example-project](https://github.com/scala/scala3-example-project/blob/main/README.md).
