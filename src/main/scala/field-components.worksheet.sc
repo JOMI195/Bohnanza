@@ -52,7 +52,6 @@ playerJomi.getBeanFields
 val playerDaniel = Player("Daniel", None, List(redBean, blueBean, redBean))
 playerDaniel.getBeanFields
 
-// is it allowed to have functions that can also print
 class BohnanzaGame(val players: List[Player]) {
     // the toString method of player already returns "\n"
     def getAllPlayers : String = players.map(_.toString).mkString("")
