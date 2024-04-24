@@ -8,7 +8,7 @@ class Tui {
     splittedInput(0) match {
       // case "start"
 
-      // draw [playerIndex]
+      // Usage: draw [playerIndex]
       case "draw" => {
         val playerIndex = splittedInput(1).toInt
         game.playerDrawCardFromDeck(playerIndex)
@@ -17,7 +17,14 @@ class Tui {
       // case "harvest"
       // case "take"
       // case "cards"
-      // case _
+      case "exit" => {
+        println("Exiting game...")
+        game.copy()
+      }
+      case _ => {
+        println("Command not recognized. Type 'help' for commands.")
+        game.copy()
+      }
     }
   }
 }
