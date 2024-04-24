@@ -33,4 +33,15 @@ case class Game(
     val updatedPlayers = players.updated(playerIndex, updatedPlayer)
     copy(players = updatedPlayers)
   }
+
+  def drawCardToTurnOverField(): Game = {
+    val (firstCard, firstUpdatedDeck) = deck.draw()
+    val firstUpdatedTurnOverField =
+      turnOverField.addCardToTurnOverField(firstCard)
+    val updatedGame = copy(turnOverField = turnOverField)
+    val (secondCard, secondUpdatedDeck) = deck.draw()
+    val secondUpdatedTurnOverField =
+      updatedGame.turnOverField.addCardToTurnOverField(secondCard)
+    copy(turnOverField = secondUpdatedTurnOverField)
+  }
 }

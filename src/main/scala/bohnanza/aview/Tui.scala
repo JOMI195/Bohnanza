@@ -27,17 +27,22 @@ class Tui {
         )
         updatedGame
       }
-      // turn
-      // case "turn"
+      // turns
+      case "turn" => {
+        println(game.turnOverField)
+        val updatedGame = game.drawCardToTurnOverField()
+        println(updatedGame.turnOverField)
+        updatedGame
+      }
       // case "take"
       // case "cards"
       case "exit" => {
         println("Exiting game...")
-        game.copy()
+        game
       }
       case _ => {
         println("Command not recognized. Type 'help' for commands.")
-        game.copy()
+        game
       }
     }
   }
