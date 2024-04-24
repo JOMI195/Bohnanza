@@ -34,6 +34,22 @@ case class Game(
     copy(players = updatedPlayers)
   }
 
+  def playerPlantFromTurnOverField(
+      playerIndex: Int,
+      cardIndex: Int,
+      beanFieldIndex: Int
+  ): Game = {
+    val updatedTurnOverField = turnOverField.cards.patch(cardIndex, Nil, 1)
+    val updatedPlayer = players(playerIndex).plantToField(
+      turnOverField.cards(cardIndex),
+      beanFieldIndex
+    )
+    copy(
+      players = players.updated(playerIndex, updatedPlayer),
+      turnOverField = TurnOverField(updatedTurnOverField)
+    )
+  }
+
   def drawCardToTurnOverField(): Game = {
     val (firstCard, firstDeck) = deck.draw()
     val firstTurnOverField =
