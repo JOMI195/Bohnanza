@@ -7,15 +7,11 @@ class Tui {
     val splittedInput = input.split(" ").toList
     splittedInput(0) match {
       // case "start"
+
+      // draw [playerIndex]
       case "draw" => {
         val playerIndex = splittedInput(1).toInt
-        val player = game.players(playerIndex)
-        val (updatedDeck, updatedPlayer) = player.drawCardFromDeck(game.deck)
-
-        game.copy(
-          players = game.players.updated(playerIndex, updatedPlayer),
-          deck = updatedDeck
-        )
+        game.playerDrawCardFromDeck(playerIndex)
       }
       // case "plant" => game.players[splittedInput[1]]
       // case "harvest"

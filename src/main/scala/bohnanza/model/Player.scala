@@ -13,10 +13,8 @@ case class Player(
       cards: List[Bean] = cards
   ): Player = Player(name, beanFields, coins, cards)
 
-  def drawCardFromDeck(deck: Deck): (Deck, Player) = {
-    val (card, updatedDeck) = deck.draw()
-    val updatedPlayer = copy(cards = card.fold(cards)(_ :: cards))
-    (updatedDeck, updatedPlayer)
+  def addCardToHand(card: Bean): Player = {
+    this.copy(cards = cards :: card)
   }
 
   /*   def buyBeanField(): Player {}
