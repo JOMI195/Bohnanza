@@ -11,15 +11,22 @@ case class Game(
       turnOverField: TurnOverField = turnOverField
   ): Game = Game(players, deck, turnOverField)
 
-  // def playerDrawCardFromDeck(playerIndex: Int): Game = {
-  //   val player = players(playerIndex)
-  //   val (card, updatedDeck) = deck.draw()
-  //   val updatedPlayer = player.addCardToHand(card)
-  //   this.copy(
-  //     players = this.players.updated(playerIndex, updatedPlayer),
-  //     deck = updatedDeck
-  //   )
-  // }
+  /** Draws a card from the deck and adds it to the specified player's hand. If
+    * the deck is empty, no card is drawn.
+    */
+  def playerDrawCardFromDeck(playerIndex: Int): Game = {
+    println(s"Player ${playerIndex} attempting drawing card from deck...")
+    val player = players(playerIndex)
+    val (card, updatedDeck) = deck.draw()
+    val updatedPlayer = card match {
+      case Some(card) => player.addCardToHand(card)
+      case None       => player
+    }
+    this.copy(
+      players = this.players.updated(playerIndex, updatedPlayer),
+      deck = updatedDeck
+    )
+  }
 
   def playerHarvestField(playerIndex: Int, beanFieldIndex: Int): Game = {
     val updatedPlayer = players(playerIndex).harvestField(beanFieldIndex)

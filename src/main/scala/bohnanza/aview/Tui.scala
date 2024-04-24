@@ -8,11 +8,11 @@ class Tui {
     splittedInput(0) match {
       // case "start"
 
-      // draw [playerIndex]
-      // case "draw" => {
-      //   val playerIndex = splittedInput(1).toInt
-      //   game.playerDrawCardFromDeck(playerIndex)
-      // }
+      // Usage: draw [playerIndex]
+      case "draw" => {
+        val playerIndex = splittedInput(1).toInt
+        game.playerDrawCardFromDeck(playerIndex)
+      }
       // case "plant" => game.players[splittedInput[1]]
       // harvest [playerIndex] [beanFieldIndex]
       case "harvest" => {
@@ -29,7 +29,14 @@ class Tui {
       }
       // case "take"
       // case "cards"
-      // case _
+      case "exit" => {
+        println("Exiting game...")
+        game.copy()
+      }
+      case _ => {
+        println("Command not recognized. Type 'help' for commands.")
+        game.copy()
+      }
     }
   }
 }

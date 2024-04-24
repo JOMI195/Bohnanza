@@ -13,9 +13,14 @@ case class Player(
       cards: List[Bean] = cards
   ): Player = Player(name, beanFields, coins, cards)
 
-  // def addCardToHand(card: Bean): Player = {
-  //   this.copy(cards = cards :: card)
-  // }
+  /** Adds a card to the hand cards
+    */
+  def addCardToHand(card: Bean): Player = {
+    println("Player cards before add" + cards)
+    val updatedPlayer = copy(cards = cards :+ card)
+    println("Player cards after add" + updatedPlayer.cards)
+    updatedPlayer
+  }
 
 //   def buyBeanField(): Player {}
   def harvestField(beanFieldIndex: Int): Player = {

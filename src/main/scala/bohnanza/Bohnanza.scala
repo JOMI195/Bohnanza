@@ -17,7 +17,7 @@ object Bohnanza {
     beanFields = List(BeanField(Option(Bean.Firebean), 4)),
     cards = List()
   )
-  val d = Deck(cards = List(Bean.Firebean))
+  val d = Deck(cards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean))
   val t = TurnOverField(cards = List())
 
   var game = Game(players = List(p1, p2), deck = d, turnOverField = t)
@@ -26,6 +26,7 @@ object Bohnanza {
   def main(args: Array[String]): Unit = {
     var input: String = ""
 
+    println("Starting new game...")
     while (input != "exit") {
       input = readLine()
       game = tui.processInputLine(input, game)
