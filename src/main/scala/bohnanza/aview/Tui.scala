@@ -27,6 +27,8 @@ class Tui {
         )
         updatedGame
       }
+      // turn
+      // case "turn"
       // case "take"
       // case "cards"
       case "exit" => {

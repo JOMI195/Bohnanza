@@ -30,6 +30,11 @@ case class Player(
       beanFields = beanFields.updated(beanFieldIndex, updatedBeanField)
     )
   }
+  def plantToField(bean: Bean, beanFieldIndex: Int): Player = {
+    val updatedBeanField = beanFields(beanFieldIndex).plantToField(bean)
+    val updatedBeanFields = beanFields.updated(beanFieldIndex, updatedBeanField)
+    copy(beanFields = updatedBeanFields)
+  }
 //   def plantBeanFromCards(placeTwoCards: Boolean = false): Player {}
 //   def plantBeanFromGameField(
 //       gameField: TurnOverField,

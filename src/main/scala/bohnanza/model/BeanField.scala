@@ -20,7 +20,20 @@ case class BeanField(bean: Option[Bean], quantity: Int = 0) {
       case None => (0, this)
     }
   }
-  // def plantBeans(bean: Bean, count: Int): BeanField {}
+
+  def plantToField(beanToPlant: Bean): BeanField = {
+    bean match {
+      case Some(bean) => {
+        if (bean == beanToPlant) {
+          return BeanField(Option(bean), quantity + 1)
+        }
+        println(s"Can't add $beanToPlant to $bean field.")
+        this
+      }
+      case None => BeanField(Option(beanToPlant), 1)
+
+    }
+  }
   // def isFieldEmpty(): Boolean {}
   // def isBeanTypeValid(): Boolean {}
 }
