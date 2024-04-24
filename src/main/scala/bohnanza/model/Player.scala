@@ -1,24 +1,30 @@
 package bohnanza.model
 
-class Player(
+case class Player(
     name: String,
-    beanFields: Vector[BeanField],
+    beanFields: List[BeanField],
     coins: Int,
-    cards: Vector[Bean]
+    cards: List[Bean]
 ) {
   def copy(
       name: String = name,
-      beanFields: Vector[BeanField] = beanFields,
+      beanFields: List[BeanField] = beanFields,
       coins: Int = coins,
-      cards: Vector[Bean] = cards
+      cards: List[Bean] = cards
   ): Player = Player(name, beanFields, coins, cards)
 
-  def buyBeanField(): Player {}
+  def drawCardFromDeck(deck: Deck): (Deck, Player) = {
+    val (card, updatedDeck) = deck.draw()
+    val updatedPlayer = copy(cards = card.fold(cards)(_ :: cards))
+    (updatedDeck, updatedPlayer)
+  }
+
+  /*   def buyBeanField(): Player {}
   def harvestField(beanFieldIndex: Int): Player {}
   def plantBeanFromCards(placeTwoCards: Boolean = false): Player {}
   def plantBeanFromGameField(
-      gameField: GameField,
+      gameField: TurnOverField,
       gameFieldIndex: Int,
       beanFieldIndex: Int
-  ): (GameField, Player) {}
+  ): (TurnOverField, Player) {} */
 }

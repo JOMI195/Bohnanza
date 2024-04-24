@@ -1,11 +1,15 @@
 package bohnanza.model
 
-class Game(players: Vector[Player], deck: Deck, gameField: GameField) {
+case class Game(
+    players: List[Player],
+    deck: Deck,
+    turnOverField: TurnOverField
+) {
   def copy(
-      players: Vector[Player] = players,
+      players: List[Player] = players,
       deck: Deck = deck,
-      gameField: GameField = gameField
-  ): Game = Game(players, deck, gameField)
+      turnOverField: TurnOverField = turnOverField
+  ): Game = Game(players, deck, turnOverField)
 
   def harvestField(playerIndex: Int, beanFieldIndex: Int) = {
     val updatedPlayer = players(playerIndex).harvestField(beanFieldIndex)
