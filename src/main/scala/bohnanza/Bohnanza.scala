@@ -14,7 +14,7 @@ object Bohnanza {
   val p2 = Player(
     name = "Daniel",
     coins = 0,
-    beanFields = List(BeanField(None)),
+    beanFields = List(BeanField(Option(Bean.Firebean), 4)),
     cards = List()
   )
   val d = Deck(cards = List(Bean.Firebean))

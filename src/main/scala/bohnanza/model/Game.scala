@@ -11,19 +11,19 @@ case class Game(
       turnOverField: TurnOverField = turnOverField
   ): Game = Game(players, deck, turnOverField)
 
-  def playerDrawCardFromDeck(playerIndex: Int): Game = {
-    val player = players(playerIndex)
-    val (card, updatedDeck) = deck.draw()
-    val updatedPlayer = player.addCardToHand(card)
-    this.copy(
-      players = this.players.updated(playerIndex, updatedPlayer),
-      deck = updatedDeck
-    )
-  }
+  // def playerDrawCardFromDeck(playerIndex: Int): Game = {
+  //   val player = players(playerIndex)
+  //   val (card, updatedDeck) = deck.draw()
+  //   val updatedPlayer = player.addCardToHand(card)
+  //   this.copy(
+  //     players = this.players.updated(playerIndex, updatedPlayer),
+  //     deck = updatedDeck
+  //   )
+  // }
 
-  /* def harvestField(playerIndex: Int, beanFieldIndex: Int) = {
+  def playerHarvestField(playerIndex: Int, beanFieldIndex: Int): Game = {
     val updatedPlayer = players(playerIndex).harvestField(beanFieldIndex)
     val updatedPlayers = players.updated(playerIndex, updatedPlayer)
     copy(players = updatedPlayers)
-  } */
+  }
 }

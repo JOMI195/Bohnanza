@@ -13,16 +13,23 @@ case class Player(
       cards: List[Bean] = cards
   ): Player = Player(name, beanFields, coins, cards)
 
-  def addCardToHand(card: Bean): Player = {
-    this.copy(cards = cards :: card)
-  }
+  // def addCardToHand(card: Bean): Player = {
+  //   this.copy(cards = cards :: card)
+  // }
 
-  /*   def buyBeanField(): Player {}
-  def harvestField(beanFieldIndex: Int): Player {}
-  def plantBeanFromCards(placeTwoCards: Boolean = false): Player {}
-  def plantBeanFromGameField(
-      gameField: TurnOverField,
-      gameFieldIndex: Int,
-      beanFieldIndex: Int
-  ): (TurnOverField, Player) {} */
+//   def buyBeanField(): Player {}
+  def harvestField(beanFieldIndex: Int): Player = {
+    val (coins, updatedBeanField) = beanFields(beanFieldIndex).harvestField()
+    println(coins)
+    copy(
+      coins = coins,
+      beanFields = beanFields.updated(beanFieldIndex, updatedBeanField)
+    )
+  }
+//   def plantBeanFromCards(placeTwoCards: Boolean = false): Player {}
+//   def plantBeanFromGameField(
+//       gameField: TurnOverField,
+//       gameFieldIndex: Int,
+//       beanFieldIndex: Int
+//   ): (TurnOverField, Player) {}
 }

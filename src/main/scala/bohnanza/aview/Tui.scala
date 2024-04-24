@@ -9,12 +9,24 @@ class Tui {
       // case "start"
 
       // draw [playerIndex]
-      case "draw" => {
-        val playerIndex = splittedInput(1).toInt
-        game.playerDrawCardFromDeck(playerIndex)
-      }
+      // case "draw" => {
+      //   val playerIndex = splittedInput(1).toInt
+      //   game.playerDrawCardFromDeck(playerIndex)
+      // }
       // case "plant" => game.players[splittedInput[1]]
-      // case "harvest"
+      // harvest [playerIndex] [beanFieldIndex]
+      case "harvest" => {
+        val playerIndex = splittedInput(1).toInt
+        val beanFieldIndex = splittedInput(2).toInt
+        println(game.players(playerIndex).coins)
+        println(game.players(playerIndex).beanFields)
+        val updatedGame = game.playerHarvestField(playerIndex, beanFieldIndex)
+        println(updatedGame.players(playerIndex).coins)
+        println(
+          updatedGame.players(playerIndex).beanFields(beanFieldIndex).bean
+        )
+        updatedGame
+      }
       // case "take"
       // case "cards"
       // case _
