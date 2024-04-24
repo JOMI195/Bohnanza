@@ -35,13 +35,13 @@ case class Game(
   }
 
   def drawCardToTurnOverField(): Game = {
-    val (firstCard, firstUpdatedDeck) = deck.draw()
-    val firstUpdatedTurnOverField =
+    val (firstCard, firstDeck) = deck.draw()
+    val firstTurnOverField =
       turnOverField.addCardToTurnOverField(firstCard)
-    val updatedGame = copy(turnOverField = turnOverField)
-    val (secondCard, secondUpdatedDeck) = deck.draw()
-    val secondUpdatedTurnOverField =
-      updatedGame.turnOverField.addCardToTurnOverField(secondCard)
-    copy(turnOverField = secondUpdatedTurnOverField)
+
+    val (secondCard, secondDeck) = firstDeck.draw()
+    val secondTurnOverField =
+      firstTurnOverField.addCardToTurnOverField(secondCard)
+    copy(deck = secondDeck, turnOverField = secondTurnOverField)
   }
 }
