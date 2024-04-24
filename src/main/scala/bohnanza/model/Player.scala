@@ -20,7 +20,6 @@ case class Player(
 //   def buyBeanField(): Player {}
   def harvestField(beanFieldIndex: Int): Player = {
     val (coins, updatedBeanField) = beanFields(beanFieldIndex).harvestField()
-    println(coins)
     copy(
       coins = coins,
       beanFields = beanFields.updated(beanFieldIndex, updatedBeanField)
