@@ -30,6 +30,7 @@ class Tui {
       }
 
       // turn
+      // draw cards to TurnOverField
       case "turn" => {
         println(game.turnOverField)
         val updatedGame = game.drawCardToTurnOverField()
@@ -38,6 +39,7 @@ class Tui {
       }
 
       // take [playerIndex] [cardIndex] [beanFieldIndex]
+      // take cards from TurnOverField
       case "take" => {
         val playerIndex = splittedInput(1).toInt
         val cardIndex = splittedInput(2).toInt
