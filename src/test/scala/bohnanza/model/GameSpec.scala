@@ -27,17 +27,27 @@ class GameSpec extends AnyWordSpec with Matchers {
       updatedGame.turnOverField shouldBe updatedTurnOverField
     }
 
-    "draw a card from deck and add it to the player's hand" in {
+    "draw a card from deck and add it to the player's hand" when {
       val initialPlayer = Player("Player1", List.empty, 0, List.empty)
       val initialPlayers = List(initialPlayer)
-      val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
       val initialTurnOverField = TurnOverField(List.empty)
-      val game = Game(initialPlayers, initialDeck, initialTurnOverField)
 
-      val updatedGame = game.playerDrawCardFromDeck(0)
+      "card drawn from deck is valid" in {
+        val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
+        val game = Game(initialPlayers, initialDeck, initialTurnOverField)
+        val updatedGame = game.playerDrawCardFromDeck(0)
 
-      updatedGame.deck.cards shouldBe List(Bean.Firebean)
-      updatedGame.players.head.cards shouldBe List(Bean.Firebean)
+        updatedGame.deck.cards shouldBe List(Bean.Firebean)
+        updatedGame.players.head.cards shouldBe List(Bean.Firebean)
+      }
+
+      "card drawn from deck is none" in {
+        val initialDeck = Deck(List.empty)
+        val game = Game(initialPlayers, initialDeck, initialTurnOverField)
+        val updatedGame = game.playerDrawCardFromDeck(0)
+        updatedGame shouldBe game
+      }
+
     }
 
     "plant a card from hand to the player's bean field" in {

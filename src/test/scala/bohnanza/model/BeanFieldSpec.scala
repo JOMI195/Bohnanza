@@ -32,11 +32,20 @@ class BeanFieldSpec extends AnyWordSpec with Matchers {
       }
     }
 
-    "plantToField should plant a bean to a beanField" in {
-      val updatedEmptyField =
-        emptyBeanField.plantToField(Bean.Firebean)
-      updatedEmptyField.quantity shouldBe emptyBeanField.quantity + 1
-      updatedEmptyField.bean shouldBe Some(Bean.Firebean)
+    "plantToField should plant a bean to a beanField" when {
+      "bean is right type" in {
+        val updatedEmptyField =
+          emptyBeanField.plantToField(Bean.Firebean)
+        updatedEmptyField.quantity shouldBe emptyBeanField.quantity + 1
+        updatedEmptyField.bean shouldBe Some(Bean.Firebean)
+      }
+
+      "bean is wrong type" in {
+        val updatedBeanField =
+          correctBeanField.plantToField(Bean.BlueBean)
+        updatedBeanField shouldBe correctBeanField
+      }
     }
+
   }
 }
