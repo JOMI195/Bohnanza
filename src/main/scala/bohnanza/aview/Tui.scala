@@ -34,17 +34,40 @@ class Tui {
         )
         updatedGame
       }
+
       // turn
-      // case "turn"
-      // case "take"
+      case "turn" => {
+        println(game.turnOverField)
+        val updatedGame = game.drawCardToTurnOverField()
+        println(updatedGame.turnOverField)
+        updatedGame
+      }
+
+      // take [playerIndex] [cardIndex] [beanFieldIndex]
+      case "take" => {
+        val playerIndex = splittedInput(1).toInt
+        val cardIndex = splittedInput(2).toInt
+        val beanFieldIndex = splittedInput(3).toInt
+        println(game.turnOverField)
+        println(game.players(playerIndex))
+        val updatedGame = game.playerPlantFromTurnOverField(
+          playerIndex,
+          cardIndex,
+          beanFieldIndex
+        )
+        println(updatedGame.turnOverField)
+        println(updatedGame.players(playerIndex))
+        updatedGame
+      }
+
       // case "cards"
       case "exit" => {
         println("Exiting game...")
-        game.copy()
+        game
       }
       case _ => {
         println("Command not recognized. Type 'help' for commands.")
-        game.copy()
+        game
       }
     }
   }
