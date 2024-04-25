@@ -62,5 +62,4 @@ case class Player(
     val updatedBeanFields = beanFields.updated(beanFieldIndex, updatedBeanField)
     copy(beanFields = updatedBeanFields)
   }
-
 }

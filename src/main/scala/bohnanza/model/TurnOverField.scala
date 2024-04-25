@@ -8,8 +8,9 @@ case class TurnOverField(cards: List[Bean]) {
     }
   }
 
-  def takeCard(cardIndex: Int): TurnOverField = TurnOverField(
-    cards.patch(cardIndex, Nil, 1)
-  )
-
+  def takeCard(cardIndex: Int): (Bean, TurnOverField) = {
+    val cardTaken = cards(cardIndex)
+    val updatedTurnOverField = cards.patch(cardIndex, Nil, 1)
+    (cardTaken, TurnOverField(updatedTurnOverField))
+  }
 }

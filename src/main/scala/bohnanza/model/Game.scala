@@ -52,14 +52,14 @@ case class Game(
       cardIndex: Int,
       beanFieldIndex: Int
   ): Game = {
-    val updatedTurnOverField = turnOverField.cards.patch(cardIndex, Nil, 1)
+    val (cardTaken, updatedTurnOverField) = turnOverField.takeCard(cardIndex)
     val updatedPlayer = players(playerIndex).plantToField(
-      turnOverField.cards(cardIndex),
+      cardTaken,
       beanFieldIndex
     )
     copy(
       players = players.updated(playerIndex, updatedPlayer),
-      turnOverField = TurnOverField(updatedTurnOverField)
+      turnOverField = updatedTurnOverField
     )
   }
 

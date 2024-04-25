@@ -40,7 +40,7 @@ class Tui {
       case "turn" => {
         println(game.turnOverField)
         val updatedGame = game.drawCardToTurnOverField()
-        println(updatedGame.turnOverField)
+        println(updatedGame.turnOverField.cards.size)
         updatedGame
       }
 
