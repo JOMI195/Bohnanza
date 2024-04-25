@@ -13,7 +13,14 @@ class Tui {
         val playerIndex = splittedInput(1).toInt
         game.playerDrawCardFromDeck(playerIndex)
       }
-      // case "plant" => game.players[splittedInput[1]]
+
+      // Usage: plantFromHand [playerIndex] [beanFieldIndex]
+      case "plant" => {
+        val playerIndex = splittedInput(1).toInt
+        val beanFieldIndex = splittedInput(2).toInt
+        game.playerPlantCardFromHand(playerIndex, beanFieldIndex)
+      }
+
       // harvest [playerIndex] [beanFieldIndex]
       case "harvest" => {
         val playerIndex = splittedInput(1).toInt

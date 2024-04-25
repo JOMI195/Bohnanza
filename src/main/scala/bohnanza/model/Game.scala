@@ -28,6 +28,19 @@ case class Game(
     )
   }
 
+  /** Pops the first card from the hand cards of a player and plant it to the
+    * players beanField
+    */
+  def playerPlantCardFromHand(playerIndex: Int, beanFieldIndex: Int): Game = {
+    println(
+      s"Player ${playerIndex} attempting planting card from hand to beanField: ${beanFieldIndex}..."
+    )
+    val player = players(playerIndex)
+    val updatedPlayer = players(playerIndex).plantCardFromCards(beanFieldIndex)
+    val updatedPlayers = players.updated(playerIndex, updatedPlayer)
+    copy(players = updatedPlayers)
+  }
+
   def playerHarvestField(playerIndex: Int, beanFieldIndex: Int): Game = {
     val updatedPlayer = players(playerIndex).harvestField(beanFieldIndex)
     val updatedPlayers = players.updated(playerIndex, updatedPlayer)
