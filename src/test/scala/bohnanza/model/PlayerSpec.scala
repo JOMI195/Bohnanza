@@ -74,5 +74,34 @@ class PlayerSpec extends AnyWordSpec with Matchers {
         updatedPlayer.cards should be(List.empty)
       }
     }
+
+    "harvest beanField at a specific index" in {
+      val initialCards = List.empty
+      val initialPlayer =
+        Player(
+          "TestPlayer",
+          List(BeanField(Option(Bean.Firebean), 4)),
+          0,
+          initialCards
+        )
+
+      val updatedPlayer = initialPlayer.harvestField(0)
+      updatedPlayer.beanFields.head.quantity shouldBe 0
+      updatedPlayer.coins shouldBe 2
+    }
+
+    "plant a bean to a specific beanField" in {
+      val initialCards = List.empty
+      val initialPlayer =
+        Player(
+          "TestPlayer",
+          List(BeanField(Option(Bean.Firebean), 3)),
+          0,
+          initialCards
+        )
+
+      val updatedPlayer = initialPlayer.plantToField(Bean.Firebean, 0)
+      updatedPlayer.beanFields.head.quantity shouldBe 4
+    }
   }
 }
