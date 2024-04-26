@@ -8,7 +8,7 @@ import bohnanza.aview.*
 class TuiSpec extends AnyWordSpec with Matchers {
   val tui = new Tui()
 
-  val initialPlayer = Player("Player1", List.empty, 0, List.empty)
+  val initialPlayer = Player("Player1", List.empty, 0, Hand(List.empty))
   val initialPlayers = List(initialPlayer)
   val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
   val emptyTurnOverField = TurnOverField(List.empty)
@@ -21,17 +21,17 @@ class TuiSpec extends AnyWordSpec with Matchers {
     "process 'draw' command correctly" in {
       val updatedGame = tui.processInputLine("draw 0", initialGame)
       updatedGame.deck.cards shouldBe List(Bean.Firebean)
-      updatedGame.players.head.cards shouldBe List(Bean.Firebean)
+      updatedGame.players.head.hand.cards shouldBe List(Bean.Firebean)
     }
 
     "process 'plant' command correctly" in {
       val initialPlayer =
-        Player("Player1", List(BeanField(None)), 0, List(Bean.Firebean))
+        Player("Player1", List(BeanField(None)), 0, Hand(List(Bean.Firebean)))
       val game = Game(List(initialPlayer), emptyDeck, emptyTurnOverField)
       val updatedGame = tui.processInputLine("plant 0 0", game)
-      updatedGame.players.head.cards shouldBe List.empty
-      updatedGame.players.head.beanFields.head.bean shouldBe Some(
-        Bean.Firebean
+      updatedGame.players.head.hand.cards shouldBe List.empty
+      updatedGame.players.head.beanFields.head.bean should be(
+        Some(Bean.Firebean)
       )
     }
 
@@ -54,7 +54,12 @@ class TuiSpec extends AnyWordSpec with Matchers {
 
   "process 'harvest' command correctly" in {
     val player =
-      Player("Player", List(BeanField(Option(Bean.Firebean), 4)), 0, List.empty)
+      Player(
+        "Player",
+        List(BeanField(Option(Bean.Firebean), 4)),
+        0,
+        Hand(List.empty)
+      )
     val game = Game(List(player), emptyDeck, emptyTurnOverField)
     val updatedGame = tui.processInputLine("harvest 0 0", game)
     updatedGame.players.head.beanFields shouldBe List(BeanField(None, 0))
@@ -63,7 +68,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
 
   "process 'take' command correctly" in {
     val initialPlayer =
-      Player("Player1", List(BeanField(None)), 0, List.empty)
+      Player("Player1", List(BeanField(None)), 0, Hand(List.empty))
     val game = Game(
       List(initialPlayer),
       emptyDeck,

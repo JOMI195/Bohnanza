@@ -9,13 +9,13 @@ object Bohnanza {
     name = "Jomi",
     coins = 0,
     beanFields = List(BeanField(None)),
-    cards = List()
+    hand = Hand(List.empty)
   )
   val p2 = Player(
     name = "Daniel",
     coins = 0,
     beanFields = List(BeanField(Option(Bean.Firebean), 4)),
-    cards = List()
+    hand = Hand(List.empty)
   )
   val d = Deck(cards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean))
   val t = TurnOverField(cards = List())
