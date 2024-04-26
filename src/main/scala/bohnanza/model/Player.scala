@@ -6,12 +6,6 @@ case class Player(
     coins: Int,
     cards: List[Bean]
 ) {
-  def copy(
-      name: String = name,
-      beanFields: List[BeanField] = beanFields,
-      coins: Int = coins,
-      cards: List[Bean] = cards
-  ): Player = Player(name, beanFields, coins, cards)
 
   /** Adds a card to the hand cards
     */

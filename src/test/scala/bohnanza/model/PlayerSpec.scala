@@ -7,22 +7,6 @@ import bohnanza.model.*
 class PlayerSpec extends AnyWordSpec with Matchers {
   "Player" should {
 
-    "create a copy with updated attributes" in {
-      val originalPlayer = Player("Original", List.empty, 0, List.empty)
-
-      val updatedPlayer = originalPlayer.copy(
-        name = "Updated",
-        coins = 10,
-        beanFields = List(BeanField(None)),
-        cards = List(Bean.Firebean)
-      )
-
-      updatedPlayer.name should be("Updated")
-      updatedPlayer.coins should be(10)
-      updatedPlayer.cards should be(List(Bean.Firebean))
-      updatedPlayer.beanFields should be(List(BeanField(None)))
-    }
-
     "add a card to hand" in {
       val player = Player("TestPlayer", List.empty, 0, List.empty)
       val cardToAdd = Bean.Firebean

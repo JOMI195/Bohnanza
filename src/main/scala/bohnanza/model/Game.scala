@@ -5,11 +5,6 @@ case class Game(
     deck: Deck,
     turnOverField: TurnOverField
 ) {
-  def copy(
-      players: List[Player] = players,
-      deck: Deck = deck,
-      turnOverField: TurnOverField = turnOverField
-  ): Game = Game(players, deck, turnOverField)
 
   /** Draws a card from the deck and adds it to the specified player's hand. If
     * the deck is empty, no card is drawn.
@@ -22,8 +17,8 @@ case class Game(
       case Some(card) => player.addCardToHand(card)
       case None       => player
     }
-    this.copy(
-      players = this.players.updated(playerIndex, updatedPlayer),
+    copy(
+      players = players.updated(playerIndex, updatedPlayer),
       deck = updatedDeck
     )
   }

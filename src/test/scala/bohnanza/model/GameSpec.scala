@@ -7,26 +7,6 @@ import bohnanza.model.*
 class GameSpec extends AnyWordSpec with Matchers {
   "Game" should {
 
-    "create a copy with updated attributes" in {
-      val initialPlayers = List(Player("Player1", List.empty, 0, List.empty))
-      val initialDeck = Deck(List.empty)
-      val initialTurnOverField = TurnOverField(List.empty)
-      val game = Game(initialPlayers, initialDeck, initialTurnOverField)
-
-      val updatedPlayers = List(Player("Player2", List.empty, 10, List.empty))
-      val updatedDeck = Deck(List(Bean.Firebean))
-      val updatedTurnOverField = TurnOverField(List(Bean.Firebean))
-      val updatedGame = game.copy(
-        players = updatedPlayers,
-        deck = updatedDeck,
-        turnOverField = updatedTurnOverField
-      )
-
-      updatedGame.players shouldBe updatedPlayers
-      updatedGame.deck shouldBe updatedDeck
-      updatedGame.turnOverField shouldBe updatedTurnOverField
-    }
-
     "draw a card from deck and add it to the player's hand" when {
       val initialPlayer = Player("Player1", List.empty, 0, List.empty)
       val initialPlayers = List(initialPlayer)
