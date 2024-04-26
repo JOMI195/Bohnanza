@@ -13,10 +13,11 @@ case class Game(
     println(s"Player ${playerIndex} attempting drawing card from deck...")
     val player = players(playerIndex)
     val (card, updatedDeck) = deck.draw()
-    val updatedPlayer = card match {
-      case Some(card) => player.addCardToHand(card)
-      case None       => player
+    val updatedHand = card match {
+      case Some(card) => player.hand.addCard(card)
+      case None       => player.hand
     }
+    val updatedPlayer = player.copy(hand = updatedHand)
     copy(
       players = players.updated(playerIndex, updatedPlayer),
       deck = updatedDeck
@@ -31,7 +32,7 @@ case class Game(
       s"Player ${playerIndex} attempting planting card from hand to beanField: ${beanFieldIndex}..."
     )
     val player = players(playerIndex)
-    val updatedPlayer = players(playerIndex).plantCardFromCards(beanFieldIndex)
+    val updatedPlayer = players(playerIndex).plantCardFromHand(beanFieldIndex)
     val updatedPlayers = players.updated(playerIndex, updatedPlayer)
     copy(players = updatedPlayers)
   }
