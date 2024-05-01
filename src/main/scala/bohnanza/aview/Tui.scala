@@ -3,6 +3,7 @@ package bohnanza.aview
 import bohnanza.model.Game
 import bohnanza.util.{Observer}
 import bohnanza.controller.{Controller}
+import scala.util.{Try, Success, Failure}
 
 class Tui(controller: Controller) extends Observer {
 
@@ -10,46 +11,94 @@ class Tui(controller: Controller) extends Observer {
 
   def processInputLine(input: String): Unit = {
     val splittedInput = input.split(" ").toList
-    splittedInput(0) match {
+    val info = Try(
+      splittedInput.slice(1, splittedInput.length).map(i => i.toString.toInt)
+    )
+    val command = splittedInput(0)
+    command match {
       // case "start"
 
       // Usage: draw [playerIndex]
       case "draw" => {
-        val playerIndex = splittedInput(1).toInt
-        controller.draw(playerIndex)
+        val msg = "Usage: draw [playerIndex]"
+        info match {
+          case Success(checkedInfo) =>
+            checkedInfo match {
+              case playerIndex :: Nil =>
+                controller.draw(playerIndex)
+              case _ =>
+                println(msg)
+            }
+          case Failure(e) =>
+            println(
+              "Invalid Input" + "\n" +
+                msg
+            )
+        }
       }
 
-      // Usage: plantFromHand [playerIndex] [beanFieldIndex]
+      // Usage: plant [playerIndex] [beanFieldIndex]
       case "plant" => {
-        val playerIndex = splittedInput(1).toInt
-        val beanFieldIndex = splittedInput(2).toInt
-        controller.plant(playerIndex, beanFieldIndex)
+        val msg = "Usage: plant [playerIndex] [beanFieldIndex]"
+        info match {
+          case Success(checkedInfo) =>
+            checkedInfo match {
+              case playerIndex :: beanFieldIndex :: Nil =>
+                controller.plant(playerIndex, beanFieldIndex)
+              case _ =>
+                println(msg)
+            }
+          case Failure(e) =>
+            println(
+              "Invalid Input" + "\n" +
+                msg
+            )
+        }
       }
 
-      // harvest [playerIndex] [beanFieldIndex]
+      // Usage: harvest [playerIndex] [beanFieldIndex]
       case "harvest" => {
-        val playerIndex = splittedInput(1).toInt
-        val beanFieldIndex = splittedInput(2).toInt
-        controller.harvest(playerIndex, beanFieldIndex)
+        val msg = "Usage: harvest [playerIndex] [beanFieldIndex]"
+        info match {
+          case Success(checkedInfo) =>
+            checkedInfo match {
+              case playerIndex :: beanFieldIndex :: Nil =>
+                controller.harvest(playerIndex, beanFieldIndex)
+              case _ =>
+                println(msg)
+            }
+          case Failure(e) =>
+            println(
+              "Invalid Input" + "\n" +
+                msg
+            )
+        }
       }
 
-      // turn
       // draw cards to TurnOverField
+      // Usage: turn
       case "turn" => {
         controller.turn
       }
 
-      // take [playerIndex] [cardIndex] [beanFieldIndex]
+      // Usage: take [playerIndex] [cardIndex] [beanFieldIndex]
       // take cards from TurnOverField
       case "take" => {
-        val playerIndex = splittedInput(1).toInt
-        val cardIndex = splittedInput(2).toInt
-        val beanFieldIndex = splittedInput(3).toInt
-        controller.take(
-          playerIndex,
-          cardIndex,
-          beanFieldIndex
-        )
+        val msg = "Usage: take [playerIndex] [cardIndex] [beanFieldIndex]"
+        info match {
+          case Success(checkedInfo) =>
+            checkedInfo match {
+              case playerIndex :: cardIndex :: beanFieldIndex :: Nil =>
+                controller.take(playerIndex, cardIndex, beanFieldIndex)
+              case _ =>
+                println(msg)
+            }
+          case Failure(e) =>
+            println(
+              "Invalid Input" + "\n" +
+                msg
+            )
+        }
       }
 
       // case "cards"
