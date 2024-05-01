@@ -12,7 +12,7 @@ class Tui(controller: Controller) extends Observer {
   def processInputLine(input: String): Unit = {
     val splittedInput = input.split(" ").toList
     val info = Try(
-      splittedInput.slice(1, splittedInput.length).map(i => i.toString.toInt)
+      splittedInput.slice(1, splittedInput.length).map(i => i.toInt)
     )
     val command = splittedInput(0)
     command match {
