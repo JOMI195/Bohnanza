@@ -1,9 +1,14 @@
 package bohnanza.aview
 
 import bohnanza.model.Game
+import bohnanza.util.{Observer}
+import bohnanza.controller.{Controller}
 
-class Tui {
-  def processInputLine(input: String, game: Game): Game = {
+class Tui(controller: Controller) extends Observer {
+
+  controller.add(this)
+
+  def processInputLine(input: String): Unit = {
     val splittedInput = input.split(" ").toList
     splittedInput(0) match {
       // case "start"
@@ -11,37 +16,27 @@ class Tui {
       // Usage: draw [playerIndex]
       case "draw" => {
         val playerIndex = splittedInput(1).toInt
-        game.playerDrawCardFromDeck(playerIndex)
+        controller.draw(playerIndex)
       }
 
       // Usage: plantFromHand [playerIndex] [beanFieldIndex]
       case "plant" => {
         val playerIndex = splittedInput(1).toInt
         val beanFieldIndex = splittedInput(2).toInt
-        game.playerPlantCardFromHand(playerIndex, beanFieldIndex)
+        controller.plant(playerIndex, beanFieldIndex)
       }
 
       // harvest [playerIndex] [beanFieldIndex]
       case "harvest" => {
         val playerIndex = splittedInput(1).toInt
         val beanFieldIndex = splittedInput(2).toInt
-        println(game.players(playerIndex).coins)
-        println(game.players(playerIndex).beanFields)
-        val updatedGame = game.playerHarvestField(playerIndex, beanFieldIndex)
-        println(updatedGame.players(playerIndex).coins)
-        println(
-          updatedGame.players(playerIndex).beanFields(beanFieldIndex).bean
-        )
-        updatedGame
+        controller.harvest(playerIndex, beanFieldIndex)
       }
 
       // turn
       // draw cards to TurnOverField
       case "turn" => {
-        println(game.turnOverField)
-        val updatedGame = game.drawCardToTurnOverField()
-        println(updatedGame.turnOverField.cards.size)
-        updatedGame
+        controller.turn
       }
 
       // take [playerIndex] [cardIndex] [beanFieldIndex]
@@ -50,27 +45,22 @@ class Tui {
         val playerIndex = splittedInput(1).toInt
         val cardIndex = splittedInput(2).toInt
         val beanFieldIndex = splittedInput(3).toInt
-        println(game.turnOverField)
-        println(game.players(playerIndex))
-        val updatedGame = game.playerPlantFromTurnOverField(
+        controller.take(
           playerIndex,
           cardIndex,
           beanFieldIndex
         )
-        println(updatedGame.turnOverField)
-        println(updatedGame.players(playerIndex))
-        updatedGame
       }
 
       // case "cards"
       case "exit" => {
         println("Exiting game...")
-        game
       }
       case _ => {
         println("Command not recognized. Type 'help' for commands.")
-        game
       }
     }
   }
+
+  override def update: Unit = println(controller.game)
 }
