@@ -30,8 +30,7 @@ class Tui(controller: Controller) extends Observer {
             }
           case Failure(e) =>
             println(
-              "Invalid Input" + "\n" +
-                msg
+              "Invalid Input" + "\n" + msg + " "
             )
         }
       }
