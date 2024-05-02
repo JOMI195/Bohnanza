@@ -2,6 +2,14 @@ package bohnanza.model
 
 case class BeanField(bean: Option[Bean], quantity: Int = 0) {
 
+  override def toString: String = {
+    bean match {
+      case Some(bean) => s"${bean} x$quantity"
+      case None       => "empty"
+    }
+
+  }
+
   def harvestField(): (Int, BeanField) = {
     bean match {
       case Some(bean) => {
@@ -22,21 +30,16 @@ case class BeanField(bean: Option[Bean], quantity: Int = 0) {
   }
 
   def plantToField(beanToPlant: Bean): BeanField = {
-    println("Field before plant: " + bean + " - Quantity: " + quantity)
     val updatedBeanfield = bean match {
       case Some(bean) => {
         if (bean == beanToPlant) {
           BeanField(Option(bean), quantity + 1)
         } else {
-          println(s"Can't add $beanToPlant to $bean field.")
           this
         }
       }
       case None => BeanField(Option(beanToPlant), 1)
     }
-    println(
-      "Field after plant: " + updatedBeanfield.bean + " - Quantity: " + updatedBeanfield.quantity
-    )
     updatedBeanfield
   }
   // def isFieldEmpty(): Boolean {}

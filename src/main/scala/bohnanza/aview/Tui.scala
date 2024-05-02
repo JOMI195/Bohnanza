@@ -18,7 +18,6 @@ class Tui(controller: Controller) extends Observer {
     command match {
       // case "start"
 
-      // Usage: draw [playerIndex]
       case "draw" => {
         val msg = "Usage: draw [playerIndex]"
         info match {
@@ -37,7 +36,6 @@ class Tui(controller: Controller) extends Observer {
         }
       }
 
-      // Usage: plant [playerIndex] [beanFieldIndex]
       case "plant" => {
         val msg = "Usage: plant [playerIndex] [beanFieldIndex]"
         info match {
@@ -56,7 +54,6 @@ class Tui(controller: Controller) extends Observer {
         }
       }
 
-      // Usage: harvest [playerIndex] [beanFieldIndex]
       case "harvest" => {
         val msg = "Usage: harvest [playerIndex] [beanFieldIndex]"
         info match {
@@ -81,7 +78,6 @@ class Tui(controller: Controller) extends Observer {
         controller.turn
       }
 
-      // Usage: take [playerIndex] [cardIndex] [beanFieldIndex]
       // take cards from TurnOverField
       case "take" => {
         val msg = "Usage: take [playerIndex] [cardIndex] [beanFieldIndex]"
