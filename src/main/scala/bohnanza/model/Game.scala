@@ -8,6 +8,9 @@ case class Game(
 
   override def toString(): String = {
     val turnOverField = "Turnoverfield: " + this.turnOverField + "\n"
+    if (this.players.isEmpty) {
+      return turnOverField + "\n" + "No players"
+    }
     val players = this.players.map(_.toString).mkString("\n")
     turnOverField + "\n" + players
   }

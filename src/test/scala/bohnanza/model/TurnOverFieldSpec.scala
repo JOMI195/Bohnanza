@@ -8,6 +8,17 @@ val emptyTurnOverField = TurnOverField(List.empty)
 val initialTurnOverField = TurnOverField(List(Bean.Firebean, Bean.Firebean))
 
 class TurnOverFieldSpec extends AnyWordSpec with Matchers {
+
+  "have correct string representation" when {
+    "the field is empty" in {
+      emptyTurnOverField.toString should be("| empty |")
+    }
+
+    "the field contains cards" in {
+      initialTurnOverField.toString should be("| Firebean | Firebean |")
+    }
+  }
+
   "add a card to the turnOverField" when {
     "card is None" in {
       val updatedTurnOverField = emptyTurnOverField.addCardToTurnOverField(None)

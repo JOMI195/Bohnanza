@@ -7,6 +7,19 @@ import bohnanza.model.*
 class HandSpec extends AnyWordSpec with Matchers {
 
   "A Hand" should {
+
+    "have correct string representation" when {
+      "the hand is empty" in {
+        val emptyHand = Hand(List.empty)
+        emptyHand.toString should be("| empty |")
+      }
+
+      "the hand contains cards" in {
+        val handWithCards = Hand(List(Bean.Firebean, Bean.BlueBean))
+        handWithCards.toString should be("| Firebean | BlueBean |")
+      }
+    }
+
     "add a card correctly" in {
       val initialHand = Hand(List.empty)
       val cardToAdd = Bean.Firebean
