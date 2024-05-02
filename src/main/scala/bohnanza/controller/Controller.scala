@@ -32,5 +32,4 @@ class Controller(var game: Game) extends Observable {
     )
     notifyObservers
   }
-
 }
