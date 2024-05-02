@@ -1,4 +1,4 @@
-/* import org.scalatest._
+import org.scalatest._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -79,4 +79,3 @@ class TuiSpec extends AnyWordSpec with Matchers {
     updatedGame.players.head.beanFields.head.quantity shouldBe game.players.head.beanFields.head.quantity + 1
   }
 }
- */
