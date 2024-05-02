@@ -27,7 +27,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
   "Tui" should {
     "process 'draw' command correctly" when {
       val msg = "Usage: draw [playerIndex] "
-      "user inputs not an integer" in {
+      "user inputs invalid arguments: non-integer" in {
         val stream = new java.io.ByteArrayOutputStream()
         Console.withOut(stream) {
           tui.processInputLine("draw not an integer")
@@ -36,7 +36,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
         stream.toString.trim() shouldBe desiredOutput.trim()
       }
 
-      "user inputs an integer but inputs to many arg" in {
+      "user inputs invalid arguments: incorrect args count" in {
         val stream = new java.io.ByteArrayOutputStream()
         Console.withOut(stream) {
           tui.processInputLine("draw 0 0 0")
@@ -82,7 +82,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
         stream.toString.trim() shouldBe desiredOutput.trim()
       }
 
-      "user inputs not an integer" in {
+      "user inputs invalid arguments: non-integer" in {
         val stream = new java.io.ByteArrayOutputStream()
         Console.withOut(stream) {
           tui.processInputLine("plant notAnInteger 0")
@@ -91,7 +91,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
         stream.toString.trim() shouldBe desiredOutput.trim()
       }
 
-      "user inputs an integer but inputs to many arg" in {
+      "user inputs invalid arguments: incorrect args count" in {
         val stream = new java.io.ByteArrayOutputStream()
         Console.withOut(stream) {
           tui.processInputLine("plant 0 0 0 0")
