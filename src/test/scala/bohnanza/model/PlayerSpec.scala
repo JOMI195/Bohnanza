@@ -6,72 +6,46 @@ import bohnanza.model.*
 
 class PlayerSpec extends AnyWordSpec with Matchers {
   "Player" should {
+    "cards list is not empty" in {
+      val initialCards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean)
+      val player = Player("TestPlayer", List.empty, 0, Hand(initialCards))
 
-    "create a copy with updated attributes" in {
-      val originalPlayer = Player("Original", List.empty, 0, List.empty)
+      val (poppedCard, updatedHand) = player.hand.popCard()
+      val updatedPlayer = player.copy(hand = updatedHand)
 
-      val updatedPlayer = originalPlayer.copy(
-        name = "Updated",
-        coins = 10,
-        beanFields = List(BeanField(None)),
-        cards = List(Bean.Firebean)
-      )
-
-      updatedPlayer.name should be("Updated")
-      updatedPlayer.coins should be(10)
-      updatedPlayer.cards should be(List(Bean.Firebean))
-      updatedPlayer.beanFields should be(List(BeanField(None)))
+      poppedCard should be(Some(Bean.Firebean))
+      updatedPlayer.hand.cards should be(List(Bean.Firebean, Bean.Firebean))
     }
 
-    "add a card to hand" in {
-      val player = Player("TestPlayer", List.empty, 0, List.empty)
-      val cardToAdd = Bean.Firebean
+    "cards list is empty" in {
+      val player = Player("TestPlayer", List.empty, 0, Hand(List.empty))
 
-      val updatedPlayer = player.addCardToHand(cardToAdd)
+      val (poppedCard, updatedHand) = player.hand.popCard()
+      val updatedPlayer = player.copy(hand = updatedHand)
 
-      updatedPlayer.cards should be(List(cardToAdd))
-    }
-
-    "pop a card from cards" when {
-      "cards list is not empty" in {
-        val initialCards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean)
-        val player = Player("TestPlayer", List.empty, 0, initialCards)
-
-        val (poppedCard, updatedPlayer) = player.popCardFromCards()
-
-        poppedCard should be(Some(Bean.Firebean))
-        updatedPlayer.cards should be(List(Bean.Firebean, Bean.Firebean))
-      }
-
-      "cards list is empty" in {
-        val player = Player("TestPlayer", List.empty, 0, List.empty)
-
-        val (poppedCard, updatedPlayer) = player.popCardFromCards()
-
-        poppedCard should be(None)
-        updatedPlayer.cards should be(List.empty)
-      }
+      poppedCard should be(None)
+      updatedPlayer.hand.cards should be(List.empty)
     }
 
     "plant a card from cards" when {
       "cards list is not empty" in {
         val initialCards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean)
         val initialPlayer =
-          Player("TestPlayer", List(BeanField(None)), 0, initialCards)
+          Player("TestPlayer", List(BeanField(None)), 0, Hand(initialCards))
 
-        val updatedPlayer = initialPlayer.plantCardFromCards(0)
+        val updatedPlayer = initialPlayer.plantCardFromHand(0)
 
         updatedPlayer.beanFields(0).bean should be(Some(Bean.Firebean))
-        updatedPlayer.cards should be(List(Bean.Firebean, Bean.Firebean))
+        updatedPlayer.hand.cards should be(List(Bean.Firebean, Bean.Firebean))
       }
 
       "cards list is empty" in {
-        val player = Player("TestPlayer", List.empty, 0, List.empty)
+        val player = Player("TestPlayer", List.empty, 0, Hand(List.empty))
 
-        val updatedPlayer = player.plantCardFromCards(0)
+        val updatedPlayer = player.plantCardFromHand(0)
 
         updatedPlayer.beanFields should be(List.empty)
-        updatedPlayer.cards should be(List.empty)
+        updatedPlayer.hand.cards should be(List.empty)
       }
     }
 
@@ -82,7 +56,7 @@ class PlayerSpec extends AnyWordSpec with Matchers {
           "TestPlayer",
           List(BeanField(Option(Bean.Firebean), 4)),
           0,
-          initialCards
+          Hand(initialCards)
         )
 
       val updatedPlayer = initialPlayer.harvestField(0)
@@ -97,7 +71,7 @@ class PlayerSpec extends AnyWordSpec with Matchers {
           "TestPlayer",
           List(BeanField(Option(Bean.Firebean), 3)),
           0,
-          initialCards
+          Hand(initialCards)
         )
 
       val updatedPlayer = initialPlayer.plantToField(Bean.Firebean, 0)
