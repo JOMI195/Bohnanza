@@ -7,6 +7,16 @@ case class Player(
     hand: Hand
 ) {
 
+  override def toString: String = {
+    val start = s"Player $name | coins: $coins |\n"
+    val hand = "- Hand: " + this.hand + "\n"
+    val beanFields =
+      "- Beanfields: | " + this.beanFields
+        .map(_.toString)
+        .mkString(" | ") + " |\n"
+    start + hand + beanFields
+  }
+
   /** Pops the first card from the hand cards and plant it to the beanField
     */
   def plantCardFromHand(beanFieldIndex: Int): Player = {
