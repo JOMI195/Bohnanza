@@ -10,6 +10,17 @@ val emptyBeanField = BeanField(None)
 
 class BeanFieldSpec extends AnyWordSpec with Matchers {
   "BeanField" should {
+
+    "have correct string representation" when {
+      "the field is empty" in {
+        emptyBeanField.toString should be("empty")
+      }
+
+      "the field contains beans" in {
+        correctBeanField.toString should be("Firebean x4")
+      }
+    }
+
     "harvest should harvest beanField for the corresponding coins" when {
       "beanField has correct quantity for coins" in {
         val (fireCoins, updatedCorrectBeanField) =

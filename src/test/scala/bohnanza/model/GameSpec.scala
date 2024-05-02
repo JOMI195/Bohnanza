@@ -7,6 +7,26 @@ import bohnanza.model.*
 class GameSpec extends AnyWordSpec with Matchers {
   "Game" should {
 
+    "have correct string representation" when {
+      "there are no players, deck, and turnOverField" in {
+        val game = Game(List.empty, Deck(List.empty), TurnOverField(List.empty))
+        val expectedString = "Turnoverfield: | empty |\n\nNo players"
+        game.toString should be(expectedString)
+      }
+
+      "there are players, deck, and turnOverField" in {
+        val initialPlayer =
+          Player("Player1", List(BeanField(None)), 0, Hand(List.empty))
+        val initialPlayers = List(initialPlayer)
+        val initialDeck = Deck(List(Bean.Firebean))
+        val initialTurnOverField = TurnOverField(List(Bean.BlueBean))
+        val game = Game(initialPlayers, initialDeck, initialTurnOverField)
+        val expectedString =
+          "Turnoverfield: | BlueBean |\n\nPlayer Player1 | coins: 0 |\n- Hand: | empty |\n- Beanfields: | empty |\n"
+        game.toString should be(expectedString)
+      }
+    }
+
     "draw a card from deck and add it to the player's hand" when {
       val initialPlayer = Player("Player1", List.empty, 0, Hand(List.empty))
       val initialPlayers = List(initialPlayer)

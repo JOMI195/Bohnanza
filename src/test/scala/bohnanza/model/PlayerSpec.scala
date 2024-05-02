@@ -6,6 +6,51 @@ import bohnanza.model.*
 
 class PlayerSpec extends AnyWordSpec with Matchers {
   "Player" should {
+
+    "have correct string representation" when {
+      "hand and beanFields are empty" in {
+        val player =
+          Player("TestPlayer", List(BeanField(None)), 0, Hand(List.empty))
+        val expectedString =
+          "Player TestPlayer | coins: 0 |\n- Hand: | empty |\n- Beanfields: | empty |\n"
+        player.toString should be(expectedString)
+      }
+
+      "hand is not empty and beanFields are empty" in {
+        val initialCards = List(Bean.Firebean, Bean.BlueBean)
+        val player =
+          Player("TestPlayer", List(BeanField(None)), 0, Hand(initialCards))
+        val expectedString =
+          "Player TestPlayer | coins: 0 |\n- Hand: | Firebean | BlueBean |\n- Beanfields: | empty |\n"
+        player.toString should be(expectedString)
+      }
+
+      "hand is empty and beanFields are not empty" in {
+        val player = Player(
+          "TestPlayer",
+          List(BeanField(Option(Bean.Firebean), 3)),
+          0,
+          Hand(List.empty)
+        )
+        val expectedString =
+          "Player TestPlayer | coins: 0 |\n- Hand: | empty |\n- Beanfields: | Firebean x3 |\n"
+        player.toString should be(expectedString)
+      }
+
+      "hand and beanFields are not empty" in {
+        val initialCards = List(Bean.Firebean, Bean.BlueBean)
+        val player = Player(
+          "TestPlayer",
+          List(BeanField(Option(Bean.Firebean), 3)),
+          0,
+          Hand(initialCards)
+        )
+        val expectedString =
+          "Player TestPlayer | coins: 0 |\n- Hand: | Firebean | BlueBean |\n- Beanfields: | Firebean x3 |\n"
+        player.toString should be(expectedString)
+      }
+    }
+
     "cards list is not empty" in {
       val initialCards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean)
       val player = Player("TestPlayer", List.empty, 0, Hand(initialCards))
