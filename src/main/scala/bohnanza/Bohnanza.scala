@@ -31,7 +31,10 @@ object Bohnanza {
     println("Starting new game...")
     while (input != "exit") {
       input = readLine()
-      tui.processInputLine(input)
+      tui.processInputLine(input) match {
+        case Some(output) => println(output)
+        case None         => {}
+      }
     }
   }
 }

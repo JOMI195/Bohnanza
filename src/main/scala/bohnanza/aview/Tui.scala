@@ -9,7 +9,7 @@ class Tui(controller: Controller) extends Observer {
 
   controller.add(this)
 
-  def processInputLine(input: String): Unit = {
+  def processInputLine(input: String): Option[String] = {
     val splittedInput = input.split(" ").toList
     val info = Try(
       splittedInput.slice(1, splittedInput.length).map(i => i.toInt)
@@ -25,13 +25,13 @@ class Tui(controller: Controller) extends Observer {
             checkedInfo match {
               case playerIndex :: Nil =>
                 controller.draw(playerIndex)
+                None
               case _ =>
-                println(msg)
+                Option(msg)
             }
           case Failure(e) =>
-            println(
-              "Invalid Input" + "\n" + msg + " "
-            )
+            Option("Invalid Input" + "\n" + msg)
+
         }
       }
 
@@ -42,14 +42,16 @@ class Tui(controller: Controller) extends Observer {
             checkedInfo match {
               case playerIndex :: beanFieldIndex :: Nil =>
                 controller.plant(playerIndex, beanFieldIndex)
+                None
               case _ =>
-                println(msg)
+                Option(msg)
             }
           case Failure(e) =>
-            println(
+            Option(
               "Invalid Input" + "\n" +
                 msg
             )
+
         }
       }
 
@@ -60,21 +62,37 @@ class Tui(controller: Controller) extends Observer {
             checkedInfo match {
               case playerIndex :: beanFieldIndex :: Nil =>
                 controller.harvest(playerIndex, beanFieldIndex)
+                None
               case _ =>
-                println(msg)
+                Option(msg)
             }
           case Failure(e) =>
-            println(
+            Option(
               "Invalid Input" + "\n" +
                 msg
             )
+
         }
       }
 
       // draw cards to TurnOverField
       // Usage: turn
       case "turn" => {
-        controller.turn
+        val msg = "Usage: turn"
+        info match {
+          case Success(checkedInfo) => {
+            if (checkedInfo.isEmpty) {
+              controller.turn
+              return None
+            }
+            return Option("Usage: turn")
+          }
+          case Failure(e) => {
+            println(e)
+            return Option("Invalid Input" + "\n" + msg)
+          }
+
+        }
       }
 
       // take cards from TurnOverField
@@ -85,11 +103,12 @@ class Tui(controller: Controller) extends Observer {
             checkedInfo match {
               case playerIndex :: cardIndex :: beanFieldIndex :: Nil =>
                 controller.take(playerIndex, cardIndex, beanFieldIndex)
+                None
               case _ =>
-                println(msg)
+                Option(msg)
             }
           case Failure(e) =>
-            println(
+            Option(
               "Invalid Input" + "\n" +
                 msg
             )
@@ -98,13 +117,14 @@ class Tui(controller: Controller) extends Observer {
 
       // case "cards"
       case "exit" => {
-        println("Exiting game...")
+        Option("Exiting game...")
       }
       case _ => {
-        println("Command not recognized. Type 'help' for commands.")
+        Option("Command not recognized. Type 'help' for commands.")
       }
     }
   }
 
   override def update: Unit = println(controller.game)
+
 }

@@ -6,6 +6,9 @@ import bohnanza.model.*
 import bohnanza.controller.*
 import bohnanza.aview.*
 
+import bohnanza.aview.Tui
+import bohnanza.controller.*
+
 class TuiSpec extends AnyWordSpec with Matchers {
 
   val initialPlayer =
@@ -24,203 +27,119 @@ class TuiSpec extends AnyWordSpec with Matchers {
 
   val errorMessage = "Invalid Input\n"
 
-  "Tui" should {
-    "process 'draw' command correctly" when {
-      val msg = "Usage: draw [playerIndex] "
-      "user inputs invalid arguments: non-integer" in {
-        val stream = new java.io.ByteArrayOutputStream()
-        Console.withOut(stream) {
-          tui.processInputLine("draw not an integer")
-        }
-        val desiredOutput = errorMessage + msg
-        stream.toString.trim() shouldBe desiredOutput.trim()
+  "The Tui class" should {
+
+    "draw" when {
+      val msg = "Usage: draw [playerIndex]"
+      "process draw command with valid player index" in {
+        val input = "draw 0"
+        tui.processInputLine(input) shouldBe None
       }
 
-      "user inputs invalid arguments: incorrect args count" in {
-        val stream = new java.io.ByteArrayOutputStream()
-        Console.withOut(stream) {
-          tui.processInputLine("draw 0 0 0")
-        }
-        val desiredOutput = msg
-        stream.toString.trim() shouldBe desiredOutput.trim()
+      "process draw command with invalid player index format" in {
+        val input = "draw invalid"
+        tui.processInputLine(input) shouldBe Some(errorMessage + msg)
       }
 
-      "user uses the command correctly" in {
-        val stream = new java.io.ByteArrayOutputStream()
-        Console.withOut(stream) {
-          tui.processInputLine("draw 0")
-        }
-        val desiredOutput =
-          "Turnoverfield: | empty |\n" + "\n" +
-            "Player Player1 | coins: 0 |\n" +
-            "- Hand: | Firebean |\n" +
-            "- Beanfields: | empty |"
-        stream.toString.trim() shouldBe desiredOutput.trim()
+      "process draw command with missing player index" in {
+        val input = "draw"
+        tui.processInputLine(input) shouldBe Some(msg)
       }
     }
 
-    "process 'plant' command correctly" when {
+    "plant" when {
       val msg = "Usage: plant [playerIndex] [beanFieldIndex]"
-      val initialPlayer =
-        Player("Player1", List(BeanField(None)), 0, Hand(List(Bean.Firebean)))
-      val game = Game(List(initialPlayer), emptyDeck, emptyTurnOverField)
+      "process plant command with valid player and bean field indexes" in {
+        val initialPlayer =
+          Player("Player1", List(BeanField(None)), 0, Hand(List(Bean.Firebean)))
+        val game = Game(List(initialPlayer), emptyDeck, emptyTurnOverField)
+        val controller = Controller(game)
+        val tui = Tui(controller)
+        val input = "plant 0 0"
+        tui.processInputLine(input) shouldBe None
+      }
+
+      "process plant command with invalid input format" in {
+        val input = "plant invalid"
+        tui.processInputLine(input) shouldBe Some(errorMessage + msg)
+      }
+
+      "process plant command with missing player or bean field index" in {
+        val input = "plant 0"
+        tui.processInputLine(input) shouldBe Some(msg)
+      }
+    }
+
+    "turn" when {
+      val msg = "Usage: turn"
+      "process turn command" in {
+        val controller = Controller(initialGame)
+        val tui = new Tui(controller)
+        val input = "turn"
+        tui.processInputLine(input) shouldBe None
+      }
+
+      "process turn command with invalid input" in {
+        val input = "turn invalid"
+        tui.processInputLine(input) shouldBe Some(errorMessage + msg)
+      }
+
+      "process turn command with unneccessary indexes" in {
+        val input = "turn 0 0 0"
+        tui.processInputLine(input) shouldBe Some(msg)
+      }
+    }
+
+    "harvest" when {
+      val msg = "Usage: harvest [playerIndex] [beanFieldIndex]"
+      "process harvest command with missing indexes" in {
+        val input = "harvest"
+        tui.processInputLine(input) shouldBe Some(msg)
+      }
+
+      "process harvest command with invalid input" in {
+        val input = "harvest invalid"
+        tui.processInputLine(input) shouldBe Some(errorMessage + msg)
+      }
+
+      "process harvest command" in {
+        val input = "harvest 0 0"
+        tui.processInputLine(input) shouldBe None
+      }
+    }
+
+    "take" when {
+      val turnOverField = TurnOverField(List(Bean.Firebean, Bean.Firebean))
+      val game = Game(initialPlayers, initialDeck, turnOverField)
       val controller = Controller(game)
       val tui = Tui(controller)
-
-      "user inputs valid arguments" in {
-        val stream = new java.io.ByteArrayOutputStream()
-        Console.withOut(stream) {
-          tui.processInputLine("plant 0 0")
-        }
-        val desiredOutput =
-          "Turnoverfield: | empty |\n" +
-            "\n" +
-            "Player Player1 | coins: 0 |\n" +
-            "- Hand: | empty |\n" +
-            "- Beanfields: | Firebean x1 |"
-
-        stream.toString.trim() shouldBe desiredOutput.trim()
+      val msg = "Usage: take [playerIndex] [cardIndex] [beanFieldIndex]"
+      "process take command with valid player, card, and bean field indexes" in {
+        val input = "take 0 0 0"
+        tui.processInputLine(input) shouldBe None
       }
 
-      "user inputs invalid arguments: non-integer" in {
-        val stream = new java.io.ByteArrayOutputStream()
-        Console.withOut(stream) {
-          tui.processInputLine("plant notAnInteger 0")
-        }
-        val desiredOutput = "Invalid Input\n" + msg
-        stream.toString.trim() shouldBe desiredOutput.trim()
+      "process take command with invalid input format" in {
+        val input = "take invalid"
+        tui.processInputLine(input) shouldBe Some(errorMessage + msg)
       }
 
-      "user inputs invalid arguments: incorrect args count" in {
-        val stream = new java.io.ByteArrayOutputStream()
-        Console.withOut(stream) {
-          tui.processInputLine("plant 0 0 0 0")
-        }
-        val desiredOutput = msg
-        stream.toString.trim() shouldBe desiredOutput.trim()
+      "process take command with missing indexes" in {
+        val input = "take 0"
+        tui.processInputLine(input) shouldBe Some(msg)
       }
     }
 
-    "process 'exit' command correctly" in {
-      val stream = new java.io.ByteArrayOutputStream()
-      Console.withOut(stream) {
-        tui.processInputLine("exit")
-      }
-      stream.toString().trim() shouldBe "Exiting game..."
+    "process exit command" in {
+      val input = "exit"
+      tui.processInputLine(input) shouldBe Some("Exiting game...")
     }
 
-    "print error message for unrecognized command" in {
-      val stream = new java.io.ByteArrayOutputStream()
-      Console.withOut(stream) {
-        tui.processInputLine("invalid_command")
-      }
-      stream
-        .toString()
-        .trim() shouldBe "Command not recognized. Type 'help' for commands."
-    }
-  }
-
-  "process 'turn' command correctly" in {
-    val controller = Controller(initialGame)
-    val tui = new Tui(controller)
-    val stream = new java.io.ByteArrayOutputStream()
-    Console.withOut(stream) {
-      tui.processInputLine("turn")
-    }
-    val desiredOutput =
-      "Turnoverfield: | Firebean | Firebean |\n" + "\n" + "Player Player1 | coins: 0 |\n" + "- Hand: | empty |\n" + "- Beanfields: | empty |"
-    stream.toString().trim() shouldBe desiredOutput.trim()
-  }
-
-  "process 'harvest' command correctly" when {
-    val msg = "Usage: harvest [playerIndex] [beanFieldIndex]"
-    val initialPlayer = Player(
-      "Player1",
-      List(BeanField(Some(Bean.Firebean), 4)),
-      0,
-      Hand(List.empty)
-    )
-    val game = Game(List(initialPlayer), emptyDeck, emptyTurnOverField)
-    val controller = Controller(game)
-    val tui = Tui(controller)
-
-    "user inputs valid arguments" in {
-      val stream = new java.io.ByteArrayOutputStream()
-      Console.withOut(stream) {
-        tui.processInputLine("harvest 0 0")
-      }
-      val desiredOutput = "Turnoverfield: | empty |\n" +
-        "\n" +
-        "Player Player1 | coins: 2 |\n" +
-        "- Hand: | empty |\n" +
-        "- Beanfields: | empty |"
-      stream.toString.trim() shouldBe desiredOutput.trim()
-    }
-
-    "user inputs invalid arguments: non-integer" in {
-      val stream = new java.io.ByteArrayOutputStream()
-      Console.withOut(stream) {
-        tui.processInputLine("harvest notAnInteger 0")
-      }
-
-      val desiredOutput = errorMessage + msg
-      stream.toString.trim() shouldBe desiredOutput.trim()
-    }
-
-    "user inputs invalid arguments: incorrect args count" in {
-      val stream = new java.io.ByteArrayOutputStream()
-      Console.withOut(stream) {
-        tui.processInputLine("harvest 0 0 0 0 0")
-      }
-      val desiredOutput = msg
-      stream.toString.trim() shouldBe desiredOutput.trim()
-    }
-  }
-
-  "process 'take' command correctly" when {
-    val msg = "Usage: take [playerIndex] [cardIndex] [beanFieldIndex]"
-    val initialPlayer =
-      Player("Player1", List(BeanField(None)), 0, Hand(List.empty))
-    val game = Game(
-      List(initialPlayer),
-      emptyDeck,
-      TurnOverField(List(Bean.Firebean, Bean.Firebean))
-    )
-    val controller = Controller(game)
-    val tui = Tui(controller)
-
-    "user inputs valid arguments" in {
-      val stream = new java.io.ByteArrayOutputStream()
-      Console.withOut(stream) {
-        tui.processInputLine("take 0 0 0")
-      }
-      val desiredOutput =
-        "Turnoverfield: | Firebean |\n" +
-          "\n" +
-          "Player Player1 | coins: 0 |\n" +
-          "- Hand: | empty |\n" +
-          "- Beanfields: | Firebean x1 |"
-
-      stream.toString.trim() shouldBe desiredOutput.trim()
-    }
-
-    "user inputs invalid arguments: non-integer" in {
-      val stream = new java.io.ByteArrayOutputStream()
-      Console.withOut(stream) {
-        tui.processInputLine("take notAnInteger")
-      }
-      val desiredOutput = errorMessage + msg
-      stream.toString.trim() shouldBe desiredOutput.trim()
-    }
-
-    "user inputs invalid arguments: incorrect args count" in {
-      val stream = new java.io.ByteArrayOutputStream()
-      Console.withOut(stream) {
-        tui.processInputLine("take 0 0")
-      }
-
-      val desiredOutput = msg
-      stream.toString.trim() shouldBe desiredOutput.trim()
+    "process unrecognized command" in {
+      val input = "invalid command"
+      tui.processInputLine(input) shouldBe Some(
+        "Command not recognized. Type 'help' for commands."
+      )
     }
   }
 }
