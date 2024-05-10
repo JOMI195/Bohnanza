@@ -13,8 +13,31 @@ HTWG Constance - Software Engineering - Semester 3
 <img alt="bohnanza" src="https://github.com/JOMI195/Bohnanza/assets/57303615/9ff67416-81bc-4e6a-bb5e-08585779e5a7" height="200">
 </p>
 
-## Setup
-Compile with ```sbt compile```, run with ```sbt run```
+## Installation
+### Prerequisites
+
+- JDK 11
+- sbt
+
+### Setup
+1. Clone the repository
+```bash
+git clone https://github.com/JOMI195/Bohnanza.git
+```
+2. Run the Project
+```bash
+sbt run
+```
+
+## Running the tests
+```bash
+sbt test
+```
+## Code Coverage
+We use scoverage for code coverage. The coverage report can be generated using the following command:
+```bash
+sbt clean coverage test coverageReport
+```
 
 ## Game instructions
 <p align="center">
