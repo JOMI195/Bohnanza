@@ -3,7 +3,8 @@ package bohnanza.controller
 import bohnanza.model.*
 import bohnanza.util.{Observable}
 
-class Controller(var game: Game) extends Observable {
+class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
+    extends Observable {
   def draw(playerIndex: Int): Unit = {
     game = game.playerDrawCardFromDeck(playerIndex = playerIndex)
     notifyObservers
@@ -11,6 +12,12 @@ class Controller(var game: Game) extends Observable {
 
   def plant(playerIndex: Int, beanFieldIndex: Int): Unit = {
     game = game.playerPlantCardFromHand(playerIndex, beanFieldIndex)
+    notifyObservers
+  }
+
+  def nextPhase: Unit = {
+    phase = phase.nextPhase
+    game = phase.startPhase(game)
     notifyObservers
   }
 

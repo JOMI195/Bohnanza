@@ -2,6 +2,7 @@ package bohnanza.model
 
 case class Game(
     players: List[Player],
+    currentPlayerIndex: Int,
     deck: Deck,
     turnOverField: TurnOverField
 ) {

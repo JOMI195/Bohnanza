@@ -21,7 +21,13 @@ object Bohnanza {
   val d = Deck(cards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean))
   val t = TurnOverField(cards = List())
 
-  val game = Game(players = List(p1, p2), deck = d, turnOverField = t)
+  val game = Game(
+    players = List(p1, p2),
+    deck = d,
+    turnOverField = t,
+    currentPlayerIndex = 0
+  )
+
   val controller = Controller(game)
   val tui = new Tui(controller)
 
