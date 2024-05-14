@@ -95,7 +95,7 @@ class Tui(controller: Controller) extends Observer {
         }
       }
 
-      // take cards from TurnOverField
+      // take cards from TurnOverField and plant them to a beanField
       case "take" => {
         val msg = "Usage: take [playerIndex] [cardIndex] [beanFieldIndex]"
         info match {

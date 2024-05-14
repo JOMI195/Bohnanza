@@ -1,12 +1,28 @@
 package bohnanza.controller
 
 import bohnanza.model.*
-import bohnanza.util.{Observable}
+import bohnanza.util.*
 
 class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     extends Observable {
+  val playerIndexHandler = PlayerIndexHandler(None)
+  val argumentHandler = MethodHandler(Option(playerIndexHandler))
+
   def draw(playerIndex: Int): Unit = {
-    game = game.playerDrawCardFromDeck(playerIndex = playerIndex)
+    val response = argumentHandler.checkOrDelegate(
+      args = Map(
+        HandlerKey.Method.key -> "draw",
+        HandlerKey.PlayerFieldIndex.key -> playerIndex
+      ),
+      phase = phase,
+      game = game
+    )
+    if (response == HandlerResponse.Success) {
+      game = game.playerDrawCardFromDeck(playerIndex = playerIndex)
+      notifyObservers
+      return
+    }
+
     notifyObservers
   }
 
@@ -22,6 +38,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
   }
 
   def harvest(playerIndex: Int, beanFieldIndex: Int): Unit = {
+    // val response = methodhandler(argumente)
     game = game.playerHarvestField(playerIndex, beanFieldIndex)
     notifyObservers
   }
