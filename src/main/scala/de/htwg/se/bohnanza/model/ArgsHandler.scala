@@ -1,8 +1,6 @@
-package bohnanza.util
+package bohnanza.model
 
-import bohnanza.model.PhaseState
 import scala.util.Try
-import bohnanza.model.{Game, PlayCardPhase, TradeAndPlantPhase, DrawCardsPhase}
 
 enum HandlerKey(val key: String) {
   case PlayerFieldIndex extends HandlerKey("playerIndex")
@@ -84,7 +82,10 @@ case class MethodHandler(next: Option[HandlerTemplate])
       case Some(method) => {
         phase match {
           case _: PlayCardPhase => {
-            if (method == "harvest" || method == "plant") {
+            // remove draw and turn in future! Now only for debugging purposes!!!
+            if (
+              method == "harvest" || method == "plant" || method == "draw" || method == "turn"
+            ) {
               return HandlerResponse.Success
             }
             return HandlerResponse.MethodError
