@@ -16,14 +16,14 @@ class TuiSpec extends AnyWordSpec with Matchers {
   val initialPlayers = List(initialPlayer)
   val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
   val emptyTurnOverField = TurnOverField(List.empty)
-  val initialGame = Game(initialPlayers, initialDeck, emptyTurnOverField)
+  val initialGame = Game(initialPlayers, 0, initialDeck, emptyTurnOverField)
 
   val controller = Controller(initialGame)
 
   val tui = new Tui(controller)
 
   val emptyDeck = Deck(List.empty)
-  val emptyGame = Game(initialPlayers, emptyDeck, emptyTurnOverField)
+  val emptyGame = Game(initialPlayers, 0, emptyDeck, emptyTurnOverField)
 
   val errorMessage = "Invalid Input\n"
 
@@ -52,7 +52,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
       "process plant command with valid player and bean field indexes" in {
         val initialPlayer =
           Player("Player1", List(BeanField(None)), 0, Hand(List(Bean.Firebean)))
-        val game = Game(List(initialPlayer), emptyDeck, emptyTurnOverField)
+        val game = Game(List(initialPlayer), 0, emptyDeck, emptyTurnOverField)
         val controller = Controller(game)
         val tui = Tui(controller)
         val input = "plant 0 0"
@@ -110,7 +110,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
 
     "take" when {
       val turnOverField = TurnOverField(List(Bean.Firebean, Bean.Firebean))
-      val game = Game(initialPlayers, initialDeck, turnOverField)
+      val game = Game(initialPlayers, 0, initialDeck, turnOverField)
       val controller = Controller(game)
       val tui = Tui(controller)
       val msg = "Usage: take [playerIndex] [cardIndex] [beanFieldIndex]"

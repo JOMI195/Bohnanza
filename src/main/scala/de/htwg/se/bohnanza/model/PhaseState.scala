@@ -3,7 +3,7 @@ package bohnanza.model
 trait PhaseState {
   def nextPhase: PhaseState
   // automatic steps that need to be done in that phase
-  def startPhase(game: Game): Game = game
+  def startPhase(game: Game): Game
 }
 
 class PlayCardPhase extends PhaseState {
