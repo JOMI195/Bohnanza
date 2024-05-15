@@ -19,7 +19,6 @@ object Bohnanza {
     hand = Hand(List.empty)
   )
   val d = FullDeckCreateStrategy().createDeck()
-  println(d.cards)
   val t = TurnOverField(cards = List())
 
   val game = Game(
