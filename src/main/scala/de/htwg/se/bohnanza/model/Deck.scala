@@ -1,10 +1,10 @@
 package bohnanza.model
+import scala.util.Random
 
 trait DeckCreateStragtegyTemplate {
   def createDeck(): Deck = {
     val cards = fill()
     val shuffledCards = shuffle(cards)
-    println(shuffledCards)
     Deck(shuffledCards)
   }
 
@@ -21,10 +21,10 @@ class FullDeckCreateStrategy extends DeckCreateStragtegyTemplate {
 
 class SingleFireBeanDeckCreateStrategy extends DeckCreateStragtegyTemplate {
   def fill(): List[Bean] =
-    List.fill(Bean.Firebean.frequency)(Bean - Bean.Firebean)
+    List.fill(Bean.Firebean.frequency)(Bean.Firebean)
 }
 
-class Deck(cards: List[Bean]) {
+case class Deck(cards: List[Bean]) {
 
   /** Draws a card from the deck. If the deck is empty, no card is drawn.
     */
