@@ -1,6 +1,30 @@
 package bohnanza.model
 
-case class Deck(cards: List[Bean]) {
+trait DeckCreateStragtegyTemplate {
+  def createDeck(): Deck = {
+    val cards = fill()
+    val shuffledCards = shuffle(cards)
+    println(shuffledCards)
+    Deck(shuffledCards)
+  }
+
+  def fill(): List[Bean]
+  def shuffle(cards: List[Bean]): List[Bean] = Random.shuffle(cards)
+}
+
+class FullDeckCreateStrategy extends DeckCreateStragtegyTemplate {
+  def fill(): List[Bean] = {
+    List.fill(Bean.Firebean.frequency)(Bean.Firebean) ++
+      List.fill(Bean.BlueBean.frequency)(Bean.BlueBean)
+  }
+}
+
+class SingleFireBeanDeckCreateStrategy extends DeckCreateStragtegyTemplate {
+  def fill(): List[Bean] =
+    List.fill(Bean.Firebean.frequency)(Bean - Bean.Firebean)
+}
+
+class Deck(cards: List[Bean]) {
 
   /** Draws a card from the deck. If the deck is empty, no card is drawn.
     */

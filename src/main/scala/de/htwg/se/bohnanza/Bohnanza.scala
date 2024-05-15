@@ -18,7 +18,7 @@ object Bohnanza {
     beanFields = List(BeanField(Option(Bean.Firebean), 4)),
     hand = Hand(List.empty)
   )
-  val d = Deck(cards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean))
+  val d = (new FullDeckCreateStrategy).createDeck()
   val t = TurnOverField(cards = List())
 
   val game = Game(
@@ -33,7 +33,8 @@ object Bohnanza {
 
   def main(args: Array[String]): Unit = {
     var input: String = ""
-
+    println("HI")
+    println(d.cards)
     println("Starting new game...")
     while (input != "exit") {
       input = readLine()
