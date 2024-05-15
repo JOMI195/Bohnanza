@@ -7,7 +7,11 @@ import java.util.Observer
 class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     extends Observable {
   val playerIndexHandler = PlayerIndexHandler(None)
-  val argumentHandler = MethodHandler(Option(playerIndexHandler))
+  val beanFieldIndexHandler = BeanFieldIndexHandler(Option(playerIndexHandler))
+  val turnoverFieldIndexHandler = TurnoverFieldIndexHandler(
+    Option(beanFieldIndexHandler)
+  )
+  val argumentHandler = MethodHandler(Option(turnoverFieldIndexHandler))
 
   def draw(playerIndex: Int): Unit = {
     val response = argumentHandler.checkOrDelegate(
@@ -95,6 +99,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     val response = argumentHandler.checkOrDelegate(
       args = Map(
         HandlerKey.Method.key -> "take",
+        HandlerKey.PlayerFieldIndex.key -> playerIndex,
         HandlerKey.BeanFieldIndex.key -> beanFieldIndex,
         HandlerKey.TurnOverFieldIndex.key -> cardIndex
       ),
