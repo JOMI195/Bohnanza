@@ -1,9 +1,12 @@
 package bohnanza.aview
 
-import bohnanza.model.{Game, HandlerResponse}
+import bohnanza.model.{Game, HandlerResponse, Player}
 import bohnanza.util.{Observer, ObserverEvent}
 import bohnanza.controller.{Controller}
 import scala.util.{Try, Success, Failure}
+import bohnanza.model.PlayCardPhase
+import bohnanza.model.TradeAndPlantPhase
+import bohnanza.model.DrawCardsPhase
 
 class Tui(controller: Controller) extends Observer {
 
@@ -144,15 +147,37 @@ class Tui(controller: Controller) extends Observer {
     }
   }
   override def update(event: ObserverEvent): Unit = {
+    val currentPlayer =
+      controller.game.players(controller.game.currentPlayerIndex)
+
     event match {
-      case ObserverEvent.PhaseChange =>
+      case ObserverEvent.PhaseChange => {
         println(s"The phase changed to ${controller.phase}.")
-      case ObserverEvent.Plant    => println("")
-      case ObserverEvent.Harvest  =>
-      case ObserverEvent.Take     =>
-      case ObserverEvent.GameInfo =>
-      case ObserverEvent.Draw     =>
-      case ObserverEvent.Turn     =>
+        println("The allowed method is: ")
+        controller.phase match {
+          case _: PlayCardPhase => {
+            println(" - harvest")
+            println(" - plant")
+            println(" - draw")
+            println(" - turn")
+          }
+          case _: TradeAndPlantPhase => {
+            println(" - harvest")
+            println(" - plant")
+          }
+          case _: DrawCardsPhase =>
+            println(
+              "No method is allowed here,\n" +
+                "because everything is done automatically for you. :)"
+            )
+        }
+      }
+      case ObserverEvent.Plant    => println(currentPlayer)
+      case ObserverEvent.Harvest  => println(currentPlayer)
+      case ObserverEvent.Take     => println(currentPlayer)
+      case ObserverEvent.GameInfo => println(controller.game)
+      case ObserverEvent.Draw     => println(currentPlayer)
+      case ObserverEvent.Turn     => println(controller.game.turnOverField)
     }
   }
 
