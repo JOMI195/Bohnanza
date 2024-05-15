@@ -67,7 +67,8 @@ case class PlayerIndexHandler(next: Option[HandlerTemplate])
         }
         return HandlerResponse.Success
       }
-      case None => HandlerResponse.ArgsError
+      // this command does not need this handler
+      case None => return HandlerResponse.Success
     }
   }
 }
