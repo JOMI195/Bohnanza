@@ -3,6 +3,7 @@ import scala.io.StdIn.readLine
 
 import bohnanza.model.*
 import bohnanza.aview.*
+import bohnanza.controller.*
 
 object Bohnanza {
   val p1 = Player(
@@ -17,19 +18,28 @@ object Bohnanza {
     beanFields = List(BeanField(Option(Bean.Firebean), 4)),
     hand = Hand(List.empty)
   )
-  val d = Deck(cards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean))
+  val d = FullDeckCreateStrategy().createDeck()
   val t = TurnOverField(cards = List())
 
-  var game = Game(players = List(p1, p2), deck = d, turnOverField = t)
-  val tui = new Tui
+  val game = Game(
+    players = List(p1, p2),
+    deck = d,
+    turnOverField = t,
+    currentPlayerIndex = 0
+  )
+
+  val controller = Controller(game)
+  val tui = new Tui(controller)
 
   def main(args: Array[String]): Unit = {
     var input: String = ""
-
     println("Starting new game...")
     while (input != "exit") {
       input = readLine()
-      game = tui.processInputLine(input, game)
+      tui.processInputLine(input) match {
+        case Some(output) => println(output)
+        case None         => {}
+      }
     }
   }
 }

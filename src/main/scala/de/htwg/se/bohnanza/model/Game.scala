@@ -2,15 +2,24 @@ package bohnanza.model
 
 case class Game(
     players: List[Player],
+    currentPlayerIndex: Int,
     deck: Deck,
     turnOverField: TurnOverField
 ) {
+
+  override def toString(): String = {
+    val turnOverField = "Turnoverfield: " + this.turnOverField + "\n"
+    if (this.players.isEmpty) {
+      return turnOverField + "\n" + "No players"
+    }
+    val players = this.players.map(_.toString).mkString("\n")
+    turnOverField + "\n" + players
+  }
 
   /** Draws a card from the deck and adds it to the specified player's hand. If
     * the deck is empty, no card is drawn.
     */
   def playerDrawCardFromDeck(playerIndex: Int): Game = {
-    println(s"Player ${playerIndex} attempting drawing card from deck...")
     val player = players(playerIndex)
     val (card, updatedDeck) = deck.draw()
     val updatedHand = card match {
@@ -28,9 +37,6 @@ case class Game(
     * players beanField
     */
   def playerPlantCardFromHand(playerIndex: Int, beanFieldIndex: Int): Game = {
-    println(
-      s"Player ${playerIndex} attempting planting card from hand to beanField: ${beanFieldIndex}..."
-    )
     val player = players(playerIndex)
     val updatedPlayer = players(playerIndex).plantCardFromHand(beanFieldIndex)
     val updatedPlayers = players.updated(playerIndex, updatedPlayer)
