@@ -13,6 +13,7 @@ enum HandlerKey(val key: String) {
 enum HandlerResponse {
   case BeanFieldIndexError
   case PlayerIndexError
+  case CurrentPlayerIndexError
   case TurnOverFieldIndexError
   case HandIndexError
   case MethodError
@@ -62,6 +63,9 @@ case class PlayerIndexHandler(next: Option[HandlerTemplate])
           checkedPlayerIndex >= game.players.length || checkedPlayerIndex < 0
         ) {
           return HandlerResponse.PlayerIndexError
+        }
+        if (checkedPlayerIndex != game.currentPlayerIndex) {
+          return HandlerResponse.CurrentPlayerIndexError
         }
       }
       case None =>

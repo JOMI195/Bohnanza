@@ -160,6 +160,16 @@ class TuiSpec extends AnyWordSpec with Matchers {
         stream.toString().trim() shouldBe "This player does not exist."
       }
 
+      "handles CurrentPlayerIndexError" in {
+        val stream = new java.io.ByteArrayOutputStream()
+        Console.withOut(stream) {
+          tui.update(HandlerResponse.CurrentPlayerIndexError)
+        }
+        stream
+          .toString()
+          .trim() shouldBe "This player is not the current player."
+      }
+
       "handles TurnOverFieldIndexError" in {
         val stream = new java.io.ByteArrayOutputStream()
         Console.withOut(stream) {

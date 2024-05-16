@@ -134,6 +134,8 @@ class Tui(controller: Controller) extends Observer {
         println("You don't have this bean field.")
       case HandlerResponse.PlayerIndexError =>
         println("This player does not exist.")
+      case HandlerResponse.CurrentPlayerIndexError =>
+        println("This player is not the current player.")
       case HandlerResponse.TurnOverFieldIndexError =>
         println("You can't access a turn-over card with this index.")
       case HandlerResponse.HandIndexError =>

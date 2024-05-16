@@ -35,6 +35,17 @@ class HandlerSpec extends AnyWordSpec with Matchers {
         ) shouldBe HandlerResponse.PlayerIndexError
       }
 
+      "return CurrentPlayerIndexError if player is not current player" in {
+        val args = Map(HandlerKey.PlayerFieldIndex.key -> 0)
+        val alteredGame = initialGame.copy(currentPlayerIndex = 1)
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          alteredGame
+        ) shouldBe HandlerResponse.CurrentPlayerIndexError
+      }
+
       "return Success if player index is within bounds" in {
         val args = Map(HandlerKey.PlayerFieldIndex.key -> 0)
 
