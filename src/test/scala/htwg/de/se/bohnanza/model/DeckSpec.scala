@@ -27,3 +27,24 @@ class DeckSpec extends AnyWordSpec with Matchers {
     }
   }
 }
+
+class DeckCreateStragtegyTemplateSpec extends AnyWordSpec with Matchers {
+  "A DeckCreateStategyTemplate" should {
+    "fill cards with only FireBean cards" in {
+      val singleFireBeanDeckCreater = SingleFireBeanDeckCreateStrategy()
+      val cards = singleFireBeanDeckCreater.fill()
+      val expectedOutput = List.fill(Bean.Firebean.frequency)(Bean.Firebean)
+      Bean.Firebean.frequency shouldBe expectedOutput.length
+      cards shouldBe expectedOutput
+    }
+
+    "fill cards with all cards that are available" in {
+      val fullDeckCreator = FullDeckCreateStrategy()
+      val cards = fullDeckCreator.fill()
+      val expectedOutput = List.fill(Bean.Firebean.frequency)(Bean.Firebean) ++
+        List.fill(Bean.BlueBean.frequency)(Bean.BlueBean)
+      Bean.Firebean.frequency + Bean.BlueBean.frequency shouldBe expectedOutput.length
+      cards shouldBe expectedOutput
+    }
+  }
+}
