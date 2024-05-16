@@ -18,16 +18,21 @@ object Bohnanza {
     beanFields = List(BeanField(Option(Bean.Firebean), 4)),
     hand = Hand(List.empty)
   )
-  val d = Deck(cards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean))
+  val d = FullDeckCreateStrategy().createDeck()
   val t = TurnOverField(cards = List())
 
-  val game = Game(players = List(p1, p2), deck = d, turnOverField = t)
+  val game = Game(
+    players = List(p1, p2),
+    deck = d,
+    turnOverField = t,
+    currentPlayerIndex = 0
+  )
+
   val controller = Controller(game)
   val tui = new Tui(controller)
 
   def main(args: Array[String]): Unit = {
     var input: String = ""
-
     println("Starting new game...")
     while (input != "exit") {
       input = readLine()
