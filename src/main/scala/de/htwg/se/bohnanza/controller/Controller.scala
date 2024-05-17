@@ -90,6 +90,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     if (response == HandlerResponse.Success) {
       game = game.drawCardToTurnOverField()
       notifyObservers(ObserverEvent.Turn)
+      return
     }
 
     notifyObservers(response)
@@ -114,6 +115,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
         beanFieldIndex
       )
       notifyObservers(ObserverEvent.Take)
+      return
     }
 
     notifyObservers(response)
