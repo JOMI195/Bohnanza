@@ -15,7 +15,7 @@ enum HandlerResponse {
   case PlayerIndexError
   case CurrentPlayerIndexError
   case TurnOverFieldIndexError
-  case TurnInvalidPlantError
+  case TakeInvalidPlantError
   case InvalidPlantError
   case HandIndexError
   case MethodError
@@ -112,7 +112,7 @@ case class BeanFieldIndexHandler(next: Option[HandlerTemplate])
   }
 }
 
-case class TurnInvalidPlantHandler(next: Option[HandlerTemplate])
+case class TakeInvalidPlantHandler(next: Option[HandlerTemplate])
     extends HandlerTemplate {
 
   def check(
@@ -137,10 +137,14 @@ case class TurnInvalidPlantHandler(next: Option[HandlerTemplate])
                       .bean
                     val beanToPlant =
                       game.turnOverField.cards(checkedTurnoverFieldIndex)
-                    if (
-                      beanOnBeanField != None && beanOnBeanField != beanToPlant
-                    ) {
-                      return HandlerResponse.InvalidPlantError
+
+                    beanOnBeanField match {
+                      case Some(checkedBean) => {
+                        if (checkedBean != beanToPlant) {
+                          return HandlerResponse.TakeInvalidPlantError
+                        }
+                      }
+                      case None =>
                     }
                   }
                   case None =>
@@ -182,8 +186,15 @@ case class InvalidPlantHandler(next: Option[HandlerTemplate])
                   .bean
                 val beanToPlant =
                   game.players(checkedPlayerIndex).hand.cards(0)
-                if (beanOnBeanField != None && beanOnBeanField != beanToPlant) {
-                  return HandlerResponse.TurnInvalidPlantError
+
+                beanOnBeanField match {
+                  case Some(checkedBean) => {
+                    if (checkedBean != beanToPlant) {
+                      return HandlerResponse.InvalidPlantError
+                    }
+
+                  }
+                  case None =>
                 }
               }
               case None =>
@@ -200,7 +211,7 @@ case class InvalidPlantHandler(next: Option[HandlerTemplate])
   }
 }
 
-case class TurnoverFieldIndexHandler(next: Option[HandlerTemplate])
+case class TurnOverFieldIndexHandler(next: Option[HandlerTemplate])
     extends HandlerTemplate {
 
   def check(

@@ -146,7 +146,7 @@ class Tui(controller: Controller) extends Observer {
         println("Debug: Argument error in controller and handler.\n")
       case HandlerResponse.Success =>
         println("Debug: Success should not be printed.\n")
-      case HandlerResponse.TurnInvalidPlantError =>
+      case HandlerResponse.TakeInvalidPlantError =>
         println(
           "The bean from the turn over field does not match with the bean on your bean field.\n"
         )

@@ -210,6 +210,26 @@ class TuiSpec extends AnyWordSpec with Matchers {
           .trim() shouldBe "Debug: Argument error in controller and handler."
       }
 
+      "handles TakeInvalidPlantError" in {
+        val stream = new java.io.ByteArrayOutputStream()
+        Console.withOut(stream) {
+          tui.update(HandlerResponse.TakeInvalidPlantError)
+        }
+        stream
+          .toString()
+          .trim() shouldBe "The bean from the turn over field does not match with the bean on your bean field."
+      }
+
+      "handles InvalidPlantError" in {
+        val stream = new java.io.ByteArrayOutputStream()
+        Console.withOut(stream) {
+          tui.update(HandlerResponse.InvalidPlantError)
+        }
+        stream
+          .toString()
+          .trim() shouldBe "The bean from your hand does not match with the bean on your bean field."
+      }
+
       "handles Success" in {
         // This case should not print anything, so we check if the stream is empty.
         val stream = new java.io.ByteArrayOutputStream()

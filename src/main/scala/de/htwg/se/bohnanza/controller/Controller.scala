@@ -6,9 +6,9 @@ import java.util.Observer
 
 class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     extends Observable {
-  val turnInvalidPlantHandler = TurnInvalidPlantHandler(None)
-  val invalidPlantHandler = InvalidPlantHandler(Option(turnInvalidPlantHandler))
-  val turnOverFieldIndexHandler = TurnoverFieldIndexHandler(
+  val takeInvalidPlantHandler = TakeInvalidPlantHandler(None)
+  val invalidPlantHandler = InvalidPlantHandler(Option(takeInvalidPlantHandler))
+  val turnOverFieldIndexHandler = TurnOverFieldIndexHandler(
     Option(invalidPlantHandler)
   )
   val beanFieldIndexHandler = BeanFieldIndexHandler(

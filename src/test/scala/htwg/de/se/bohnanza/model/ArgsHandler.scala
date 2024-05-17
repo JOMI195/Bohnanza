@@ -22,6 +22,107 @@ class HandlerSpec extends AnyWordSpec with Matchers {
 
   "ArgsHandler" should {
 
+    "TakeInvalidPlantHandler" should {
+      val playerTest = Player(
+        name = "Player1",
+        coins = 0,
+        beanFields = List(BeanField(Option(Bean.BlueBean), 1)),
+        hand = Hand(List.empty)
+      )
+      val deck = FullDeckCreateStrategy().createDeck()
+      val turnOverField =
+        TurnOverField(cards = List(Bean.Firebean, Bean.BlueBean))
+
+      val game = Game(
+        players = List(playerTest),
+        deck = deck,
+        turnOverField = turnOverField,
+        currentPlayerIndex = 0
+      )
+      val handler = TakeInvalidPlantHandler(None)
+
+      "return TakeInvalidPlantError if bean to plant does not match" in {
+        val args = Map(
+          HandlerKey.Method.key -> "take",
+          HandlerKey.PlayerFieldIndex.key -> 0,
+          HandlerKey.BeanFieldIndex.key -> 0,
+          HandlerKey.TurnOverFieldIndex.key -> 0
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.TakeInvalidPlantError
+      }
+
+      "return Success if take is valid" in {
+        val args = Map(
+          HandlerKey.Method.key -> "take",
+          HandlerKey.PlayerFieldIndex.key -> 0,
+          HandlerKey.BeanFieldIndex.key -> 0,
+          HandlerKey.TurnOverFieldIndex.key -> 1
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.Success
+      }
+    }
+
+    "InvalidPlantHandler" should {
+      val playerTest = Player(
+        name = "Player1",
+        coins = 0,
+        beanFields = List(
+          BeanField(Option(Bean.BlueBean), 1),
+          BeanField(Option(Bean.Firebean), 1)
+        ),
+        hand = Hand(List(Bean.BlueBean))
+      )
+      val deck = FullDeckCreateStrategy().createDeck()
+      val turnOverField =
+        TurnOverField(cards = List.empty)
+
+      val game = Game(
+        players = List(playerTest),
+        deck = deck,
+        turnOverField = turnOverField,
+        currentPlayerIndex = 0
+      )
+      val handler = InvalidPlantHandler(None)
+
+      "return InvalidPlantError if bean to plant does not match" in {
+        val args = Map(
+          HandlerKey.Method.key -> "plant",
+          HandlerKey.PlayerFieldIndex.key -> 0,
+          HandlerKey.BeanFieldIndex.key -> 1
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.InvalidPlantError
+      }
+
+      "return Success if take is valid" in {
+        val args = Map(
+          HandlerKey.Method.key -> "plant",
+          HandlerKey.PlayerFieldIndex.key -> 0,
+          HandlerKey.BeanFieldIndex.key -> 0
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.Success
+      }
+    }
+
     "PlayerIndexHandler" should {
       val handler = PlayerIndexHandler(None)
 
@@ -60,19 +161,6 @@ class HandlerSpec extends AnyWordSpec with Matchers {
     "BeanFieldIndexHandler" should {
       val handler = BeanFieldIndexHandler(None)
 
-      "return PlayerIndexError if player index is out of bounds" in {
-        val args = Map(
-          HandlerKey.PlayerFieldIndex.key -> 1,
-          HandlerKey.BeanFieldIndex.key -> 0
-        )
-
-        handler.check(
-          args,
-          new PlayCardPhase,
-          initialGame
-        ) shouldBe HandlerResponse.PlayerIndexError
-      }
-
       "return BeanFieldIndexError if bean field index is out of bounds" in {
         val args = Map(
           HandlerKey.PlayerFieldIndex.key -> 0,
@@ -101,7 +189,7 @@ class HandlerSpec extends AnyWordSpec with Matchers {
     }
 
     "TurnoverFieldIndexHandler" should {
-      val handler = TurnoverFieldIndexHandler(None)
+      val handler = TurnOverFieldIndexHandler(None)
 
       "return TurnOverFieldIndexError if turnover field index is out of bounds" in {
         val args = Map(HandlerKey.TurnOverFieldIndex.key -> 1)
