@@ -147,16 +147,17 @@ case class TakeInvalidPlantHandler(next: Option[HandlerTemplate])
                       case None =>
                     }
                   }
-                  case None =>
+                  // all these can only happen if we forgot to pass the args correctly! Tui checks already, so they should be in the correct form!
+                  case None => return HandlerResponse.ArgsError
                 }
               }
-              case None =>
+              case None => return HandlerResponse.ArgsError
             }
           }
-          case None =>
+          case None => return HandlerResponse.ArgsError
         }
       }
-      case None    =>
+      case None    => return HandlerResponse.ArgsError
       case Some(_) =>
     }
     return HandlerResponse.Success
@@ -173,7 +174,6 @@ case class InvalidPlantHandler(next: Option[HandlerTemplate])
   ): HandlerResponse = {
     args.get(HandlerKey.Method.key) match {
       case Some("plant") => {
-
         args.get(HandlerKey.PlayerFieldIndex.key) match {
           case Some(playerIndex) => {
             val checkedPlayerIndex = playerIndex.asInstanceOf[Int]
@@ -197,14 +197,14 @@ case class InvalidPlantHandler(next: Option[HandlerTemplate])
                   case None =>
                 }
               }
-              case None =>
+              case None => return HandlerResponse.ArgsError
             }
           }
-          case None =>
+          case None => return HandlerResponse.ArgsError
 
         }
       }
-      case None    =>
+      case None    => return HandlerResponse.ArgsError
       case Some(_) =>
     }
     return HandlerResponse.Success

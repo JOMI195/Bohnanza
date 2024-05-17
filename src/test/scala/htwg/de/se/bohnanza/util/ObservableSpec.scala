@@ -8,22 +8,29 @@ import bohnanza.util.ObserverEvent
 
 // only test here the remove and notify function. The other functions were already being tested!
 object testObserver extends Observer {
-  override def update(error: HandlerResponse): Unit = {}
-  override def update(event: ObserverEvent): Unit = {}
+  override def update(error: HandlerResponse): Unit = {
+    println("Error occurred.")
+  }
+  override def update(event: ObserverEvent): Unit = {
+    println("Action occurred.")
+  }
 }
 
 class ObservableSpec extends AnyWordSpec with Matchers {
 
-  val observer = testObserver
-  val observable = new Observable
-  observable.add(observer)
   "Observer" should {
+    val observer = testObserver
+    val observable = new Observable
+    observable.add(observer)
     "remove observer" in {
       observable.remove(observer)
       observable.subscribers shouldBe empty
     }
 
     "notify all subscribers" in {
+      val observer = testObserver
+      val observable = new Observable
+      observable.add(observer)
       observable.notifyObservers(HandlerResponse.ArgsError)
     }
   }

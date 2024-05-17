@@ -54,6 +54,7 @@ class HandlerSpec extends AnyWordSpec with Matchers {
           new PlayCardPhase,
           game
         ) shouldBe HandlerResponse.TakeInvalidPlantError
+
       }
 
       "return Success if take is valid" in {
@@ -69,6 +70,60 @@ class HandlerSpec extends AnyWordSpec with Matchers {
           new PlayCardPhase,
           game
         ) shouldBe HandlerResponse.Success
+      }
+
+      "return ArgsError if method is missing playerIndex" in {
+        val args = Map(
+          HandlerKey.Method.key -> "take",
+          HandlerKey.BeanFieldIndex.key -> 0,
+          HandlerKey.TurnOverFieldIndex.key -> 1
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.ArgsError
+      }
+
+      "return ArgsError if method is missing beanFieldIndex" in {
+        val args = Map(
+          HandlerKey.Method.key -> "take",
+          HandlerKey.PlayerFieldIndex.key -> 0,
+          HandlerKey.TurnOverFieldIndex.key -> 1
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.ArgsError
+      }
+
+      "return ArgsError if method is missing turnOverFieldIndex" in {
+        val args = Map(
+          HandlerKey.Method.key -> "take",
+          HandlerKey.PlayerFieldIndex.key -> 0,
+          HandlerKey.BeanFieldIndex.key -> 0
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.ArgsError
+      }
+
+      "return ArgsError if method passes as arg" in {
+        val args = Map(
+          HandlerKey.PlayerFieldIndex.key -> 0
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.ArgsError
       }
     }
 
@@ -120,6 +175,44 @@ class HandlerSpec extends AnyWordSpec with Matchers {
           new PlayCardPhase,
           game
         ) shouldBe HandlerResponse.Success
+      }
+
+      "return ArgsError if playerFieldIndex is missing" in {
+        val args = Map(
+          HandlerKey.Method.key -> "plant",
+          HandlerKey.BeanFieldIndex.key -> 0
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.ArgsError
+      }
+
+      "return ArgsError if beanFieldIndex is missing" in {
+        val args = Map(
+          HandlerKey.Method.key -> "plant",
+          HandlerKey.PlayerFieldIndex.key -> 0
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.ArgsError
+      }
+
+      "return ArgsError if method passes as arg" in {
+        val args = Map(
+          HandlerKey.PlayerFieldIndex.key -> 0
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.ArgsError
       }
     }
 
