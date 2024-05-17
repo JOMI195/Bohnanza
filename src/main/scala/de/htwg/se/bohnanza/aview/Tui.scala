@@ -131,21 +131,29 @@ class Tui(controller: Controller) extends Observer {
   override def update(error: HandlerResponse): Unit = {
     error match {
       case HandlerResponse.BeanFieldIndexError =>
-        println("You don't have this bean field.")
+        println("You don't have this bean field.\n")
       case HandlerResponse.PlayerIndexError =>
-        println("This player does not exist.")
+        println("This player does not exist.\n")
       case HandlerResponse.CurrentPlayerIndexError =>
-        println("This player is not the current player.")
+        println("This player is not the current player.\n")
       case HandlerResponse.TurnOverFieldIndexError =>
-        println("You can't access a turn-over card with this index.")
+        println("You can't access a turn-over card with this index.\n")
       case HandlerResponse.HandIndexError =>
-        println("You can't access a hand card with this index.")
+        println("You can't access a hand card with this index.\n")
       case HandlerResponse.MethodError =>
-        println("You can't use this method in this phase.")
+        println("You can't use this method in this phase.\n")
       case HandlerResponse.ArgsError =>
-        println("Debug: Argument error in controller and handler.")
+        println("Debug: Argument error in controller and handler.\n")
       case HandlerResponse.Success =>
-        println("Debug: Success should not be printed.")
+        println("Debug: Success should not be printed.\n")
+      case HandlerResponse.TurnInvalidPlantError =>
+        println(
+          "The bean from the turn over field does not match with the bean on your bean field.\n"
+        )
+      case HandlerResponse.InvalidPlantError =>
+        println(
+          "The bean from your hand does not match with the bean on your bean field.\n"
+        )
     }
   }
   override def update(event: ObserverEvent): Unit = {
@@ -161,16 +169,16 @@ class Tui(controller: Controller) extends Observer {
             println(" - harvest")
             println(" - plant")
             println(" - draw")
-            println(" - turn")
+            println(" - turn\n")
           }
           case _: TradeAndPlantPhase => {
             println(" - harvest")
-            println(" - plant")
+            println(" - plant\n")
           }
           case _: DrawCardsPhase =>
             println(
               "No method is allowed here,\n" +
-                "because everything is done automatically for you. :)"
+                "because everything is done automatically for you. :)\n"
             )
         }
       }
@@ -179,7 +187,8 @@ class Tui(controller: Controller) extends Observer {
       case ObserverEvent.Take     => println(currentPlayer)
       case ObserverEvent.GameInfo => println(controller.game)
       case ObserverEvent.Draw     => println(currentPlayer)
-      case ObserverEvent.Turn     => println(controller.game.turnOverField)
+      case ObserverEvent.Turn =>
+        println(controller.game.turnOverField.toString() + "\n")
     }
   }
 

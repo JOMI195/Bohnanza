@@ -37,7 +37,7 @@ object Bohnanza {
     while (input != "exit") {
       input = readLine()
       tui.processInputLine(input) match {
-        case Some(output) => println(output)
+        case Some(output) => println(s"$output\n")
         case None         => {}
       }
     }

@@ -6,12 +6,16 @@ import java.util.Observer
 
 class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     extends Observable {
-  val playerIndexHandler = PlayerIndexHandler(None)
-  val beanFieldIndexHandler = BeanFieldIndexHandler(Option(playerIndexHandler))
-  val turnoverFieldIndexHandler = TurnoverFieldIndexHandler(
-    Option(beanFieldIndexHandler)
+  val turnInvalidPlantHandler = TurnInvalidPlantHandler(None)
+  val invalidPlantHandler = InvalidPlantHandler(Option(turnInvalidPlantHandler))
+  val turnOverFieldIndexHandler = TurnoverFieldIndexHandler(
+    Option(invalidPlantHandler)
   )
-  val argumentHandler = MethodHandler(Option(turnoverFieldIndexHandler))
+  val beanFieldIndexHandler = BeanFieldIndexHandler(
+    Option(turnOverFieldIndexHandler)
+  )
+  val playerIndexHandler = PlayerIndexHandler(Option(beanFieldIndexHandler))
+  val argumentHandler = MethodHandler(Option(playerIndexHandler))
 
   def draw(playerIndex: Int): Unit = {
     val response = argumentHandler.checkOrDelegate(
