@@ -6,12 +6,16 @@ import java.util.Observer
 
 class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     extends Observable {
-  val playerIndexHandler = PlayerIndexHandler(None)
-  val beanFieldIndexHandler = BeanFieldIndexHandler(Option(playerIndexHandler))
-  val turnoverFieldIndexHandler = TurnoverFieldIndexHandler(
-    Option(beanFieldIndexHandler)
+  val takeInvalidPlantHandler = TakeInvalidPlantHandler(None)
+  val invalidPlantHandler = InvalidPlantHandler(Option(takeInvalidPlantHandler))
+  val turnOverFieldIndexHandler = TurnOverFieldIndexHandler(
+    Option(invalidPlantHandler)
   )
-  val argumentHandler = MethodHandler(Option(turnoverFieldIndexHandler))
+  val beanFieldIndexHandler = BeanFieldIndexHandler(
+    Option(turnOverFieldIndexHandler)
+  )
+  val playerIndexHandler = PlayerIndexHandler(Option(beanFieldIndexHandler))
+  val argumentHandler = MethodHandler(Option(playerIndexHandler))
 
   def draw(playerIndex: Int): Unit = {
     val response = argumentHandler.checkOrDelegate(
@@ -90,6 +94,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     if (response == HandlerResponse.Success) {
       game = game.drawCardToTurnOverField()
       notifyObservers(ObserverEvent.Turn)
+      return
     }
 
     notifyObservers(response)
@@ -114,6 +119,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
         beanFieldIndex
       )
       notifyObservers(ObserverEvent.Take)
+      return
     }
 
     notifyObservers(response)

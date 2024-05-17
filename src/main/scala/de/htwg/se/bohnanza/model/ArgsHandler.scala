@@ -15,6 +15,8 @@ enum HandlerResponse {
   case PlayerIndexError
   case CurrentPlayerIndexError
   case TurnOverFieldIndexError
+  case TakeInvalidPlantError
+  case InvalidPlantError
   case HandIndexError
   case MethodError
   case ArgsError
@@ -87,11 +89,6 @@ case class BeanFieldIndexHandler(next: Option[HandlerTemplate])
     args.get(playerIndexKey) match {
       case Some(playerIndex) => {
         val checkedPlayerIndex = playerIndex.asInstanceOf[Int]
-        if (
-          checkedPlayerIndex >= game.players.length || checkedPlayerIndex < 0
-        ) {
-          return HandlerResponse.PlayerIndexError
-        }
         args.get(beanFieldIndexKey) match {
           case Some(beanFieldIndex) => {
             val checkedBeanFieldIndex = beanFieldIndex.asInstanceOf[Int]
@@ -115,7 +112,106 @@ case class BeanFieldIndexHandler(next: Option[HandlerTemplate])
   }
 }
 
-case class TurnoverFieldIndexHandler(next: Option[HandlerTemplate])
+case class TakeInvalidPlantHandler(next: Option[HandlerTemplate])
+    extends HandlerTemplate {
+
+  def check(
+      args: Map[String, Any],
+      phase: PhaseState,
+      game: Game
+  ): HandlerResponse = {
+    args.get(HandlerKey.Method.key) match {
+      case Some("take") => {
+        args.get(HandlerKey.TurnOverFieldIndex.key) match {
+          case Some(turnOverFieldIndex) => {
+            val checkedTurnoverFieldIndex = turnOverFieldIndex.asInstanceOf[Int]
+            args.get(HandlerKey.PlayerFieldIndex.key) match {
+              case Some(playerIndex) => {
+                val checkedPlayerIndex = playerIndex.asInstanceOf[Int]
+                args.get(HandlerKey.BeanFieldIndex.key) match {
+                  case Some(beanFieldIndex) => {
+                    val checkedBeanFieldIndex = beanFieldIndex.asInstanceOf[Int]
+                    val beanOnBeanField = game
+                      .players(checkedPlayerIndex)
+                      .beanFields(checkedBeanFieldIndex)
+                      .bean
+                    val beanToPlant =
+                      game.turnOverField.cards(checkedTurnoverFieldIndex)
+
+                    beanOnBeanField match {
+                      case Some(checkedBean) => {
+                        if (checkedBean != beanToPlant) {
+                          return HandlerResponse.TakeInvalidPlantError
+                        }
+                      }
+                      case None =>
+                    }
+                  }
+                  // all these can only happen if we forgot to pass the args correctly! Tui checks already, so they should be in the correct form!
+                  case None => return HandlerResponse.ArgsError
+                }
+              }
+              case None => return HandlerResponse.ArgsError
+            }
+          }
+          case None => return HandlerResponse.ArgsError
+        }
+      }
+      case None    => return HandlerResponse.ArgsError
+      case Some(_) =>
+    }
+    return HandlerResponse.Success
+  }
+}
+
+case class InvalidPlantHandler(next: Option[HandlerTemplate])
+    extends HandlerTemplate {
+
+  def check(
+      args: Map[String, Any],
+      phase: PhaseState,
+      game: Game
+  ): HandlerResponse = {
+    args.get(HandlerKey.Method.key) match {
+      case Some("plant") => {
+        args.get(HandlerKey.PlayerFieldIndex.key) match {
+          case Some(playerIndex) => {
+            val checkedPlayerIndex = playerIndex.asInstanceOf[Int]
+            args.get(HandlerKey.BeanFieldIndex.key) match {
+              case Some(beanFieldIndex) => {
+                val checkedBeanFieldIndex = beanFieldIndex.asInstanceOf[Int]
+                val beanOnBeanField = game
+                  .players(checkedPlayerIndex)
+                  .beanFields(checkedBeanFieldIndex)
+                  .bean
+                val beanToPlant =
+                  game.players(checkedPlayerIndex).hand.cards(0)
+
+                beanOnBeanField match {
+                  case Some(checkedBean) => {
+                    if (checkedBean != beanToPlant) {
+                      return HandlerResponse.InvalidPlantError
+                    }
+
+                  }
+                  case None =>
+                }
+              }
+              case None => return HandlerResponse.ArgsError
+            }
+          }
+          case None => return HandlerResponse.ArgsError
+
+        }
+      }
+      case None    => return HandlerResponse.ArgsError
+      case Some(_) =>
+    }
+    return HandlerResponse.Success
+  }
+}
+
+case class TurnOverFieldIndexHandler(next: Option[HandlerTemplate])
     extends HandlerTemplate {
 
   def check(
