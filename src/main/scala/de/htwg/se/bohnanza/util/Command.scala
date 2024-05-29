@@ -19,6 +19,8 @@ class UndoManager:
   def doStep(command: Command) = {
     undoStack = command :: undoStack
     command.doStep
+    // can't redo if already did task after undo
+    redoStack = Nil
   }
 
   def undoStep = {
