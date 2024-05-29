@@ -33,17 +33,6 @@ case class Game(
     )
   }
 
-  def playerPutCardToDeck(playerIndex: Int): Game = {
-    val player = players(playerIndex)
-    val (card, updatedHand) = player.hand.popLastCard()
-    val updatedPlayer = player.copy(hand = updatedHand)
-    val updatedDeck = deck.addToTop(card)
-    copy(
-      deck = updatedDeck,
-      players = players.updated(playerIndex, updatedPlayer)
-    )
-  }
-
   /** Pops the first card from the hand cards of a player and plant it to the
     * players beanField
     */

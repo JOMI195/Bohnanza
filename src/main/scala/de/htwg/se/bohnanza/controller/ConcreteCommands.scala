@@ -3,66 +3,42 @@ package bohnanza.controller
 import bohnanza.util.Command
 
 case class DrawCommand(controller: Controller, playerIndex: Int)
-    extends Command {
+    extends Command(controller) {
 
   def doStep: Unit = controller.game =
     controller.game.playerDrawCardFromDeck(playerIndex = playerIndex)
-
-  def undoStep: Unit = {
-    controller.game = controller.game.playerPutCardToDeck(playerIndex)
-  }
-
-  def redoStep: Unit = doStep
-
 }
 
 case class PlantCommand(
     controller: Controller,
     playerIndex: Int,
     beanFieldIndex: Int
-) extends Command {
+) extends Command(controller) {
 
   def doStep: Unit = ???
-
-  def undoStep: Unit = ???
-
-  def redoStep: Unit = ???
 
 }
 
-case class NextPhaseCommand(controller: Controller) extends Command {
+case class NextPhaseCommand(controller: Controller)
+    extends Command(controller) {
 
   def doStep: Unit = ???
-
-  def undoStep: Unit = ???
-
-  def redoStep: Unit = ???
-
 }
 
 case class HarvestCommand(
     controller: Controller,
     playerIndex: Int,
     beanFieldIndex: Int
-) extends Command {
+) extends Command(controller) {
 
   def doStep: Unit = ???
-
-  def undoStep: Unit = ???
-
-  def redoStep: Unit = ???
-
 }
 
 case class TurnCommand(
     controller: Controller
-) extends Command {
+) extends Command(controller) {
 
   def doStep: Unit = ???
-
-  def undoStep: Unit = ???
-
-  def redoStep: Unit = ???
 
 }
 
@@ -71,12 +47,8 @@ case class TakeCommand(
     playerIndex: Int,
     cardIndex: Int,
     beanFieldIndex: Int
-) extends Command {
+) extends Command(controller) {
 
   def doStep: Unit = ???
-
-  def undoStep: Unit = ???
-
-  def redoStep: Unit = ???
 
 }

@@ -27,16 +27,4 @@ case class Hand(cards: List[Bean]) {
     val updatedHand = copy(cards = updatedCards)
     (card, updatedHand)
   }
-
-  def popLastCard(): (Option[Bean], Hand) = {
-    cards match {
-      case Nil => (None, this)
-      case _   =>
-        // returns all elements of the list except the last one.
-        val updatedCards = cards.init
-        val card = cards.last
-        val updatedHand = copy(cards = updatedCards)
-        (Some(card), updatedHand)
-    }
-  }
 }

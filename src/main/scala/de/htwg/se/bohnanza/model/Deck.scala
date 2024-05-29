@@ -35,11 +35,4 @@ case class Deck(cards: List[Bean]) {
     }
     (card, updatedDeck)
   }
-
-  def addToTop(bean: Option[Bean]): Deck = {
-    bean match {
-      case None       => this
-      case Some(bean) => copy(bean :: cards)
-    }
-  }
 }

@@ -1,9 +1,16 @@
 package bohnanza.util
 
-trait Command:
+import bohnanza.controller.Controller
+
+abstract class Command(controller: Controller) {
+  val memento: Memento = Memento(controller.game, controller.phase)
   def doStep: Unit
-  def undoStep: Unit
-  def redoStep: Unit
+  def undoStep: Unit = {
+    controller.game = memento.game
+    controller.phase = memento.phase
+  }
+  def redoStep: Unit = doStep
+}
 
 class UndoManager:
   private var undoStack: List[Command] = Nil
