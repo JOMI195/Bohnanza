@@ -249,25 +249,26 @@ case class MethodHandler(next: Option[HandlerTemplate])
       case Some(method) => {
         phase match {
           case _: GameInitializationPhase => {
-            if (method == "createPlayer" || method == "next") {
-              if (game.players.isEmpty) {
-                return HandlerResponse.MissingPlayerCreationError
-              }
+            if (
+              method == "createPlayer" || (method == "next" && !game.players.isEmpty)
+            ) {
               return HandlerResponse.Success
+            } else if (method == "next" && !game.players.isEmpty) {
+              return HandlerResponse.MissingPlayerCreationError
             }
             return HandlerResponse.MethodError
           }
           case _: PlayCardPhase => {
             // remove draw, turn and take in future! Now only for debugging purposes!!!
             if (
-              method == "harvest" || method == "plant" || method == "draw" || method == "turn" || method == "take"
+              method == "next" || method == "harvest" || method == "plant" || method == "draw" || method == "turn" || method == "take"
             ) {
               return HandlerResponse.Success
             }
             return HandlerResponse.MethodError
           }
           case _: TradeAndPlantPhase => {
-            if (method == "harvest" || method == "take") {
+            if (method == "next" || method == "harvest" || method == "take") {
               return HandlerResponse.Success
             }
             return HandlerResponse.MethodError
