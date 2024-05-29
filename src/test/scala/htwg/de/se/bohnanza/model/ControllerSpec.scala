@@ -18,17 +18,19 @@ val test = TurnOverField(List.empty)
 val initialGame = Game(initialPlayers, 0, initialDeck, test)
 
 class ControllerSpec extends AnyWordSpec with Matchers {
-  "when changing phase, correctly changes state" in {
+  "when changing phase, correctly changes state if players are full" in {
     val controller = Controller(initialGame)
     controller.nextPhase
-    controller.phase.isInstanceOf[TradeAndPlantPhase] shouldBe true
-    controller.game.turnOverField.cards.length shouldBe 2
+    // since we start with the GameInitializationPhase
+    controller.phase.isInstanceOf[PlayCardPhase] shouldBe true
+    controller.game.currentPlayerIndex shouldBe 0
   }
 
   "error when notifying also calls notify method" when {
     // should lead to a PlayerIndexError
     "draw" in {
       val controller = Controller(initialGame)
+      controller.nextPhase
       val gameBeforeDraw = controller.game
       controller.draw(1)
       controller.game shouldBe gameBeforeDraw
