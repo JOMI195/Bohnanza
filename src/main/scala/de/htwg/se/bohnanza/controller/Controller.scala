@@ -3,9 +3,12 @@ package bohnanza.controller
 import bohnanza.model.*
 import bohnanza.util.*
 import java.util.Observer
+import bohnanza.util.UndoManager
 
 class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     extends Observable {
+
+  val undoManager = new UndoManager
   val takeInvalidPlantHandler = TakeInvalidPlantHandler(None)
   val invalidPlantHandler = InvalidPlantHandler(Option(takeInvalidPlantHandler))
   val turnOverFieldIndexHandler = TurnOverFieldIndexHandler(
@@ -16,6 +19,16 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
   )
   val playerIndexHandler = PlayerIndexHandler(Option(beanFieldIndexHandler))
   val argumentHandler = MethodHandler(Option(playerIndexHandler))
+
+  def undo(): Unit = {
+    undoManager.undoStep
+    notifyObservers(ObserverEvent.Undo)
+  }
+
+  def redo(): Unit = {
+    undoManager.redoStep
+    notifyObservers(ObserverEvent.Redo)
+  }
 
   def draw(playerIndex: Int): Unit = {
     val response = argumentHandler.checkOrDelegate(
@@ -28,7 +41,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     )
 
     if (response == HandlerResponse.Success) {
-      game = game.playerDrawCardFromDeck(playerIndex = playerIndex)
+      undoManager.doStep(DrawCommand(this, playerIndex))
       notifyObservers(ObserverEvent.Draw)
       return
     }

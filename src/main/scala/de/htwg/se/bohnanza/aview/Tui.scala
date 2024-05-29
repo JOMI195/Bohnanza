@@ -19,7 +19,39 @@ class Tui(controller: Controller) extends Observer {
     )
     val command = splittedInput(0)
     command match {
-      // case "start"
+      case "undo" => {
+        val msg = "Usage: undo"
+        info match {
+          case Success(checkedInfo) => {
+            if (checkedInfo.isEmpty) {
+              controller.undo()
+              return None
+            }
+            return Option("Usage: undo")
+          }
+          case Failure(e) => {
+            println(e)
+            return Option("Invalid Input" + "\n" + msg)
+          }
+        }
+      }
+
+      case "redo" => {
+        val msg = "Usage: redo"
+        info match {
+          case Success(checkedInfo) => {
+            if (checkedInfo.isEmpty) {
+              controller.redo()
+              return None
+            }
+            return Option("Usage: redo")
+          }
+          case Failure(e) => {
+            println(e)
+            return Option("Invalid Input" + "\n" + msg)
+          }
+        }
+      }
 
       case "draw" => {
         val msg = "Usage: draw [playerIndex]"
@@ -34,7 +66,6 @@ class Tui(controller: Controller) extends Observer {
             }
           case Failure(e) =>
             Option("Invalid Input" + "\n" + msg)
-
         }
       }
 
@@ -94,7 +125,6 @@ class Tui(controller: Controller) extends Observer {
             println(e)
             return Option("Invalid Input" + "\n" + msg)
           }
-
         }
       }
 
@@ -189,6 +219,9 @@ class Tui(controller: Controller) extends Observer {
       case ObserverEvent.Draw     => println(currentPlayer)
       case ObserverEvent.Turn =>
         println(controller.game.turnOverField.toString() + "\n")
+      case ObserverEvent.Undo => println(controller.game)
+      case ObserverEvent.Redo => println(controller.game)
+
     }
   }
 
