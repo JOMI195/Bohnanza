@@ -253,7 +253,7 @@ case class MethodHandler(next: Option[HandlerTemplate])
               method == "createPlayer" || (method == "next" && !game.players.isEmpty)
             ) {
               return HandlerResponse.Success
-            } else if (method == "next" && !game.players.isEmpty) {
+            } else if (method == "next" && game.players.isEmpty) {
               return HandlerResponse.MissingPlayerCreationError
             }
             return HandlerResponse.MethodError
