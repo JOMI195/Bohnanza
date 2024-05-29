@@ -57,18 +57,63 @@ class HandlerSpec extends AnyWordSpec with Matchers {
 
       }
 
-      "return Success if take is valid" in {
-        val args = Map(
+      "return Success if take is valid when a bean is allready planted" in {
+        val p1 = Player(
+          name = "Player1",
+          coins = 0,
+          beanFields = List(BeanField(Option(Bean.Firebean))),
+          hand = Hand(List.empty)
+        )
+        val d = FullDeckCreateStrategy().createDeck()
+        val t = TurnOverField(cards = List(Bean.Firebean))
+
+        val initialGame1 = Game(
+          players = List(p1),
+          deck = d,
+          turnOverField = t,
+          currentPlayerIndex = 0
+        )
+
+        val args1 = Map(
           HandlerKey.Method.key -> "take",
           HandlerKey.PlayerFieldIndex.key -> 0,
           HandlerKey.BeanFieldIndex.key -> 0,
-          HandlerKey.TurnOverFieldIndex.key -> 1
+          HandlerKey.TurnOverFieldIndex.key -> 0
         )
 
         handler.check(
-          args,
+          args1,
           new PlayCardPhase,
-          game
+          initialGame1
+        ) shouldBe HandlerResponse.Success
+
+      }
+      "return Success if take is valid when no bean is planted" in {
+        val p2 = Player(
+          name = "Player1",
+          coins = 0,
+          beanFields = List(BeanField(None)),
+          hand = Hand(List.empty)
+        )
+
+        val initialGame2 = Game(
+          players = List(p2),
+          deck = d,
+          turnOverField = t,
+          currentPlayerIndex = 0
+        )
+
+        val args2 = Map(
+          HandlerKey.Method.key -> "take",
+          HandlerKey.PlayerFieldIndex.key -> 0,
+          HandlerKey.BeanFieldIndex.key -> 0,
+          HandlerKey.TurnOverFieldIndex.key -> 0
+        )
+
+        handler.check(
+          args2,
+          new PlayCardPhase,
+          initialGame2
         ) shouldBe HandlerResponse.Success
       }
 
