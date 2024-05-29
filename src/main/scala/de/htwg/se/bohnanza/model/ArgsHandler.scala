@@ -17,7 +17,7 @@ enum HandlerResponse {
   case TurnOverFieldIndexError
   case TakeInvalidPlantError
   case InvalidPlantError
-  case MissingPlayerCreation
+  case MissingPlayerCreationError
   case HandIndexError
   case MethodError
   case ArgsError
@@ -253,7 +253,7 @@ case class MethodHandler(next: Option[HandlerTemplate])
             if (method == "createPlayer" || isPhaseChangeValid) {
               return HandlerResponse.Success
             } else if (method == "next" && !isPhaseChangeValid) {
-              return HandlerResponse.MissingPlayerCreation
+              return HandlerResponse.MissingPlayerCreationError
             }
             return HandlerResponse.MethodError
           }

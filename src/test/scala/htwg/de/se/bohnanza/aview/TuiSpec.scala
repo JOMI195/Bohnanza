@@ -29,6 +29,19 @@ class TuiSpec extends AnyWordSpec with Matchers {
   val errorMessage = "Invalid Input\n"
 
   "The Tui class" should {
+    "createPlayer" when {
+      val msg = "Usage: createPlayer [playerName]"
+
+      "process createPlayer command with name" in {
+        val input = "createPlayer Jomi"
+        tui.processInputLine(input) shouldBe None
+      }
+
+      "process createPlayer command with no name" in {
+        val input = "createPlayer"
+        tui.processInputLine(input) shouldBe Some("Invalid Input" + "\n" + msg)
+      }
+    }
 
     "undo" when {
       val msg = "Usage: undo"
@@ -267,6 +280,16 @@ class TuiSpec extends AnyWordSpec with Matchers {
           .trim() shouldBe "Debug: Argument error in controller and handler."
       }
 
+      "handles MissingPlayerCreationError" in {
+        val stream = new java.io.ByteArrayOutputStream()
+        Console.withOut(stream) {
+          tui.update(HandlerResponse.MissingPlayerCreationError)
+        }
+        stream
+          .toString()
+          .trim() shouldBe "You can't go to the next phase because you didn't create any player yet."
+      }
+
       "handles TakeInvalidPlantError" in {
         val stream = new java.io.ByteArrayOutputStream()
         Console.withOut(stream) {
@@ -401,6 +424,20 @@ class TuiSpec extends AnyWordSpec with Matchers {
           ) shouldBe currentPlayer.toString.trim()
       }
 
+      "handle Plant event" in {
+        val stream = new java.io.ByteArrayOutputStream()
+        Console.withOut(stream) {
+          controller.notifyObservers(ObserverEvent.Plant)
+        }
+        stream
+          .toString()
+          .trim()
+          .replaceAll(
+            "\r\n",
+            "\n"
+          ) shouldBe currentPlayer.toString.trim()
+      }
+
       "handle GameInfo event" in {
         val stream = new java.io.ByteArrayOutputStream()
         Console.withOut(stream) {
@@ -441,6 +478,21 @@ class TuiSpec extends AnyWordSpec with Matchers {
             "\r\n",
             "\n"
           ) shouldBe controller.game.turnOverField.toString
+          .trim()
+      }
+
+      "handle CreatePlayer event" in {
+        val stream = new java.io.ByteArrayOutputStream()
+        Console.withOut(stream) {
+          controller.notifyObservers(ObserverEvent.CreatePlayer)
+        }
+        stream
+          .toString()
+          .trim()
+          .replaceAll(
+            "\r\n",
+            "\n"
+          ) shouldBe controller.game.toString
           .trim()
       }
     }

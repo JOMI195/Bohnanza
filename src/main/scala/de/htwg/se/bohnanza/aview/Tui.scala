@@ -21,15 +21,15 @@ class Tui(controller: Controller) extends Observer {
     command match {
       case "createPlayer" => {
         val msg = "Usage: createPlayer [playerName]"
-        val playerName = Try(
+        val playerName =
           splittedInput.slice(1, splittedInput.length).mkString(" ")
-        )
+
         playerName match {
-          case Success(playerName) => {
+          case "" => return Option("Invalid Input" + "\n" + msg)
+          case _ => {
             controller.createPlayer(playerName)
             return None
           }
-          case Failure(e) => return Option("Invalid Input" + "\n" + msg)
         }
       }
 
@@ -205,7 +205,7 @@ class Tui(controller: Controller) extends Observer {
         println("Debug: Argument error in controller and handler.\n")
       case HandlerResponse.Success =>
         println("Debug: Success should not be printed.\n")
-      case HandlerResponse.MissingPlayerCreation =>
+      case HandlerResponse.MissingPlayerCreationError =>
         println(
           "You can't go to the next phase because you didn't create any player yet.\n"
         )
