@@ -163,6 +163,34 @@ class HandlerSpec extends AnyWordSpec with Matchers {
         ) shouldBe HandlerResponse.InvalidPlantError
       }
 
+      "return Success if there is no bean on the beanfield yet." in {
+        val noBeanPlayer = Player(
+          name = "Player1",
+          coins = 0,
+          beanFields = List(
+            BeanField(None)
+          ),
+          hand = Hand(List(Bean.BlueBean))
+        )
+        val game = Game(
+          players = List(noBeanPlayer),
+          deck = deck,
+          turnOverField = turnOverField,
+          currentPlayerIndex = 0
+        )
+        val args = Map(
+          HandlerKey.Method.key -> "plant",
+          HandlerKey.PlayerFieldIndex.key -> 0,
+          HandlerKey.BeanFieldIndex.key -> 0
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.Success
+      }
+
       "return Success if take is valid" in {
         val args = Map(
           HandlerKey.Method.key -> "plant",
