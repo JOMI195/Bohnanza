@@ -1,6 +1,15 @@
 package bohnanza.controller
 
 import bohnanza.util.Command
+import bohnanza.model.Player
+
+case class PlayerCreationCommand(controller: Controller, playerName: String)
+    extends Command(controller) {
+
+  def doStep: Unit = controller.game = controller.game.copy(players =
+    controller.game.players :+ Player(playerName)
+  )
+}
 
 case class DrawCommand(controller: Controller, playerIndex: Int)
     extends Command(controller) {

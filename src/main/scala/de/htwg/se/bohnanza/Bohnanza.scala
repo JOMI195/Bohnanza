@@ -6,26 +6,14 @@ import bohnanza.aview.*
 import bohnanza.controller.*
 
 object Bohnanza {
-  val p1 = Player(
-    name = "Jomi",
-    coins = 0,
-    beanFields = List(BeanField(None)),
-    hand = Hand(List.empty)
-  )
-  val p2 = Player(
-    name = "Daniel",
-    coins = 0,
-    beanFields = List(BeanField(Option(Bean.Firebean), 4)),
-    hand = Hand(List.empty)
-  )
   val d = FullDeckCreateStrategy().createDeck()
   val t = TurnOverField(cards = List())
 
   val game = Game(
-    players = List(p1, p2),
+    players = List.empty,
     deck = d,
     turnOverField = t,
-    currentPlayerIndex = 0
+    currentPlayerIndex = -1
   )
 
   val controller = Controller(game)
@@ -34,6 +22,9 @@ object Bohnanza {
   def main(args: Array[String]): Unit = {
     var input: String = ""
     println("Starting new game...")
+    println(
+      "Please create players first with the command: createPlayer [playerName].\n"
+    )
     while (input != "exit") {
       input = readLine()
       tui.processInputLine(input) match {

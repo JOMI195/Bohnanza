@@ -2,9 +2,9 @@ package bohnanza.model
 
 case class Player(
     name: String,
-    beanFields: List[BeanField],
-    coins: Int,
-    hand: Hand
+    beanFields: List[BeanField] = List(BeanField(None)),
+    coins: Int = 0,
+    hand: Hand = Hand(List.empty)
 ) {
 
   override def toString: String = {

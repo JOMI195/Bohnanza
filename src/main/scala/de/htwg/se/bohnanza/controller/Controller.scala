@@ -5,8 +5,10 @@ import bohnanza.util.*
 import java.util.Observer
 import bohnanza.util.UndoManager
 
-class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
-    extends Observable {
+class Controller(
+    var game: Game,
+    var phase: PhaseState = GameInitializationPhase()
+) extends Observable {
 
   val undoManager = new UndoManager
   val takeInvalidPlantHandler = TakeInvalidPlantHandler(None)
@@ -19,6 +21,24 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
   )
   val playerIndexHandler = PlayerIndexHandler(Option(beanFieldIndexHandler))
   val argumentHandler = MethodHandler(Option(playerIndexHandler))
+
+  def createPlayer(playerName: String): Unit = {
+    val response = argumentHandler.checkOrDelegate(
+      args = Map(
+        HandlerKey.Method.key -> "createPlayer"
+      ),
+      phase = phase,
+      game = game
+    )
+
+    if (response == HandlerResponse.Success) {
+      undoManager.doStep(PlayerCreationCommand(this, playerName))
+      notifyObservers(ObserverEvent.CreatePlayer)
+      return
+    }
+
+    notifyObservers(response)
+  }
 
   def undo(): Unit = {
     undoManager.undoStep
@@ -70,8 +90,21 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
   }
 
   def nextPhase: Unit = {
-    undoManager.doStep(NextPhaseCommand(this))
-    notifyObservers(ObserverEvent.PhaseChange)
+    val response = argumentHandler.checkOrDelegate(
+      args = Map(
+        HandlerKey.Method.key -> "next"
+      ),
+      phase = phase,
+      game = game
+    )
+
+    if (response == HandlerResponse.Success) {
+      undoManager.doStep(NextPhaseCommand(this))
+      notifyObservers(ObserverEvent.PhaseChange)
+      return
+    }
+
+    notifyObservers(response)
   }
 
   def harvest(playerIndex: Int, beanFieldIndex: Int): Unit = {

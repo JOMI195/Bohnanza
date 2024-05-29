@@ -19,6 +19,19 @@ class Tui(controller: Controller) extends Observer {
     )
     val command = splittedInput(0)
     command match {
+      case "createPlayer" => {
+        val msg = "Usage: createPlayer [playerName]"
+        val playerName = Try(
+          splittedInput.slice(1, splittedInput.length).mkString(" ")
+        )
+        playerName match {
+          case Success(playerName) => {
+            controller.createPlayer(playerName)
+            return None
+          }
+          case Failure(e) => return Option("Invalid Input" + "\n" + msg)
+        }
+      }
 
       case "undo" => {
         val msg = "Usage: undo"
@@ -31,7 +44,6 @@ class Tui(controller: Controller) extends Observer {
             return Option("Usage: undo")
           }
           case Failure(e) => {
-            println(e)
             return Option("Invalid Input" + "\n" + msg)
           }
         }
@@ -48,7 +60,6 @@ class Tui(controller: Controller) extends Observer {
             return Option("Usage: redo")
           }
           case Failure(e) => {
-            println(e)
             return Option("Invalid Input" + "\n" + msg)
           }
         }
@@ -67,7 +78,6 @@ class Tui(controller: Controller) extends Observer {
             return Option("Usage: next")
           }
           case Failure(e) => {
-            println(e)
             return Option("Invalid Input" + "\n" + msg)
           }
         }
@@ -142,7 +152,6 @@ class Tui(controller: Controller) extends Observer {
             return Option("Usage: turn")
           }
           case Failure(e) => {
-            println(e)
             return Option("Invalid Input" + "\n" + msg)
           }
         }
@@ -196,6 +205,10 @@ class Tui(controller: Controller) extends Observer {
         println("Debug: Argument error in controller and handler.\n")
       case HandlerResponse.Success =>
         println("Debug: Success should not be printed.\n")
+      case HandlerResponse.MissingPlayerCreation =>
+        println(
+          "You can't go to the next phase because you didn't create any player yet.\n"
+        )
       case HandlerResponse.TakeInvalidPlantError =>
         println(
           "The bean from the turn over field does not match with the bean on your bean field.\n"
@@ -207,22 +220,24 @@ class Tui(controller: Controller) extends Observer {
     }
   }
   override def update(event: ObserverEvent): Unit = {
-    val currentPlayer =
-      controller.game.players(controller.game.currentPlayerIndex)
-
     event match {
       case ObserverEvent.PhaseChange => {
         println(controller.phase)
       }
-      case ObserverEvent.Plant    => println(currentPlayer)
-      case ObserverEvent.Harvest  => println(currentPlayer)
-      case ObserverEvent.Take     => println(currentPlayer)
+      case ObserverEvent.Plant =>
+        println(controller.game.players(controller.game.currentPlayerIndex))
+      case ObserverEvent.Harvest =>
+        println(controller.game.players(controller.game.currentPlayerIndex))
+      case ObserverEvent.Take =>
+        println(controller.game.players(controller.game.currentPlayerIndex))
       case ObserverEvent.GameInfo => println(controller.game)
-      case ObserverEvent.Draw     => println(currentPlayer)
+      case ObserverEvent.Draw =>
+        println(controller.game.players(controller.game.currentPlayerIndex))
       case ObserverEvent.Turn =>
         println(controller.game.turnOverField.toString() + "\n")
-      case ObserverEvent.Undo => println(controller.game)
-      case ObserverEvent.Redo => println(controller.game)
+      case ObserverEvent.Undo         => println(controller.game)
+      case ObserverEvent.Redo         => println(controller.game)
+      case ObserverEvent.CreatePlayer => println(controller.game)
 
     }
   }

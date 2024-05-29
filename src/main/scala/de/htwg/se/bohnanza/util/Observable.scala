@@ -12,6 +12,7 @@ enum ObserverEvent {
   case Turn
   case Undo
   case Redo
+  case CreatePlayer
 }
 
 trait Observer {
