@@ -10,6 +10,9 @@ enum ObserverEvent {
   case GameInfo
   case Draw // draw and turn for debugging purposes!!!
   case Turn
+  case Undo
+  case Redo
+  case CreatePlayer
 }
 
 trait Observer {

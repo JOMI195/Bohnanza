@@ -19,7 +19,69 @@ class Tui(controller: Controller) extends Observer {
     )
     val command = splittedInput(0)
     command match {
-      // case "start"
+      case "createPlayer" => {
+        val msg = "Usage: createPlayer [playerName]"
+        val playerName =
+          splittedInput.slice(1, splittedInput.length).mkString(" ")
+
+        playerName match {
+          case "" => return Option("Invalid Input" + "\n" + msg)
+          case _ => {
+            controller.createPlayer(playerName)
+            return None
+          }
+        }
+      }
+
+      case "undo" => {
+        val msg = "Usage: undo"
+        info match {
+          case Success(checkedInfo) => {
+            if (checkedInfo.isEmpty) {
+              controller.undo()
+              return None
+            }
+            return Option("Usage: undo")
+          }
+          case Failure(e) => {
+            return Option("Invalid Input" + "\n" + msg)
+          }
+        }
+      }
+
+      case "redo" => {
+        val msg = "Usage: redo"
+        info match {
+          case Success(checkedInfo) => {
+            if (checkedInfo.isEmpty) {
+              controller.redo()
+              return None
+            }
+            return Option("Usage: redo")
+          }
+          case Failure(e) => {
+            return Option("Invalid Input" + "\n" + msg)
+          }
+        }
+      }
+
+      // changes to the next phase
+      // Usage: next
+      case "next" => {
+        val msg = "Usage: next"
+        info match {
+          case Success(checkedInfo) => {
+            if (checkedInfo.isEmpty) {
+              controller.nextPhase
+              return None
+            }
+            return Option("Usage: next")
+          }
+          case Failure(e) => {
+            return Option("Invalid Input" + "\n" + msg)
+          }
+        }
+      }
 
       case "draw" => {
         val msg = "Usage: draw [playerIndex]"
@@ -34,7 +96,6 @@ class Tui(controller: Controller) extends Observer {
             }
           case Failure(e) =>
             Option("Invalid Input" + "\n" + msg)
-
         }
       }
 
@@ -91,10 +152,8 @@ class Tui(controller: Controller) extends Observer {
             return Option("Usage: turn")
           }
           case Failure(e) => {
-            println(e)
             return Option("Invalid Input" + "\n" + msg)
           }
-
         }
       }
 
@@ -146,6 +205,10 @@ class Tui(controller: Controller) extends Observer {
         println("Debug: Argument error in controller and handler.\n")
       case HandlerResponse.Success =>
         println("Debug: Success should not be printed.\n")
+      case HandlerResponse.MissingPlayerCreationError =>
+        println(
+          "You can't go to the next phase because you didn't create any player yet.\n"
+        )
       case HandlerResponse.TakeInvalidPlantError =>
         println(
           "The bean from the turn over field does not match with the bean on your bean field.\n"
@@ -157,38 +220,25 @@ class Tui(controller: Controller) extends Observer {
     }
   }
   override def update(event: ObserverEvent): Unit = {
-    val currentPlayer =
-      controller.game.players(controller.game.currentPlayerIndex)
-
     event match {
       case ObserverEvent.PhaseChange => {
-        println(s"The phase changed to ${controller.phase}.")
-        println("The allowed method is: ")
-        controller.phase match {
-          case _: PlayCardPhase => {
-            println(" - harvest")
-            println(" - plant")
-            println(" - draw")
-            println(" - turn\n")
-          }
-          case _: TradeAndPlantPhase => {
-            println(" - harvest")
-            println(" - plant\n")
-          }
-          case _: DrawCardsPhase =>
-            println(
-              "No method is allowed here,\n" +
-                "because everything is done automatically for you. :)\n"
-            )
-        }
+        println(controller.phase)
       }
-      case ObserverEvent.Plant    => println(currentPlayer)
-      case ObserverEvent.Harvest  => println(currentPlayer)
-      case ObserverEvent.Take     => println(currentPlayer)
+      case ObserverEvent.Plant =>
+        println(controller.game.players(controller.game.currentPlayerIndex))
+      case ObserverEvent.Harvest =>
+        println(controller.game.players(controller.game.currentPlayerIndex))
+      case ObserverEvent.Take =>
+        println(controller.game.players(controller.game.currentPlayerIndex))
       case ObserverEvent.GameInfo => println(controller.game)
-      case ObserverEvent.Draw     => println(currentPlayer)
+      case ObserverEvent.Draw =>
+        println(controller.game.players(controller.game.currentPlayerIndex))
       case ObserverEvent.Turn =>
         println(controller.game.turnOverField.toString() + "\n")
+      case ObserverEvent.Undo         => println(controller.game)
+      case ObserverEvent.Redo         => println(controller.game)
+      case ObserverEvent.CreatePlayer => println(controller.game)
+
     }
   }
 
