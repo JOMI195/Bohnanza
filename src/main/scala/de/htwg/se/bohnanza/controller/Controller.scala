@@ -61,7 +61,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     )
 
     if (response == HandlerResponse.Success) {
-      game = game.playerPlantCardFromHand(playerIndex, beanFieldIndex)
+      undoManager.doStep(PlantCommand(this, playerIndex, beanFieldIndex))
       notifyObservers(ObserverEvent.Plant)
       return
     }
@@ -70,8 +70,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
   }
 
   def nextPhase: Unit = {
-    phase = phase.nextPhase
-    game = phase.startPhase(game)
+    undoManager.doStep(NextPhaseCommand(this))
     notifyObservers(ObserverEvent.PhaseChange)
   }
 
@@ -87,7 +86,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     )
 
     if (response == HandlerResponse.Success) {
-      game = game.playerHarvestField(playerIndex, beanFieldIndex)
+      undoManager.doStep(HarvestCommand(this, playerIndex, beanFieldIndex))
       notifyObservers(ObserverEvent.Harvest)
       return
     }
@@ -105,7 +104,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     )
 
     if (response == HandlerResponse.Success) {
-      game = game.drawCardToTurnOverField()
+      undoManager.doStep(TurnCommand(this))
       notifyObservers(ObserverEvent.Turn)
       return
     }
@@ -126,10 +125,8 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     )
 
     if (response == HandlerResponse.Success) {
-      game = game.playerPlantFromTurnOverField(
-        playerIndex,
-        cardIndex,
-        beanFieldIndex
+      undoManager.doStep(
+        TakeCommand(this, playerIndex, cardIndex, beanFieldIndex)
       )
       notifyObservers(ObserverEvent.Take)
       return

@@ -15,14 +15,18 @@ case class PlantCommand(
     beanFieldIndex: Int
 ) extends Command(controller) {
 
-  def doStep: Unit = ???
+  def doStep: Unit = controller.game =
+    controller.game.playerPlantCardFromHand(playerIndex, beanFieldIndex)
 
 }
 
 case class NextPhaseCommand(controller: Controller)
     extends Command(controller) {
 
-  def doStep: Unit = ???
+  def doStep: Unit = {
+    controller.phase = controller.phase.nextPhase
+    controller.game = controller.phase.startPhase(controller.game)
+  }
 }
 
 case class HarvestCommand(
@@ -31,14 +35,15 @@ case class HarvestCommand(
     beanFieldIndex: Int
 ) extends Command(controller) {
 
-  def doStep: Unit = ???
+  def doStep: Unit = controller.game =
+    controller.game.playerHarvestField(playerIndex, beanFieldIndex)
 }
 
 case class TurnCommand(
     controller: Controller
 ) extends Command(controller) {
 
-  def doStep: Unit = ???
+  def doStep: Unit = controller.game = controller.game.drawCardToTurnOverField()
 
 }
 
@@ -49,6 +54,11 @@ case class TakeCommand(
     beanFieldIndex: Int
 ) extends Command(controller) {
 
-  def doStep: Unit = ???
+  def doStep: Unit = controller.game =
+    controller.game.playerPlantFromTurnOverField(
+      playerIndex,
+      cardIndex,
+      beanFieldIndex
+    )
 
 }
