@@ -3,9 +3,14 @@ package bohnanza.controller
 import bohnanza.model.*
 import bohnanza.util.*
 import java.util.Observer
+import bohnanza.util.UndoManager
 
-class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
-    extends Observable {
+class Controller(
+    var game: Game,
+    var phase: PhaseState = GameInitializationPhase()
+) extends Observable {
+
+  val undoManager = new UndoManager
   val takeInvalidPlantHandler = TakeInvalidPlantHandler(None)
   val invalidPlantHandler = InvalidPlantHandler(Option(takeInvalidPlantHandler))
   val turnOverFieldIndexHandler = TurnOverFieldIndexHandler(
@@ -16,6 +21,34 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
   )
   val playerIndexHandler = PlayerIndexHandler(Option(beanFieldIndexHandler))
   val argumentHandler = MethodHandler(Option(playerIndexHandler))
+
+  def createPlayer(playerName: String): Unit = {
+    val response = argumentHandler.checkOrDelegate(
+      args = Map(
+        HandlerKey.Method.key -> "createPlayer"
+      ),
+      phase = phase,
+      game = game
+    )
+
+    if (response == HandlerResponse.Success) {
+      undoManager.doStep(PlayerCreationCommand(this, playerName))
+      notifyObservers(ObserverEvent.CreatePlayer)
+      return
+    }
+
+    notifyObservers(response)
+  }
+
+  def undo(): Unit = {
+    undoManager.undoStep
+    notifyObservers(ObserverEvent.Undo)
+  }
+
+  def redo(): Unit = {
+    undoManager.redoStep
+    notifyObservers(ObserverEvent.Redo)
+  }
 
   def draw(playerIndex: Int): Unit = {
     val response = argumentHandler.checkOrDelegate(
@@ -28,7 +61,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     )
 
     if (response == HandlerResponse.Success) {
-      game = game.playerDrawCardFromDeck(playerIndex = playerIndex)
+      undoManager.doStep(DrawCommand(this, playerIndex))
       notifyObservers(ObserverEvent.Draw)
       return
     }
@@ -48,7 +81,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     )
 
     if (response == HandlerResponse.Success) {
-      game = game.playerPlantCardFromHand(playerIndex, beanFieldIndex)
+      undoManager.doStep(PlantCommand(this, playerIndex, beanFieldIndex))
       notifyObservers(ObserverEvent.Plant)
       return
     }
@@ -57,9 +90,21 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
   }
 
   def nextPhase: Unit = {
-    phase = phase.nextPhase
-    game = phase.startPhase(game)
-    notifyObservers(ObserverEvent.PhaseChange)
+    val response = argumentHandler.checkOrDelegate(
+      args = Map(
+        HandlerKey.Method.key -> "next"
+      ),
+      phase = phase,
+      game = game
+    )
+
+    if (response == HandlerResponse.Success) {
+      undoManager.doStep(NextPhaseCommand(this))
+      notifyObservers(ObserverEvent.PhaseChange)
+      return
+    }
+
+    notifyObservers(response)
   }
 
   def harvest(playerIndex: Int, beanFieldIndex: Int): Unit = {
@@ -74,7 +119,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     )
 
     if (response == HandlerResponse.Success) {
-      game = game.playerHarvestField(playerIndex, beanFieldIndex)
+      undoManager.doStep(HarvestCommand(this, playerIndex, beanFieldIndex))
       notifyObservers(ObserverEvent.Harvest)
       return
     }
@@ -92,7 +137,7 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     )
 
     if (response == HandlerResponse.Success) {
-      game = game.drawCardToTurnOverField()
+      undoManager.doStep(TurnCommand(this))
       notifyObservers(ObserverEvent.Turn)
       return
     }
@@ -113,10 +158,8 @@ class Controller(var game: Game, var phase: PhaseState = PlayCardPhase())
     )
 
     if (response == HandlerResponse.Success) {
-      game = game.playerPlantFromTurnOverField(
-        playerIndex,
-        cardIndex,
-        beanFieldIndex
+      undoManager.doStep(
+        TakeCommand(this, playerIndex, cardIndex, beanFieldIndex)
       )
       notifyObservers(ObserverEvent.Take)
       return

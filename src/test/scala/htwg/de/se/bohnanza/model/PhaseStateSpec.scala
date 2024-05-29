@@ -29,6 +29,35 @@ val initialGame = Game(
 class PhaseStateSpec extends AnyWordSpec with Matchers {
   "PhaseStae" should {
 
+    "nextPhase" should {
+      "return itself by default" in {
+        val phaseState = new PhaseState {
+          override def nextPhase: PhaseState = this
+        }
+        phaseState.nextPhase shouldBe theSameInstanceAs(phaseState)
+      }
+    }
+
+    "startPhase" should {
+      "return the same game by default" in {
+        val phaseState = new PhaseState {
+          override def nextPhase: PhaseState =
+            this // Provide a default implementation
+        }
+        val updatedGame = phaseState.startPhase(initialGame)
+        updatedGame shouldEqual initialGame
+      }
+    }
+
+    "GameInitializationPhase" should {
+      "nextPhase" should {
+        "transition to PlayCardPhase" in {
+          val gameInitializationPhase = new GameInitializationPhase()
+          gameInitializationPhase.nextPhase shouldBe a[PlayCardPhase]
+        }
+      }
+    }
+
     "PlayCardPhase" should {
       "transition to TradeAndPlantPhase in nextPhase" in {
         val playCardPhase = PlayCardPhase()

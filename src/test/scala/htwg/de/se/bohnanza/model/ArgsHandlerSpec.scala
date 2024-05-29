@@ -57,18 +57,63 @@ class HandlerSpec extends AnyWordSpec with Matchers {
 
       }
 
-      "return Success if take is valid" in {
-        val args = Map(
+      "return Success if take is valid when a bean is allready planted" in {
+        val p1 = Player(
+          name = "Player1",
+          coins = 0,
+          beanFields = List(BeanField(Option(Bean.Firebean))),
+          hand = Hand(List.empty)
+        )
+        val d = FullDeckCreateStrategy().createDeck()
+        val t = TurnOverField(cards = List(Bean.Firebean))
+
+        val initialGame1 = Game(
+          players = List(p1),
+          deck = d,
+          turnOverField = t,
+          currentPlayerIndex = 0
+        )
+
+        val args1 = Map(
           HandlerKey.Method.key -> "take",
           HandlerKey.PlayerFieldIndex.key -> 0,
           HandlerKey.BeanFieldIndex.key -> 0,
-          HandlerKey.TurnOverFieldIndex.key -> 1
+          HandlerKey.TurnOverFieldIndex.key -> 0
         )
 
         handler.check(
-          args,
+          args1,
           new PlayCardPhase,
-          game
+          initialGame1
+        ) shouldBe HandlerResponse.Success
+
+      }
+      "return Success if take is valid when no bean is planted" in {
+        val p2 = Player(
+          name = "Player1",
+          coins = 0,
+          beanFields = List(BeanField(None)),
+          hand = Hand(List.empty)
+        )
+
+        val initialGame2 = Game(
+          players = List(p2),
+          deck = d,
+          turnOverField = t,
+          currentPlayerIndex = 0
+        )
+
+        val args2 = Map(
+          HandlerKey.Method.key -> "take",
+          HandlerKey.PlayerFieldIndex.key -> 0,
+          HandlerKey.BeanFieldIndex.key -> 0,
+          HandlerKey.TurnOverFieldIndex.key -> 0
+        )
+
+        handler.check(
+          args2,
+          new PlayCardPhase,
+          initialGame2
         ) shouldBe HandlerResponse.Success
       }
 
@@ -161,6 +206,34 @@ class HandlerSpec extends AnyWordSpec with Matchers {
           new PlayCardPhase,
           game
         ) shouldBe HandlerResponse.InvalidPlantError
+      }
+
+      "return Success if there is no bean on the beanfield yet." in {
+        val noBeanPlayer = Player(
+          name = "Player1",
+          coins = 0,
+          beanFields = List(
+            BeanField(None)
+          ),
+          hand = Hand(List(Bean.BlueBean))
+        )
+        val game = Game(
+          players = List(noBeanPlayer),
+          deck = deck,
+          turnOverField = turnOverField,
+          currentPlayerIndex = 0
+        )
+        val args = Map(
+          HandlerKey.Method.key -> "plant",
+          HandlerKey.PlayerFieldIndex.key -> 0,
+          HandlerKey.BeanFieldIndex.key -> 0
+        )
+
+        handler.check(
+          args,
+          new PlayCardPhase,
+          game
+        ) shouldBe HandlerResponse.Success
       }
 
       "return Success if take is valid" in {
@@ -307,6 +380,40 @@ class HandlerSpec extends AnyWordSpec with Matchers {
 
     "MethodHandler" should {
       val handler = MethodHandler(None)
+
+      "return MissingPlayerCreationError if no player is created on method next in GameInitializationPhase " in {
+        val args = Map(HandlerKey.Method.key -> "next")
+        val initialGame = Game(
+          players = List.empty,
+          deck = d,
+          turnOverField = t,
+          currentPlayerIndex = 0
+        )
+
+        handler.check(
+          args,
+          new GameInitializationPhase,
+          initialGame
+        ) shouldBe HandlerResponse.MissingPlayerCreationError
+      }
+
+      "return Success if method is allowed in GameInitializationPhase " in {
+        val args1 = Map(HandlerKey.Method.key -> "next")
+
+        handler.check(
+          args1,
+          new GameInitializationPhase,
+          initialGame
+        ) shouldBe HandlerResponse.Success
+
+        val args2 = Map(HandlerKey.Method.key -> "createPlayer")
+
+        handler.check(
+          args2,
+          new GameInitializationPhase,
+          initialGame
+        ) shouldBe HandlerResponse.Success
+      }
 
       "return MethodError if method is not allowed in PlayCardPhase" in {
         val args = Map(HandlerKey.Method.key -> "invalidMethod")

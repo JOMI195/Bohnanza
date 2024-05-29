@@ -17,6 +17,7 @@ enum HandlerResponse {
   case TurnOverFieldIndexError
   case TakeInvalidPlantError
   case InvalidPlantError
+  case MissingPlayerCreationError
   case HandIndexError
   case MethodError
   case ArgsError
@@ -247,6 +248,15 @@ case class MethodHandler(next: Option[HandlerTemplate])
     args.get(HandlerKey.Method.key) match {
       case Some(method) => {
         phase match {
+          case _: GameInitializationPhase => {
+            if (method == "createPlayer" || method == "next") {
+              if (game.players.isEmpty) {
+                return HandlerResponse.MissingPlayerCreationError
+              }
+              return HandlerResponse.Success
+            }
+            return HandlerResponse.MethodError
+          }
           case _: PlayCardPhase => {
             // remove draw, turn and take in future! Now only for debugging purposes!!!
             if (
