@@ -1,7 +1,7 @@
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
 import bohnanza.controller.Controller
-import bohnanza.model.*
+import bohnanza.model._
 import bohnanza.util.Command
 import bohnanza.util.UndoManager
 
@@ -45,6 +45,15 @@ class UndoManagerSpec extends AnyWordSpec with Matchers {
         undoManager.undoStack shouldBe empty
         undoManager.redoStack.headOption shouldBe Some(command)
       }
+
+      "do nothing when the undo stack is empty" in {
+        val undoManager = new UndoManager()
+
+        undoManager.undoStep
+
+        undoManager.undoStack shouldBe empty
+        undoManager.redoStack shouldBe empty
+      }
     }
 
     "performing redoStep" should {
@@ -61,6 +70,15 @@ class UndoManagerSpec extends AnyWordSpec with Matchers {
 
         undoManager.redoStack shouldBe empty
         undoManager.undoStack.headOption shouldBe Some(command)
+      }
+
+      "do nothing when the redo stack is empty" in {
+        val undoManager = new UndoManager()
+
+        undoManager.redoStep
+
+        undoManager.undoStack shouldBe empty
+        undoManager.redoStack shouldBe empty
       }
     }
   }
