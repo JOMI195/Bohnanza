@@ -30,6 +30,63 @@ class TuiSpec extends AnyWordSpec with Matchers {
 
   "The Tui class" should {
 
+    "undo" when {
+      val msg = "Usage: undo"
+
+      "process undo command with no arguments" in {
+        val input = "undo"
+        tui.processInputLine(input) shouldBe None
+      }
+
+      "process undo command with arguments" in {
+        val input = "undo 1"
+        tui.processInputLine(input) shouldBe Some(msg)
+      }
+
+      "process undo command with invalid arguments" in {
+        val input = "undo invalid"
+        tui.processInputLine(input) shouldBe Some(errorMessage + msg)
+      }
+    }
+
+    "redo" when {
+      val msg = "Usage: redo"
+
+      "process redo command with no arguments" in {
+        val input = "redo"
+        tui.processInputLine(input) shouldBe None
+      }
+
+      "process redo command with arguments" in {
+        val input = "redo 1"
+        tui.processInputLine(input) shouldBe Some(msg)
+      }
+
+      "process redo command with invalid arguments" in {
+        val input = "redo invalid"
+        tui.processInputLine(input) shouldBe Some(errorMessage + msg)
+      }
+    }
+
+    "next" when {
+      val msg = "Usage: next"
+
+      "process next command with no arguments" in {
+        val input = "next"
+        tui.processInputLine(input) shouldBe None
+      }
+
+      "process next command with arguments" in {
+        val input = "next 1"
+        tui.processInputLine(input) shouldBe Some(msg)
+      }
+
+      "process next command with invalid arguments" in {
+        val input = "next invalid"
+        tui.processInputLine(input) shouldBe Some(errorMessage + msg)
+      }
+    }
+
     "draw" when {
       val msg = "Usage: draw [playerIndex]"
       "process draw command with valid player index" in {
@@ -265,23 +322,23 @@ class TuiSpec extends AnyWordSpec with Matchers {
       "handle PhaseChange event" in {
         val playCardStream = new java.io.ByteArrayOutputStream()
         controller.phase = PlayCardPhase()
-        val startPlayCard =
-          s"The phase changed to ${controller.phase}.\n" + "The allowed method is: \n"
         Console.withOut(playCardStream) {
           controller.notifyObservers(ObserverEvent.PhaseChange)
         }
         playCardStream
           .toString()
           .trim()
-          .replaceAll("\r\n", "\n") shouldBe (startPlayCard + " - harvest\n" +
-          " - plant\n" +
-          " - draw\n" +
-          " - turn\n").trim()
+          .replaceAll("\r\n", "\n") shouldBe (
+          "Phase: PlayCardPhase\n" +
+            "The allowed methods are:\n" +
+            " - harvest\n" +
+            " - plant\n" +
+            " - draw\n" +
+            " - turn\n"
+        ).trim()
 
         val tradeAndPlantStream = new java.io.ByteArrayOutputStream()
         controller.phase = TradeAndPlantPhase()
-        val startTradeAndPlant =
-          s"The phase changed to ${controller.phase}.\n" + "The allowed method is: \n"
         Console.withOut(tradeAndPlantStream) {
           controller.notifyObservers(ObserverEvent.PhaseChange)
         }
@@ -291,13 +348,15 @@ class TuiSpec extends AnyWordSpec with Matchers {
           .replaceAll(
             "\r\n",
             "\n"
-          ) shouldBe (startTradeAndPlant + " - harvest\n" +
-          " - plant\n").trim()
+          ) shouldBe (
+          "Phase: TradeAndPlantPhase\n" +
+            "The allowed methods are:\n" +
+            " - harvest\n" +
+            " - plant\n"
+        ).trim()
 
         val drawCardPhaseStream = new java.io.ByteArrayOutputStream()
         controller.phase = DrawCardsPhase()
-        val startDrawCards =
-          s"The phase changed to ${controller.phase}.\n" + "The allowed method is: \n"
         Console.withOut(drawCardPhaseStream) {
           controller.notifyObservers(ObserverEvent.PhaseChange)
         }
@@ -307,8 +366,9 @@ class TuiSpec extends AnyWordSpec with Matchers {
           .replaceAll(
             "\r\n",
             "\n"
-          ) shouldBe (startDrawCards + "No method is allowed here,\n" +
-          "because everything is done automatically for you. :)").trim()
+          ) shouldBe (
+          "No method is allowed here, because everything is done automatically for you. :)\n"
+        ).trim()
 
         controller.phase = PlayCardPhase()
       }
