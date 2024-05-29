@@ -249,11 +249,11 @@ case class MethodHandler(next: Option[HandlerTemplate])
       case Some(method) => {
         phase match {
           case _: GameInitializationPhase => {
-            val isPhaseChangeValid = method == "next" && !game.players.isEmpty
-            if (method == "createPlayer" || isPhaseChangeValid) {
+            if (method == "createPlayer" || method == "next") {
+              if (game.players.isEmpty) {
+                return HandlerResponse.MissingPlayerCreationError
+              }
               return HandlerResponse.Success
-            } else if (method == "next" && !isPhaseChangeValid) {
-              return HandlerResponse.MissingPlayerCreationError
             }
             return HandlerResponse.MethodError
           }

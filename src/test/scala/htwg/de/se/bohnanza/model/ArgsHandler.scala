@@ -308,6 +308,40 @@ class HandlerSpec extends AnyWordSpec with Matchers {
     "MethodHandler" should {
       val handler = MethodHandler(None)
 
+      "return MissingPlayerCreationError if no player is created on method next in GameInitializationPhase " in {
+        val args = Map(HandlerKey.Method.key -> "next")
+        val initialGame = Game(
+          players = List.empty,
+          deck = d,
+          turnOverField = t,
+          currentPlayerIndex = 0
+        )
+
+        handler.check(
+          args,
+          new GameInitializationPhase,
+          initialGame
+        ) shouldBe HandlerResponse.MissingPlayerCreationError
+      }
+
+      "return Success if method is allowed in GameInitializationPhase " in {
+        val args1 = Map(HandlerKey.Method.key -> "next")
+
+        handler.check(
+          args1,
+          new GameInitializationPhase,
+          initialGame
+        ) shouldBe HandlerResponse.Success
+
+        val args2 = Map(HandlerKey.Method.key -> "createPlayer")
+
+        handler.check(
+          args2,
+          new GameInitializationPhase,
+          initialGame
+        ) shouldBe HandlerResponse.Success
+      }
+
       "return MethodError if method is not allowed in PlayCardPhase" in {
         val args = Map(HandlerKey.Method.key -> "invalidMethod")
 
