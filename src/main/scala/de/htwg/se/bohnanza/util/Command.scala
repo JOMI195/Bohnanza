@@ -3,7 +3,7 @@ package bohnanza.util
 import bohnanza.controller.Controller
 
 abstract class Command(controller: Controller) {
-  val memento: Memento = Memento(controller.game, controller.phase)
+  val memento: GameMemento = GameMemento(controller.game, controller.phase)
   def doStep: Unit
   def undoStep: Unit = {
     controller.game = memento.game
