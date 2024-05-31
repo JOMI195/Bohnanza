@@ -1,0 +1,4 @@
+.root {
+    -fx-background-image: url('/images/playerCreation/background.jpeg');
+    -fx-background-size: cover;
+}

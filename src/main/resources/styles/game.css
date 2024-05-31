@@ -1,0 +1,4 @@
+.root {
+    -fx-background-image: url('/images/game/background.jpeg');
+    -fx-background-size: cover;
+}
