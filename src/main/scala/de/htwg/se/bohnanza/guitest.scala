@@ -7,23 +7,12 @@ import scalafx.scene.control.Button
 import scalafx.scene.layout.{BorderPane, HBox}
 import scalafx.scene.paint.Color
 import scalafx.scene.text.Text
-import scalafx.scene.image.{Image, ImageView}
 
-object ScalaFXGameStartScreen extends JFXApp3 {
+object Guitest extends JFXApp3 {
   override def start(): Unit = {
 
-    // Load background image
-    val backgroundImage = new Image(
-      getClass.getResourceAsStream("/background.jpeg")
-    )
-    val backgroundImageView = new ImageView(backgroundImage)
-
     // Load CSS file
-    /* val cssFile = getClass
-      .getResource(
-        "C://Users//johan//Documents//GitHub//Bohnanza//src//main//scala//de//htwg//se//bohnanza//styles.css"
-      )
-      .toExternalForm */
+    val cssFile = getClass.getResource("/styles.css").toExternalForm
 
     // Create start screen
     val startButton = new Button("Start")
@@ -38,11 +27,9 @@ object ScalaFXGameStartScreen extends JFXApp3 {
 
     val startScreen = new BorderPane()
     startScreen.center = startLayout
-    /* startScreen.style =
-      "-fx-background-image: url('" + backgroundImage + "'); -fx-background-size: cover;"
-     */
+
     // Apply CSS to the scene
-    // startScreen.getStylesheets.add(cssFile)
+    startScreen.getStylesheets.add(cssFile)
 
     // Create game screen
     val gameText = new Text("Game Screen")
@@ -55,6 +42,7 @@ object ScalaFXGameStartScreen extends JFXApp3 {
       stage.scene = new Scene {
         fill = Color.White
         content = startScreen
+        stylesheets.add(cssFile)
       }
 
     // Create instructions screen
@@ -67,24 +55,29 @@ object ScalaFXGameStartScreen extends JFXApp3 {
     backButtonInstructions.onAction = _ =>
       stage.scene = new Scene {
         content = startScreen
+        stylesheets.add(cssFile)
       }
 
     startButton.onAction = _ =>
       stage.scene = new Scene {
         content = gameLayout
+        stylesheets.add(cssFile)
       }
 
     infoButton.onAction = _ =>
       stage.scene = new Scene {
         content = instructionsLayout
+        stylesheets.add(cssFile)
       }
 
     // Create primary stage and set the start screen
     stage = new JFXApp3.PrimaryStage {
-      title = "ScalaFX Game Start Screen"
+      title = "Bohnanza"
       width = 900
       height = 600
-      scene = new Scene(startScreen)
+      scene = new Scene(startScreen) {
+        stylesheets.add(cssFile)
+      }
     }
   }
 }

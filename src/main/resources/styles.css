@@ -1,0 +1,18 @@
+.root {
+    -fx-background-image: url('/background.jpeg');
+    -fx-background-size: cover;
+}
+
+.start-button {
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+.info-button {
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+    -fx-background-color: #008CBA;
+    -fx-text-fill: white;
+}
