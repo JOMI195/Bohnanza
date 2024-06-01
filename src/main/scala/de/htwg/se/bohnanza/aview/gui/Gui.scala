@@ -17,16 +17,6 @@ import scalafx.application.JFXApp3.PrimaryStage
 
 class Gui(controller: Controller) extends JFXApp3 with Observer {
 
-  lazy val playerCreationScene: Scene = new Scene(windowWidth, windowHeight) {
-    root = new VBox(0) {
-      fillWidth = false
-      alignment = Pos.CENTER
-      children = Seq(
-        CreatePlayerCard(controller)
-      )
-    }
-  }
-
   lazy val startScene: Scene = new Scene(windowWidth, windowHeight) {
     val resourceImagesUrl = "/images/start/"
 
@@ -62,14 +52,27 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
     }
   }
 
+  lazy val playerCreationScene: Scene = new Scene(windowWidth, windowHeight) {
+    root = new VBox(0) {
+      fillWidth = false
+      alignment = Pos.CENTER
+      children = Seq(
+        CreatePlayerCard(controller)
+      )
+    }
+  }
+
   lazy val gamePlayerScene: Scene = new Scene(windowWidth, windowHeight) {
     val gameLabel = new Label("This is the Game View")
     val backButton = new Button("Back to Start")
+    val playersBar = new PlayersBar(players = controller.game.players)
 
     root = new VBox(20) {
+      alignment = Pos.CENTER
       children = Seq(
         gameLabel,
-        backButton
+        backButton,
+        playersBar
       )
     }
 

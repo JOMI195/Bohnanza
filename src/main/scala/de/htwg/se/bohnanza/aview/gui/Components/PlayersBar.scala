@@ -8,12 +8,12 @@ import scalafx.scene.paint.Color
 import bohnanza.model.Player
 import scalafx.geometry.Pos
 
-def getRandomAvatar(): Image = {
+/* def getRandomAvatar(): Image = {
   val directory = new File("images/game/")
   val files = directory.listFiles()
   val randomIndex = Random.nextInt(files.length)
   new Image(files(randomIndex).toURI.toString)
-}
+} */
 
 class PlayersBar(players: List[Player]) extends HBox {
 
