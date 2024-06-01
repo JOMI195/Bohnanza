@@ -20,7 +20,7 @@ class Coins(controller: Controller, scaleImage: Float, scaleFont: Float)
   val coinCountText: Text = new Text {
     text = "3 Coins"
     style = s"-fx-font-size: ${scaleFont * 20};" +
-      "-fx-fill: #7A2626;" +
+      "-fx-fill: #7A2626;"
   }
 
   val coinCountBox = new VBox {

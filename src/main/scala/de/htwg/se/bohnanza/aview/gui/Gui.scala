@@ -27,7 +27,6 @@ object Styles {
     getClass.getResource("/styles/playerCreation.css").toExternalForm
   val gameCss = getClass.getResource("/styles/game.css").toExternalForm
 }
-import de.htwg.se.bohnanza.aview.gui.Components.Coins
 
 class Gui(controller: Controller) extends JFXApp3 with Observer {
 
