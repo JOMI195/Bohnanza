@@ -18,8 +18,6 @@ class PlayersBar(controller: Controller) extends HBox {
   padding = Insets(10)
   spacing = 10
 
-  println("dvjdfvdfvdfvbdfbdfbjdfbdfibdf")
-  println(controller.game.players)
   controller.game.players.zipWithIndex.foreach { case (player, index) =>
     val avatar = new Circle {
       radius = 50
