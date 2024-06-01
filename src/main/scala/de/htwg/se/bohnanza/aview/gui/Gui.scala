@@ -121,7 +121,7 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
 
     // Primary Stage
     stage = new JFXApp3.PrimaryStage {
-      resizable = false
+      resizable = true
       icons += new Image(getClass().getResourceAsStream("/images/gameIcon.png"))
       title = "Bohnanza"
       scene = startScene
