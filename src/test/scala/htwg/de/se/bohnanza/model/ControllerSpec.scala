@@ -8,12 +8,12 @@ import bohnanza.controller.*
 val initialPlayer =
   Player(
     "Player1",
-    List(BeanField(Option(Bean.Firebean), 4)),
+    List(BeanField(Option(Bean.ChiliBean), 4)),
     0,
-    Hand(List(Bean.Firebean))
+    Hand(List(Bean.ChiliBean))
   )
 val initialPlayers = List(initialPlayer)
-val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
+val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
 val test = TurnOverField(List.empty)
 val initialGame = Game(initialPlayers, 0, initialDeck, test)
 
@@ -61,8 +61,8 @@ class ControllerSpec extends AnyWordSpec with Matchers {
 
   "take" in {
     val initialPlayers = List(initialPlayer)
-    val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
-    val test = TurnOverField(List(Bean.Firebean, Bean.Firebean))
+    val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
+    val test = TurnOverField(List(Bean.ChiliBean, Bean.ChiliBean))
     val initialGame = Game(initialPlayers, 0, initialDeck, test)
     val controller = Controller(initialGame, phase = TradeAndPlantPhase())
     val quantityBeforePlant = controller.game.players(0).beanFields(0).quantity
@@ -85,8 +85,8 @@ class ControllerSpec extends AnyWordSpec with Matchers {
 
     "next" in {
       val initialPlayers = List.empty
-      val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
-      val test = TurnOverField(List(Bean.Firebean, Bean.Firebean))
+      val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
+      val test = TurnOverField(List(Bean.ChiliBean, Bean.ChiliBean))
       val initialGame = Game(initialPlayers, 0, initialDeck, test)
       val controller = Controller(initialGame)
       controller.nextPhase
@@ -95,7 +95,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
 
     "createPlayer" in {
       val initialPlayers = List.empty
-      val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
+      val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
       val test = TurnOverField(List.empty)
       val initialGame = Game(initialPlayers, 0, initialDeck, test)
       val controller = Controller(initialGame, phase = PlayCardPhase())

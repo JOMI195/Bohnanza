@@ -1,4 +1,4 @@
-package bohnanza.aview.gui.components
+package bohnanza.aview.gui.components.global
 
 import scalafx.animation.TranslateTransition
 import scalafx.scene.control.Button

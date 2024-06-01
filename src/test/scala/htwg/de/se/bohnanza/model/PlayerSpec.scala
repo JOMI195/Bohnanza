@@ -17,49 +17,49 @@ class PlayerSpec extends AnyWordSpec with Matchers {
       }
 
       "hand is not empty and beanFields are empty" in {
-        val initialCards = List(Bean.Firebean, Bean.BlueBean)
+        val initialCards = List(Bean.ChiliBean, Bean.BlueBean)
         val player =
           Player("TestPlayer", List(BeanField(None)), 0, Hand(initialCards))
         val expectedString =
-          "Player TestPlayer | coins: 0 |\n- Hand: | Firebean | BlueBean |\n- Beanfields: | empty |\n"
+          "Player TestPlayer | coins: 0 |\n- Hand: | ChiliBean | BlueBean |\n- Beanfields: | empty |\n"
         player.toString should be(expectedString)
       }
 
       "hand is empty and beanFields are not empty" in {
         val player = Player(
           "TestPlayer",
-          List(BeanField(Option(Bean.Firebean), 3)),
+          List(BeanField(Option(Bean.ChiliBean), 3)),
           0,
           Hand(List.empty)
         )
         val expectedString =
-          "Player TestPlayer | coins: 0 |\n- Hand: | empty |\n- Beanfields: | Firebean x3 |\n"
+          "Player TestPlayer | coins: 0 |\n- Hand: | empty |\n- Beanfields: | ChiliBean x3 |\n"
         player.toString should be(expectedString)
       }
 
       "hand and beanFields are not empty" in {
-        val initialCards = List(Bean.Firebean, Bean.BlueBean)
+        val initialCards = List(Bean.ChiliBean, Bean.BlueBean)
         val player = Player(
           "TestPlayer",
-          List(BeanField(Option(Bean.Firebean), 3)),
+          List(BeanField(Option(Bean.ChiliBean), 3)),
           0,
           Hand(initialCards)
         )
         val expectedString =
-          "Player TestPlayer | coins: 0 |\n- Hand: | Firebean | BlueBean |\n- Beanfields: | Firebean x3 |\n"
+          "Player TestPlayer | coins: 0 |\n- Hand: | ChiliBean | BlueBean |\n- Beanfields: | ChiliBean x3 |\n"
         player.toString should be(expectedString)
       }
     }
 
     "cards list is not empty" in {
-      val initialCards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean)
+      val initialCards = List(Bean.ChiliBean, Bean.ChiliBean, Bean.ChiliBean)
       val player = Player("TestPlayer", List.empty, 0, Hand(initialCards))
 
       val (poppedCard, updatedHand) = player.hand.popCard()
       val updatedPlayer = player.copy(hand = updatedHand)
 
-      poppedCard should be(Some(Bean.Firebean))
-      updatedPlayer.hand.cards should be(List(Bean.Firebean, Bean.Firebean))
+      poppedCard should be(Some(Bean.ChiliBean))
+      updatedPlayer.hand.cards should be(List(Bean.ChiliBean, Bean.ChiliBean))
     }
 
     "cards list is empty" in {
@@ -74,14 +74,14 @@ class PlayerSpec extends AnyWordSpec with Matchers {
 
     "plant a card from cards" when {
       "cards list is not empty" in {
-        val initialCards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean)
+        val initialCards = List(Bean.ChiliBean, Bean.ChiliBean, Bean.ChiliBean)
         val initialPlayer =
           Player("TestPlayer", List(BeanField(None)), 0, Hand(initialCards))
 
         val updatedPlayer = initialPlayer.plantCardFromHand(0)
 
-        updatedPlayer.beanFields(0).bean should be(Some(Bean.Firebean))
-        updatedPlayer.hand.cards should be(List(Bean.Firebean, Bean.Firebean))
+        updatedPlayer.beanFields(0).bean should be(Some(Bean.ChiliBean))
+        updatedPlayer.hand.cards should be(List(Bean.ChiliBean, Bean.ChiliBean))
       }
 
       "cards list is empty" in {
@@ -99,7 +99,7 @@ class PlayerSpec extends AnyWordSpec with Matchers {
       val initialPlayer =
         Player(
           "TestPlayer",
-          List(BeanField(Option(Bean.Firebean), 4)),
+          List(BeanField(Option(Bean.ChiliBean), 4)),
           0,
           Hand(initialCards)
         )
@@ -114,12 +114,12 @@ class PlayerSpec extends AnyWordSpec with Matchers {
       val initialPlayer =
         Player(
           "TestPlayer",
-          List(BeanField(Option(Bean.Firebean), 3)),
+          List(BeanField(Option(Bean.ChiliBean), 3)),
           0,
           Hand(initialCards)
         )
 
-      val updatedPlayer = initialPlayer.plantToField(Bean.Firebean, 0)
+      val updatedPlayer = initialPlayer.plantToField(Bean.ChiliBean, 0)
       updatedPlayer.beanFields.head.quantity shouldBe 4
     }
   }

@@ -6,7 +6,7 @@ import scalafx.scene.layout.{VBox}
 import bohnanza.controller.Controller
 import scalafx.geometry.Pos
 import bohnanza.aview.gui.Styles
-import bohnanza.aview.gui.components.*
+import bohnanza.aview.gui.components.global.*
 
 case class GamePlayerScene(
     controller: Controller,

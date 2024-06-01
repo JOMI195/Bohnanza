@@ -4,17 +4,11 @@ import scalafx.scene.Scene
 import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.{VBox}
 import bohnanza.controller.Controller
-import bohnanza.aview.gui.components.PlayersBar
 import scalafx.geometry.Pos
-import bohnanza.aview.gui.components.GameButtonFactory
 import bohnanza.aview.gui.Styles
 import bohnanza.aview.gui.utils.ImageUtils.importImage
-import bohnanza.aview.gui.components.CreatePlayerCard
-import bohnanza.aview.gui.components.{
-  CreatePlayerCard,
-  GameButtonFactory,
-  PlayersBar
-}
+import bohnanza.aview.gui.components.global.*
+import bohnanza.aview.gui.components.playerCreation.CreatePlayerCard
 
 case class PlayerCreateScene(
     controller: Controller,

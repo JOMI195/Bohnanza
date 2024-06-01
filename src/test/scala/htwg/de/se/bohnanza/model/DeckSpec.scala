@@ -8,13 +8,13 @@ class DeckSpec extends AnyWordSpec with Matchers {
 
   "A Deck" should {
     "draw from a non-empty deck" in {
-      val initialCards = List(Bean.Firebean, Bean.Firebean, Bean.Firebean)
+      val initialCards = List(Bean.ChiliBean, Bean.ChiliBean, Bean.ChiliBean)
       val initialDeck = Deck(initialCards)
 
       val (drawnCard, updatedDeck) = initialDeck.draw()
 
-      drawnCard should matchPattern { case Some(Bean.Firebean) => }
-      updatedDeck should be(Deck(List(Bean.Firebean, Bean.Firebean)))
+      drawnCard should matchPattern { case Some(Bean.ChiliBean) => }
+      updatedDeck should be(Deck(List(Bean.ChiliBean, Bean.ChiliBean)))
     }
 
     "not draw from an empty deck" in {
@@ -30,20 +30,21 @@ class DeckSpec extends AnyWordSpec with Matchers {
 
 class DeckCreateStragtegyTemplateSpec extends AnyWordSpec with Matchers {
   "A DeckCreateStategyTemplate" should {
-    "fill cards with only FireBean cards" in {
-      val singleFireBeanDeckCreater = SingleFireBeanDeckCreateStrategy()
-      val cards = singleFireBeanDeckCreater.fill()
-      val expectedOutput = List.fill(Bean.Firebean.frequency)(Bean.Firebean)
-      Bean.Firebean.frequency shouldBe expectedOutput.length
+    "fill cards with only ChiliBean cards" in {
+      val singleChiliBeanDeckCreater = SingleChiliBeanDeckCreateStrategy()
+      val cards = singleChiliBeanDeckCreater.fill()
+      val expectedOutput = List.fill(Bean.ChiliBean.frequency)(Bean.ChiliBean)
+      Bean.ChiliBean.frequency shouldBe expectedOutput.length
       cards shouldBe expectedOutput
     }
 
     "fill cards with all cards that are available" in {
       val fullDeckCreator = FullDeckCreateStrategy()
       val cards = fullDeckCreator.fill()
-      val expectedOutput = List.fill(Bean.Firebean.frequency)(Bean.Firebean) ++
-        List.fill(Bean.BlueBean.frequency)(Bean.BlueBean)
-      Bean.Firebean.frequency + Bean.BlueBean.frequency shouldBe expectedOutput.length
+      val expectedOutput =
+        List.fill(Bean.ChiliBean.frequency)(Bean.ChiliBean) ++
+          List.fill(Bean.BlueBean.frequency)(Bean.BlueBean)
+      Bean.ChiliBean.frequency + Bean.BlueBean.frequency shouldBe expectedOutput.length
       cards shouldBe expectedOutput
     }
   }

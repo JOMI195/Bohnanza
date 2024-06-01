@@ -18,6 +18,7 @@ import bohnanza.aview.gui.scenes.GamePlayerScene
 import bohnanza.aview.gui.scenes.StartScene
 import bohnanza.aview.gui.scenes.PlayerCreateScene
 import bohnanza.aview.gui.scenes.GameInfoScene
+import scalafx.application.Platform
 
 object Styles {
   val baseCss = getClass.getResource("/styles/base.css").toExternalForm
@@ -107,20 +108,29 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
   override def update(event: ObserverEvent): Unit = {
     event match {
       case ObserverEvent.StartGame => {
-        gamePlayerScene = gamePlayerScene.copy(controller = controller)
-        gameInfoScene = gameInfoScene.copy(controller = controller)
+        updateControllerOfScenes()
         stage.setScene(gamePlayerScene)
       }
-      case ObserverEvent.PhaseChange  =>
-      case ObserverEvent.Plant        =>
-      case ObserverEvent.Harvest      =>
-      case ObserverEvent.Take         =>
-      case ObserverEvent.GameInfo     =>
-      case ObserverEvent.Draw         =>
+      case ObserverEvent.PhaseChange =>
+      case ObserverEvent.Plant       =>
+      case ObserverEvent.Harvest     =>
+      case ObserverEvent.Take        =>
+      case ObserverEvent.GameInfo    =>
+      case ObserverEvent.Draw => {
+        Platform.runLater(() => {
+          updateControllerOfScenes()
+          stage.setScene(gameInfoScene)
+        })
+      }
       case ObserverEvent.Turn         =>
       case ObserverEvent.Undo         =>
       case ObserverEvent.Redo         =>
       case ObserverEvent.CreatePlayer => println("gui: playerCreated")
     }
+  }
+
+  def updateControllerOfScenes(): Unit = {
+    gamePlayerScene = gamePlayerScene.copy(controller = controller)
+    gameInfoScene = gameInfoScene.copy(controller = controller)
   }
 }

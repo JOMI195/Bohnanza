@@ -1,4 +1,4 @@
-package bohnanza.aview.gui.components
+package bohnanza.aview.gui.components.global
 
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.scene.control.{Button, Label}
@@ -10,7 +10,7 @@ import bohnanza.model.Player
 import scalafx.geometry.Pos
 import java.io.File
 import scala.util.Random
-import bohnanza.aview.gui.components.GameButtonFactory
+import bohnanza.aview.gui.components.global.GameButtonFactory
 import bohnanza.controller.Controller
 
 class PlayersBar(controller: Controller) extends HBox {
