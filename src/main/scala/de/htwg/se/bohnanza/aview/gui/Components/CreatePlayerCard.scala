@@ -58,6 +58,6 @@ class CreatePlayerCard(controller: Controller) extends VBox {
   children.addAll(playerTextInputFieldVBox, startButtonBox)
 
   def getPlayerNames(): Seq[String] = {
-    playerTextInputFields.map(_.text.value)
+    playerTextInputFields.map(_.text.value).filter(!_.isEmpty())
   }
 }

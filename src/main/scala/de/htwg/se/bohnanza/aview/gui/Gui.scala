@@ -76,7 +76,24 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
       )
     }
 
-    backButton.onAction = () => stage.setScene(startScene)
+    backButton.onAction = () => stage.setScene(gameInfoScene)
+  }
+
+  lazy val gameInfoScene: Scene = new Scene(windowWidth, windowHeight) {
+    val goBackToGameButton =
+      GameButtonFactory.createGameButton("Go Back", width = 120, height = 50) {
+        () => stage.setScene(gamePlayerScene)
+      }
+    goBackToGameButton.style = "-fx-font-size: 16; -fx-background-radius: 20;"
+
+    root = new VBox(20) {
+      alignment = Pos.CENTER
+      children = Seq(
+        goBackToGameButton
+      )
+    }
+
+    // backButton.onAction = () => stage.setScene(startScene)
   }
 
   controller.add(this)
@@ -121,6 +138,10 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
 
     gamePlayerScene.getStylesheets.add(baseCss)
     gamePlayerScene.getStylesheets.add(gameCss)
+
+    // Game Info View
+    gameInfoScene.getStylesheets.add(baseCss)
+    gameInfoScene.getStylesheets.add(gameCss)
 
     // Primary Stage
     stage = new JFXApp3.PrimaryStage {

@@ -26,7 +26,7 @@ object Bohnanza {
     new Thread(() => {
       gui.main(Array.empty)
     }).start()
-    
+
     var input: String = ""
     println("Starting new game...")
     println(
