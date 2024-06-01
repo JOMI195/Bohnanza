@@ -1,3 +1,5 @@
+package bohnanza.aview.gui.components
+
 import scalafx.animation.TranslateTransition
 import scalafx.scene.control.Button
 import scalafx.util.Duration
