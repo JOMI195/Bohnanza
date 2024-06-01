@@ -13,8 +13,68 @@ import bohnanza.util.Observer
 import bohnanza.controller.Controller
 import bohnanza.util.ObserverEvent
 import bohnanza.model.HandlerResponse
+import scalafx.application.JFXApp3.PrimaryStage
 
 class Gui(controller: Controller) extends JFXApp3 with Observer {
+
+  lazy val playerCreationScene: Scene = new Scene(windowWidth, windowHeight) {
+    root = new VBox(0) {
+      fillWidth = false
+      alignment = Pos.CENTER
+      children = Seq(
+        CreatePlayerCard(controller)
+      )
+    }
+  }
+
+  lazy val startScene: Scene = new Scene(windowWidth, windowHeight) {
+    val resourceImagesUrl = "/images/start/"
+
+    /** BUTTON */
+    val playButton = GameButtonFactory.createGameButton(
+      text = "Play",
+      width = 350,
+      height = 70
+    ) { () =>
+      stage.setScene(playerCreationScene)
+    }
+
+    val playButtonBox = new VBox(0) {
+      alignment = Pos.BOTTOM_CENTER
+      children = Seq(playButton)
+    }
+    playButtonBox.prefHeight = 180
+
+    /** IMAGE */
+    val titleImage = importImage(resourceImagesUrl + "title.png", 0.6)
+    val titleBox = new VBox(0) {
+      alignment = Pos.BOTTOM_CENTER
+      children = Seq(titleImage)
+    }
+    titleBox.prefHeight = windowHeight / 2
+
+    root = new VBox(0) {
+      alignment = Pos.TOP_CENTER
+      children = Seq(
+        titleBox,
+        playButtonBox
+      )
+    }
+  }
+
+  lazy val gamePlayerScene: Scene = new Scene(windowWidth, windowHeight) {
+    val gameLabel = new Label("This is the Game View")
+    val backButton = new Button("Back to Start")
+
+    root = new VBox(20) {
+      children = Seq(
+        gameLabel,
+        backButton
+      )
+    }
+
+    backButton.onAction = () => stage.setScene(startScene)
+  }
 
   controller.add(this)
 
@@ -46,83 +106,16 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
   /** Defines and draws the layout of the Game GUI */
   override def start(): Unit = {
     // start View
-    lazy val startScene: Scene = new Scene(windowWidth, windowHeight) {
-      val resourceImagesUrl = "/images/start/"
-
-      /** BUTTON */
-      val startButton = GameButtonFactory.createGameButton(
-        text = "Play",
-        width = 350,
-        height = 70
-      ) {
-        stage.setScene(playerCreationScene)
-      }
-
-      val startButtonBox = new VBox(0) {
-        alignment = Pos.BOTTOM_CENTER
-        children = Seq(startButton)
-      }
-      startButtonBox.prefHeight = 180
-
-      /** IMAGE */
-      val titleImage = importImage(resourceImagesUrl + "title.png", 0.6)
-      val titleBox = new VBox(0) {
-        alignment = Pos.BOTTOM_CENTER
-        children = Seq(titleImage)
-      }
-      titleBox.prefHeight = windowHeight / 2
-
-      root = new VBox(0) {
-        alignment = Pos.TOP_CENTER
-        children = Seq(
-          titleBox,
-          startButtonBox
-        )
-      }
-    }
     startScene.getStylesheets.add(baseCss)
     startScene.getStylesheets.add(startCss)
 
     // Player Creation View
-    lazy val playerCreationScene: Scene = new Scene(windowWidth, windowHeight) {
-      val startButton = GameButtonFactory.createGameButton(
-        text = "Start",
-        width = 350,
-        height = 70
-      ) {
-        stage.setScene(gamePlayerScene)
-      }
 
-      val startButtonBox = new VBox(0) {
-        alignment = Pos.TOP_CENTER
-        children = Seq(startButton)
-      }
-      startButtonBox.prefHeight = 180
-
-      root = new VBox(0) {
-        alignment = Pos.BOTTOM_CENTER
-        children = Seq(
-          startButtonBox
-        )
-      }
-    }
     playerCreationScene.getStylesheets.add(baseCss)
     playerCreationScene.getStylesheets.add(playerCreationCss)
 
-    // Game Olayer View
-    lazy val gamePlayerScene: Scene = new Scene(windowWidth, windowHeight) {
-      val gameLabel = new Label("This is the Game View")
-      val backButton = new Button("Back to Start")
+    // Game Player View
 
-      root = new VBox(20) {
-        children = Seq(
-          gameLabel,
-          backButton
-        )
-      }
-
-      backButton.onAction = () => stage.setScene(startScene)
-    }
     gamePlayerScene.getStylesheets.add(baseCss)
     gamePlayerScene.getStylesheets.add(gameCss)
 
@@ -153,6 +146,7 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
   }
   override def update(event: ObserverEvent): Unit = {
     event match {
+      case ObserverEvent.StartGame    => stage.setScene(gamePlayerScene)
       case ObserverEvent.PhaseChange  =>
       case ObserverEvent.Plant        =>
       case ObserverEvent.Harvest      =>

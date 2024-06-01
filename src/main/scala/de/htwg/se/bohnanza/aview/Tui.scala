@@ -238,6 +238,7 @@ class Tui(controller: Controller) extends Observer {
       case ObserverEvent.Undo         => println(controller.game)
       case ObserverEvent.Redo         => println(controller.game)
       case ObserverEvent.CreatePlayer => println(controller.game)
+      case _                          =>
 
     }
   }

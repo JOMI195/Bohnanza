@@ -13,7 +13,7 @@ object GameButtonFactory {
       text: String,
       width: Double,
       height: Double
-  )(onFinishedAction: => Unit): Button = {
+  )(onFinishedAction: () => Unit): Button = {
     val button = new Button(text)
     button.prefWidth = width
     button.prefHeight = height
@@ -50,7 +50,7 @@ object GameButtonFactory {
 
     translateUpAnimation.onFinished = _ => {
       if (button.isHover) {
-        onFinishedAction
+        onFinishedAction()
       }
     }
 
