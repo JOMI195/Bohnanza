@@ -14,9 +14,9 @@ import bohnanza.controller.Controller
 import bohnanza.util.ObserverEvent
 import bohnanza.model.HandlerResponse
 import scalafx.application.JFXApp3.PrimaryStage
+import de.htwg.se.bohnanza.aview.gui.Components.Coins
 
 class Gui(controller: Controller) extends JFXApp3 with Observer {
-
   lazy val startScene: Scene = new Scene(windowWidth, windowHeight) {
     val resourceImagesUrl = "/images/start/"
 
@@ -89,7 +89,8 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
     root = new VBox(20) {
       alignment = Pos.CENTER
       children = Seq(
-        goBackToGameButton
+        goBackToGameButton,
+        Coins(controller, 0.5, 1.0)
       )
     }
 

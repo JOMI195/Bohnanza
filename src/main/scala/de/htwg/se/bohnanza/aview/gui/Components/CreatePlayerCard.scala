@@ -12,6 +12,8 @@ class CreatePlayerCard(controller: Controller) extends VBox {
   prefHeight = 450
   prefWidth = 450
   fillWidth = false
+  padding = Insets(top = 10, right = 20, bottom = 10, left = 20)
+  alignment = Pos.Center
 
   style = "-fx-background-color: #FFCD92;" +
     "-fx-background-radius: 36;"
@@ -24,9 +26,6 @@ class CreatePlayerCard(controller: Controller) extends VBox {
     text = "Name"
     alignmentInParent = Pos.BASELINE_LEFT
   }
-
-  padding = Insets(top = 10, right = 20, bottom = 10, left = 20)
-  alignment = Pos.Center
 
   children.addAll(createPlayersTitle, nameTitle)
 
