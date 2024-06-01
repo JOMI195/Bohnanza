@@ -65,7 +65,7 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
   lazy val gamePlayerScene: Scene = new Scene(windowWidth, windowHeight) {
     val gameLabel = new Label("This is the Game View")
     val backButton = new Button("Back to Start")
-    val playersBar = new PlayersBar(players = controller.game.players)
+    val playersBar = new PlayersBar(controller)
 
     root = new VBox(20) {
       alignment = Pos.CENTER

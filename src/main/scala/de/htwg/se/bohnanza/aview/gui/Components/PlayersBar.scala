@@ -2,36 +2,36 @@ package bohnanza.aview.gui.components
 
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.scene.control.{Button, Label}
-import scalafx.scene.shape.Circle
 import scalafx.geometry.Insets
 import scalafx.scene.paint.Color
+import scalafx.scene.image.Image
+import scalafx.scene.shape.Circle
 import bohnanza.model.Player
 import scalafx.geometry.Pos
+import java.io.File
+import scala.util.Random
+import bohnanza.aview.gui.components.GameButtonFactory
+import bohnanza.controller.Controller
 
-/* def getRandomAvatar(): Image = {
-  val directory = new File("images/game/")
-  val files = directory.listFiles()
-  val randomIndex = Random.nextInt(files.length)
-  new Image(files(randomIndex).toURI.toString)
-} */
-
-class PlayersBar(players: List[Player]) extends HBox {
+class PlayersBar(controller: Controller) extends HBox {
 
   padding = Insets(10)
   spacing = 10
 
-  val playersDummy = List(Player("JOMI"), Player("Daniel"))
-  playersDummy.foreach { player =>
+  println("dvjdfvdfvdfvbdfbdfbjdfbdfibdf")
+  println(controller.game.players)
+  controller.game.players.zipWithIndex.foreach { case (player, index) =>
     val avatar = new Circle {
       radius = 50
-      fill = Color.Blue
+      style = s"-fx-fill: url('/images/game/playerAvatar${index + 1}.jpeg')"
     }
+
     val changePlayerGameButton = GameButtonFactory.createGameButton(
       text = player.name,
       width = 100,
       height = 10
     ) { () => }
-    changePlayerGameButton.style = "-fx-font-size: 10"
+    changePlayerGameButton.style = "-fx-font-size: 10;"
 
     val playerBox = new VBox {
       alignment = Pos.TOP_CENTER
