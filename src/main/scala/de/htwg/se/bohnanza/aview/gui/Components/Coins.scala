@@ -1,4 +1,4 @@
-package de.htwg.se.bohnanza.aview.gui.Components
+package bohnanza.aview.gui.Components
 
 import scalafx.scene.layout.VBox
 import bohnanza.controller.Controller
