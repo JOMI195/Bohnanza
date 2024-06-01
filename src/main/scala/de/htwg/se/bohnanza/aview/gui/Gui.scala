@@ -108,6 +108,7 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
     event match {
       case ObserverEvent.StartGame => {
         gamePlayerScene = gamePlayerScene.copy(controller = controller)
+        gameInfoScene = gameInfoScene.copy(controller = controller)
         stage.setScene(gamePlayerScene)
       }
       case ObserverEvent.PhaseChange  =>
