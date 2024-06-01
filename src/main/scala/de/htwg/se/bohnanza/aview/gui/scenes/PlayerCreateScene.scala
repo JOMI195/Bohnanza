@@ -8,8 +8,13 @@ import bohnanza.aview.gui.components.PlayersBar
 import scalafx.geometry.Pos
 import bohnanza.aview.gui.components.GameButtonFactory
 import bohnanza.aview.gui.Styles
-import bohnanza.aview.gui.Utils.ImageUtils.importImage
+import bohnanza.aview.gui.utils.ImageUtils.importImage
 import bohnanza.aview.gui.components.CreatePlayerCard
+import bohnanza.aview.gui.components.{
+  CreatePlayerCard,
+  GameButtonFactory,
+  PlayersBar
+}
 
 case class PlayerCreateScene(
     controller: Controller,

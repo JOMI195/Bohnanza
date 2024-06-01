@@ -1,4 +1,4 @@
-package bohnanza.aview.gui.Utils
+package bohnanza.aview.gui.utils
 
 import scalafx.scene.image.{Image, ImageView}
 

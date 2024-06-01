@@ -1,9 +1,9 @@
-package bohnanza.aview.gui.Components
+package bohnanza.aview.gui.components
 
 import scalafx.scene.layout.VBox
 import bohnanza.controller.Controller
 import bohnanza.aview.gui.Gui
-import bohnanza.aview.gui.Utils.ImageUtils
+import bohnanza.aview.gui.utils.ImageUtils
 import scalafx.scene.text.Text
 import scalafx.geometry.Pos
 import scalafx.scene.control.Label

@@ -8,7 +8,8 @@ import bohnanza.aview.gui.components.PlayersBar
 import scalafx.geometry.Pos
 import bohnanza.aview.gui.components.GameButtonFactory
 import bohnanza.aview.gui.Styles
-import bohnanza.aview.gui.Utils.ImageUtils.importImage
+import bohnanza.aview.gui.components.*
+import bohnanza.aview.gui.utils.ImageUtils
 
 case class StartScene(
     controller: Controller,
@@ -34,7 +35,7 @@ case class StartScene(
   playButtonBox.prefHeight = 180
 
   /** IMAGE */
-  val titleImage = importImage(resourceImagesUrl + "title.png", 0.6)
+  val titleImage = ImageUtils.importImage(resourceImagesUrl + "title.png", 0.6)
   val titleBox = new VBox(0) {
     alignment = Pos.BOTTOM_CENTER
     children = Seq(titleImage)
