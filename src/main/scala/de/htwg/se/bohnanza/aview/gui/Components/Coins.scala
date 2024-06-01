@@ -23,7 +23,7 @@ class Coins(controller: Controller, scaleImage: Float, scaleFont: Float)
       "-fx-fill: #7A2626;"
   }
 
-  val coinCountBox = new VBox {
+  val coinCountBox = new VBox(0) {
     fillWidth = false
     children = Seq(coinCountText)
     style = "-fx-background-color: #FEED5D;" + "-fx-background-radius: 36;"

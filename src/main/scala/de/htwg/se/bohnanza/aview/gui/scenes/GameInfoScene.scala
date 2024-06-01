@@ -21,7 +21,7 @@ case class GameInfoScene(
     }
   goBackToGameButton.style = "-fx-font-size: 16; -fx-background-radius: 20;"
 
-  val coins = Coins(controller, 1, 0.5)
+  val coins = Coins(controller, 0.5, 1)
 
   root = new VBox(20) {
     alignment = Pos.CENTER
