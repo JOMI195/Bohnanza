@@ -12,8 +12,9 @@ import scalafx.Includes._
 import scalafx.geometry.Insets
 import scalafx.scene.Node
 import scalafx.scene.image.ImageView
+import scalafx.geometry.VerticalDirection.Up
 
-case class Card(flipped: Boolean = true, bean: Bean, scaleFactor: Float)
+case class Card(flipped: Boolean = true, bean: Bean, scaleFactor: Float = 0.3)
     extends HBox {
   val cardsPath = "/images/cards/"
   val cardImage = ImageUtils.importImage(
@@ -23,40 +24,11 @@ case class Card(flipped: Boolean = true, bean: Bean, scaleFactor: Float)
     scaleFactor = scaleFactor
   )
 
+  style = "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
+
   def flip(): Card = {
     copy(flipped = !flipped)
   }
 
   children.add(cardImage)
-}
-
-class BigCard(
-    flipped: Boolean = true,
-    bean: Bean,
-    scaleFactor: Float = 0.4
-) extends Card(flipped, bean, scaleFactor)
-
-class SmallCard(
-    flipped: Boolean = true,
-    bean: Bean,
-    scaleFactor: Float = 0.3
-) extends Card(flipped, bean, scaleFactor)
-
-case class Cards(cards: List[Card]) extends HBox {
-  alignment = Pos.Center
-  val cardTranslation = 20
-
-  val cardContainer = new StackPane {
-    children = cards.reverse.zipWithIndex.map { case (card, index) =>
-      card.translateX = index * cardTranslation
-      card
-    }
-    translateX = -(cards.length - 1) * cardTranslation / 2
-  }
-
-  children = cardContainer
-
-  def flippAllCards(): Cards = {
-    copy(cards = cards.map(_.flip()))
-  }
 }

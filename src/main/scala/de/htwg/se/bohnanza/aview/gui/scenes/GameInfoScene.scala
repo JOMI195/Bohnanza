@@ -10,6 +10,7 @@ import bohnanza.aview.gui.Styles
 import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
+import bohnanza.model.BeanField
 
 case class GameInfoScene(
     controller: Controller,
@@ -27,28 +28,46 @@ case class GameInfoScene(
   val coins = Coins(controller, 0.5, 1.0)
 
   // currentPlayerIndex could be -1
-  val currentPlayerHandUnchecked = Try(
-    Cards(cards =
-      controller.game
-        .players(controller.game.currentPlayerIndex)
-        .hand
-        .cards
-        .map(card => BigCard(bean = card))
+  if (controller.game.currentPlayerIndex != -1) {
+    val currentPlayerHandUnchecked = Try(
+      Hand(cards =
+        controller.game
+          .players(0) // debug: hardcoded
+          .hand
+          .cards
+          .map(card => Card(bean = card))
+      )
     )
-  )
 
-  val currentPlayerHand = currentPlayerHandUnchecked match {
-    case Success(checkedHand) => checkedHand
-    case Failure(e)           => Cards(cards = List.empty)
-  }
+    val currentDeck =
+      Deck(cards =
+        controller.game.deck.cards.map(card =>
+          Card(bean = card, flipped = false)
+        )
+      )
 
-  root = new VBox(20) {
-    alignment = Pos.CENTER
-    children = Seq(
-      goBackToGameButton,
-      coins,
-      currentPlayerHand
-    )
+    val beanField: BeanField = controller.game.players(0).beanFields(0)
+    val beanFieldCards: List[Card] = beanField.bean
+      .map(bean => List.fill(beanField.quantity)(Card(bean = bean)))
+      .getOrElse(List.empty)
+    val currentBeanFieldCards =
+      BeanFieldCards(cards = beanFieldCards)
+
+    val currentPlayerHand = currentPlayerHandUnchecked match {
+      case Success(checkedHand) => checkedHand
+      case Failure(e)           => Hand(cards = List.empty)
+    }
+
+    root = new VBox(20) {
+      alignment = Pos.CENTER
+      children = Seq(
+        goBackToGameButton,
+        coins,
+        currentPlayerHand,
+        currentDeck,
+        currentBeanFieldCards
+      )
+    }
   }
 
   this.getStylesheets.add(Styles.baseCss)

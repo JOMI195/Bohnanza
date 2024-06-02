@@ -262,7 +262,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
         }
         stream
           .toString()
-          .trim() shouldBe "You can't access a hand card with this index."
+          .trim() shouldBe "You don't have any cards to plant anymore."
       }
 
       "handles MethodError" in {

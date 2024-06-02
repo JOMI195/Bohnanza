@@ -198,7 +198,7 @@ class Tui(controller: Controller) extends Observer {
       case HandlerResponse.TurnOverFieldIndexError =>
         println("You can't access a turn-over card with this index.\n")
       case HandlerResponse.HandIndexError =>
-        println("You can't access a hand card with this index.\n")
+        println("You don't have any cards to plant anymore.\n")
       case HandlerResponse.MethodError =>
         println("You can't use this method in this phase.\n")
       case HandlerResponse.ArgsError =>
