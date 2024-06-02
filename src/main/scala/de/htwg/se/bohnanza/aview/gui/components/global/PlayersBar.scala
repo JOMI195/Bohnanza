@@ -25,10 +25,10 @@ class PlayersBar(controller: Controller) extends HBox {
       onPlayerNameButtonClick = () => {}
     )
 
-    // val currentPlayerText = new GameLabel("Current Player", scalingFactor = 0.5)
+    val currentPlayerText = new GameLabel("Current Player", scalingFactor = 0.5)
 
     val playerAvatarBox = new VBox {
-      children = Seq(playerAvatar)
+      children = Seq(playerAvatar, currentPlayerText)
       spacing = 1
       padding = Insets(3)
     }
