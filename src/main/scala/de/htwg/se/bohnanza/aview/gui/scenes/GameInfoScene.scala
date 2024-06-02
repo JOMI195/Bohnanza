@@ -21,7 +21,8 @@ case class GameInfoScene(
     controller: Controller,
     windowWidth: Double,
     windowHeight: Double,
-    onGoBackToGameButtonClick: () => Unit
+    onGoBackToGameButtonClick: () => Unit,
+    moveToGamePlayerScene: (index: Int) => Unit
 ) extends Scene(windowWidth, windowHeight) {
 
   val goBackToGameButton =
@@ -32,7 +33,10 @@ case class GameInfoScene(
 
   // currentPlayerIndex could be -1
   if (controller.game.currentPlayerIndex != -1) {
-    val gameInfoGrid = GameInfoGrid(players = controller.game.players)
+    val gameInfoGrid = GameInfoGrid(
+      players = controller.game.players,
+      moveToGamePlayerScene = moveToGamePlayerScene
+    )
     val turnOverFieldContainer = TurnOverFieldContainer(
       controller.game.turnOverField.cards
     )

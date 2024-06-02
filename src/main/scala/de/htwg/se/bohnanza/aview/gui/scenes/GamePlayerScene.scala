@@ -12,12 +12,15 @@ import scalafx.scene.layout.HBox
 import scalafx.geometry.Insets
 import scalafx.scene.layout.Region
 import scalafx.scene.layout.Priority
+import bohnanza.model.Player
 
 case class GamePlayerScene(
     controller: Controller,
     windowWidth: Double,
     windowHeight: Double,
-    onGameInfoButtonClick: () => Unit
+    currentPlayerViewIndex: Int,
+    onGameInfoButtonClick: () => Unit,
+    moveToGamePlayerScene: (index: Int) => Unit
 ) extends Scene(windowWidth, windowHeight) {
 
   val gameInfoButton = GameButtonFactory.createGameButton(
@@ -29,10 +32,20 @@ case class GamePlayerScene(
   }
   gameInfoButton.style = s"-fx-font-size: ${15}"
 
-  val playersBar = new PlayersBar(controller)
+  val playersBar = new PlayersBar(
+    controller = controller,
+    moveToGamePlayerScene = moveToGamePlayerScene
+  )
+
+  val currentViewPlayer: Player =
+    if (controller.game.players.size > 0)
+      controller.game.players(
+        currentPlayerViewIndex
+      )
+    else Player("Dummy")
 
   val currentPlayerViewText: Label = new Label {
-    text = "Current Players View"
+    text = s"${currentViewPlayer.name}s View"
     style = s"-fx-font-size: ${30};" +
       "-fx-text-fill: #7A2626;"
   }

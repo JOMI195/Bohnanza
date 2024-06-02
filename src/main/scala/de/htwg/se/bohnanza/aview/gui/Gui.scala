@@ -39,6 +39,8 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
 
   var gameInfoScene: GameInfoScene = _
 
+  private var currentPlayerViewIndex: Int = _
+
   controller.add(this)
 
   // ------------ Variables ---------------------------------------------------
@@ -70,14 +72,17 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
       controller = controller,
       windowWidth = windowWidth,
       windowHeight = windowHeight,
-      onGameInfoButtonClick = () => stage.setScene(gameInfoScene)
+      currentPlayerViewIndex = currentPlayerViewIndex,
+      onGameInfoButtonClick = () => stage.setScene(gameInfoScene),
+      moveToGamePlayerScene = moveToGamePlayerScene
     )
 
     gameInfoScene = GameInfoScene(
       controller = controller,
       windowWidth = windowWidth,
       windowHeight = windowHeight,
-      onGoBackToGameButtonClick = () => stage.setScene(gamePlayerScene)
+      onGoBackToGameButtonClick = () => stage.setScene(gamePlayerScene),
+      moveToGamePlayerScene = moveToGamePlayerScene
     )
 
     // Primary Stage
@@ -135,7 +140,16 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
   }
 
   def updateControllerOfScenes(): Unit = {
-    gamePlayerScene = gamePlayerScene.copy(controller = controller)
+    gamePlayerScene = gamePlayerScene.copy(
+      controller = controller,
+      currentPlayerViewIndex = currentPlayerViewIndex
+    )
     gameInfoScene = gameInfoScene.copy(controller = controller)
+  }
+
+  def moveToGamePlayerScene(index: Int): Unit = {
+    currentPlayerViewIndex = index
+    updateControllerOfScenes()
+    stage.setScene(gamePlayerScene)
   }
 }

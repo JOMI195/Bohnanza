@@ -11,7 +11,10 @@ import bohnanza.aview.gui.components.global.PlayerAvatar
 import bohnanza.aview.gui.components.global.GameLabel
 import scalafx.geometry.Insets
 
-class PlayersBar(controller: Controller) extends HBox {
+class PlayersBar(
+    controller: Controller,
+    moveToGamePlayerScene: (index: Int) => Unit
+) extends HBox {
 
   spacing = 1
   alignment = Pos.TOP_RIGHT
@@ -22,7 +25,7 @@ class PlayersBar(controller: Controller) extends HBox {
       playerIndex = index,
       scaleAvatar = 1,
       scaleFont = 1,
-      onPlayerNameButtonClick = () => {}
+      onPlayerNameButtonClick = () => moveToGamePlayerScene(index)
     )
 
     val currentPlayerText = new GameLabel("Current Player", scalingFactor = 0.5)

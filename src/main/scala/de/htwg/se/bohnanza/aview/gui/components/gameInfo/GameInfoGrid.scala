@@ -5,7 +5,10 @@ import scalafx.scene.layout.{VBox, GridPane, HBox, Region, Priority}
 import scalafx.geometry.Insets
 import scalafx.geometry.Pos
 
-class GameInfoGrid(players: List[Player]) extends GridPane {
+class GameInfoGrid(
+    players: List[Player],
+    moveToGamePlayerScene: (index: Int) => Unit
+) extends GridPane {
   padding = Insets(10)
   vgrow = Priority.Always
   hgrow = Priority.Always
@@ -19,7 +22,7 @@ class GameInfoGrid(players: List[Player]) extends GridPane {
       index,
       scaleAvatar = 1.0,
       scaleFont = 1.0,
-      onPlayerNameButtonClick = () => {}
+      onPlayerNameButtonClick = () => moveToGamePlayerScene(index)
     )
 
     val row = index / 2
