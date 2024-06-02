@@ -33,27 +33,10 @@ class PlayerInfo(
     children.addAll(playerAvatar, coins)
   }
 
-  val beanFields = (0 to 2).map(createBeanField).toList
-  val beanFieldsContainer = BeanFieldsContainer(beanFields)
+  val playerBeanFields = PlayerBeanFields(
+    player = player,
+    playerIndex = playerIndex
+  )
 
-  children = Seq(playerStats, beanFieldsContainer)
-
-  private def createBeanFieldCards(
-      beanFieldIndex: Int
-  ): BeanFieldCards = {
-    val beanField: BeanField =
-      controller.game.players(playerIndex).beanFields(beanFieldIndex)
-    val beanFieldCards: List[Card] = beanField.bean
-      .map(bean => List.fill(beanField.quantity)(Card(bean = bean)))
-      .getOrElse(List.empty)
-    BeanFieldCards(cards = beanFieldCards)
-  }
-
-  def createBeanField(beanFieldIndex: Int): BeanFieldContainer = {
-    val beanFieldCards = createBeanFieldCards(beanFieldIndex)
-    BeanFieldContainer(
-      beanFieldCards = beanFieldCards,
-      beanFieldId = beanFieldIndex + 1 // the id = index + 1
-    )
-  }
+  children = Seq(playerStats, playerBeanFields)
 }

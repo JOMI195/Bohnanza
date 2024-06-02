@@ -132,7 +132,12 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
           stage.setScene(gameInfoScene)
         })
       }
-      case ObserverEvent.Turn         =>
+      case ObserverEvent.Turn => {
+        Platform.runLater(() => {
+          updateControllerOfScenes()
+          stage.setScene(gameInfoScene)
+        })
+      }
       case ObserverEvent.Undo         =>
       case ObserverEvent.Redo         =>
       case ObserverEvent.CreatePlayer => println("gui: playerCreated")

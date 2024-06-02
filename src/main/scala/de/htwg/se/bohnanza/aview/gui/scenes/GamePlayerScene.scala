@@ -62,11 +62,26 @@ case class GamePlayerScene(
       Seq(gameInfoButton, spacer1, currentPlayerViewText, spacer2, playersBar)
   }
 
+  val playerBeanFields = PlayerBeanFields(
+    player = currentViewPlayer,
+    playerIndex = currentPlayerViewIndex,
+    scaleFactor = 0.4
+  )
+
+  val coins = Coins(currentViewPlayer.coins, 0.4, 1.0)
+
+  val turnOverFieldContainer = TurnOverFieldContainer(
+    controller.game.turnOverField.cards
+  )
+
   root = new VBox {
     // spacing = 20
     padding = Insets(5)
     children = Seq(
-      hboxFlexibleSpacing
+      hboxFlexibleSpacing,
+      playerBeanFields,
+      coins,
+      turnOverFieldContainer
     )
   }
 
