@@ -2,3 +2,13 @@
     -fx-background-image: url('/images/game/background.jpeg');
     -fx-background-size: cover;
 }
+
+.current-player {
+    -fx-background-color: FFCD92;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 5, 0, 2, 2);
+}
+
+.player-avatar {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);
+}

@@ -17,7 +17,8 @@ class CreatePlayerCard(controller: Controller) extends VBox {
   alignment = Pos.Center
 
   style = "-fx-background-color: #FFCD92;" +
-    "-fx-background-radius: 36;"
+    "-fx-background-radius: 36;" +
+    "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
   val createPlayersTitle = new Text {
     text = "Create Players"
     style = "-fx-fill: #7A2626; -fx-font-size: 30;"
