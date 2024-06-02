@@ -1,4 +1,4 @@
-package bohnanza.aview.gui.components.global
+package bohnanza.aview.gui.components.gamePlayer
 
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.scene.control.Label

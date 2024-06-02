@@ -395,7 +395,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
             "\r\n",
             "\n"
           ) shouldBe (
-          "No method is allowed here, because everything is done automatically for you. :)\n"
+          "No method except next is allowed here, because everything is done automatically for you. :)\n"
         ).trim()
 
         controller.phase = PlayCardPhase()

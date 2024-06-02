@@ -7,6 +7,7 @@ import bohnanza.controller.Controller
 import scalafx.geometry.Pos
 import bohnanza.aview.gui.Styles
 import bohnanza.aview.gui.components.global.*
+import bohnanza.aview.gui.components.gamePlayer.*
 import scalafx.scene.layout.HBox
 import scalafx.geometry.Insets
 import scalafx.scene.layout.Region

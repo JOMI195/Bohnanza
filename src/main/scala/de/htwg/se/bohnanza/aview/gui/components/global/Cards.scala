@@ -42,7 +42,6 @@ case class Hand(cards: List[Card])
       cardTranslation = 40,
       direction = Direction.xAxis
     ) {
-  alignment = Pos.CenterRight
 
   children = createCardContainer()
 
@@ -58,7 +57,6 @@ case class Deck(cards: List[Card])
       cardTranslation = 1,
       direction = Direction.xAxis
     ) {
-  alignment = Pos.CenterLeft
 
   children = createCardContainer()
 
@@ -74,8 +72,6 @@ case class BeanFieldCards(cards: List[Card])
       cardTranslation = 10,
       direction = Direction.yAxis
     ) {
-  alignment = Pos.CENTER
-
   children = createCardContainer()
 
   override def flippAllCards(): BeanFieldCards = {

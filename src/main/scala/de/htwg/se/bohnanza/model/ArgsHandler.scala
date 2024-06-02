@@ -280,7 +280,11 @@ case class MethodHandler(next: Option[HandlerTemplate])
             }
             return HandlerResponse.MethodError
           }
-          case _: DrawCardsPhase => return HandlerResponse.MethodError
+          case _: DrawCardsPhase =>
+            if (method == "next") {
+              return HandlerResponse.Success
+            }
+            return HandlerResponse.MethodError
         }
       }
       case None => HandlerResponse.ArgsError

@@ -30,7 +30,7 @@ class PlayerAvatar(
     width = 100,
     height = 10
   ) { () => onPlayerNameButtonClick() }
-  changePlayerGameButton.style = s"-fx-font-size: ${scaleFont * 10}"
+  changePlayerGameButton.style = s"-fx-font-size: ${scaleFont * 12}"
 
   fillWidth = false
   alignment = Pos.TOP_CENTER

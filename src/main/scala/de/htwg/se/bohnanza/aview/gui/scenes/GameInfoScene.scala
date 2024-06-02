@@ -12,6 +12,10 @@ import scala.util.Success
 import scala.util.Failure
 import bohnanza.model.BeanField
 import bohnanza.aview.gui.components.global.BeanFieldContainer
+import bohnanza.aview.gui.components.gameInfo.PlayerInfo
+import bohnanza.aview.gui.components.gameInfo.GameInfoGrid
+import scalafx.geometry.Insets
+import scalafx.scene.layout.StackPane
 
 case class GameInfoScene(
     controller: Controller,
@@ -21,47 +25,28 @@ case class GameInfoScene(
 ) extends Scene(windowWidth, windowHeight) {
 
   val goBackToGameButton =
-    GameButtonFactory.createGameButton("Go Back", width = 120, height = 50) {
+    GameButtonFactory.createGameButton("Go Back", width = 200, height = 40) {
       () => onGoBackToGameButtonClick()
     }
-  goBackToGameButton.style = "-fx-font-size: 16; -fx-background-radius: 20;"
-
-  val coins = Coins(controller, 0.5, 1.0)
+  goBackToGameButton.style = "-fx-font-size: 15;"
 
   // currentPlayerIndex could be -1
   if (controller.game.currentPlayerIndex != -1) {
-    val currentPlayerHandUnchecked = Try(
-      Hand(cards =
-        controller.game
-          .players(0) // debug: hardcoded
-          .hand
-          .cards
-          .map(card => Card(bean = card))
-      )
+    val gameInfoGrid = GameInfoGrid(players = controller.game.players)
+    val turnOverFieldContainer = TurnOverFieldContainer(
+      controller.game.turnOverField.cards
     )
-
-    val currentPlayerHand = currentPlayerHandUnchecked match {
-      case Success(checkedHand) => checkedHand
-      case Failure(e)           => Hand(cards = List.empty)
-    }
-
-    val currentDeck =
-      Deck(cards =
-        controller.game.deck.cards.map(card =>
-          Card(bean = card, flipped = false)
-        )
-      )
-
-    val firstBeanField = createBeanField(0)
-
-    root = new VBox(20) {
-      alignment = Pos.CENTER
-      children = Seq(
-        goBackToGameButton,
-        coins,
-        // currentPlayerHand,
-        // currentDeck,
-        firstBeanField
+    turnOverFieldContainer.alignment = Pos.CENTER
+    root = new StackPane {
+      children.addAll(
+        turnOverFieldContainer,
+        new VBox(0) {
+          padding = Insets(5)
+          children = Seq(
+            goBackToGameButton,
+            gameInfoGrid
+          )
+        }
       )
     }
   }
@@ -69,20 +54,4 @@ case class GameInfoScene(
   this.getStylesheets.add(Styles.baseCss)
   this.getStylesheets.add(Styles.gameCss)
 
-  private def createBeanFieldCards(beanFieldIndex: Int): BeanFieldCards = {
-    val beanField: BeanField =
-      controller.game.players(0).beanFields(beanFieldIndex)
-    val beanFieldCards: List[Card] = beanField.bean
-      .map(bean => List.fill(beanField.quantity)(Card(bean = bean)))
-      .getOrElse(List.empty)
-    BeanFieldCards(cards = beanFieldCards)
-  }
-
-  def createBeanField(beanFieldIndex: Int): BeanFieldContainer = {
-    val beanFieldCards = createBeanFieldCards(beanFieldIndex)
-    BeanFieldContainer(
-      beanFieldCards = beanFieldCards,
-      beanFieldId = beanFieldIndex + 1 // the id = index + 1
-    )
-  }
 }

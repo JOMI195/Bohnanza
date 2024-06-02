@@ -5,19 +5,21 @@ import bohnanza.aview.gui.components.global.BeanFieldCards
 import bohnanza.aview.gui.utils.ImageUtils
 import bohnanza.aview.gui.components.global.mainCardScaleFactor
 import scalafx.scene.layout.{VBox, Region}
+import scalafx.geometry.Insets
+import scalafx.geometry.Pos
 
 class BeanFieldContainer(beanFieldCards: BeanFieldCards, beanFieldId: Int)
     extends StackPane {
+  alignment = Pos.TOP_CENTER
+  style = "-fx-background-color: FFCD92;"
   val beanFieldImage = ImageUtils.importImage(
     imageUrl = s"/images/cards/bean-field-$beanFieldId.png",
     scaleFactor = mainCardScaleFactor
   )
-  val spacer = new Region {
-    prefHeight = 96
-  }
 
   val beanFieldCardsSpaced = new VBox {
-    children = List(spacer, beanFieldCards)
+    padding = Insets(50, 0, 0, 0)
+    children = beanFieldCards
   }
 
   children.addAll(beanFieldImage, beanFieldCardsSpaced)

@@ -39,7 +39,7 @@ class TradeAndPlantPhase extends PhaseState {
 
 class DrawCardsPhase extends PhaseState {
   override def toString(): String = {
-    "No method is allowed here, because everything is done automatically for you. :)\n"
+    "No method except next is allowed here, because everything is done automatically for you. :)\n"
   }
   def nextPhase: PhaseState = PlayCardPhase()
   override def startPhase(game: Game): Game =
