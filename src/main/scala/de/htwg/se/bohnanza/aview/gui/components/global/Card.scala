@@ -1,18 +1,9 @@
 package bohnanza.aview.gui.components.global
 
-import scalafx.scene.layout.HBox
 import bohnanza.aview.gui.utils.ImageUtils
 import bohnanza.model.Bean
-import scalafx.scene.layout.StackPane
-import scalafx.geometry.Pos
-import scalafx.scene.layout.VBox
-import scalafx.scene.layout.VBox.setMargin
-import scalafx.Includes._
-
-import scalafx.geometry.Insets
-import scalafx.scene.Node
+import scalafx.scene.layout.{StackPane, HBox, VBox}
 import scalafx.scene.image.ImageView
-import scalafx.geometry.VerticalDirection.Up
 
 case class Card(flipped: Boolean = true, bean: Bean, scaleFactor: Float = 0.3)
     extends HBox {
