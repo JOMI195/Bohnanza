@@ -11,6 +11,7 @@ import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
 import bohnanza.model.BeanField
+import bohnanza.aview.gui.components.global.BeanFieldContainer
 
 case class GameInfoScene(
     controller: Controller,
@@ -39,6 +40,11 @@ case class GameInfoScene(
       )
     )
 
+    val currentPlayerHand = currentPlayerHandUnchecked match {
+      case Success(checkedHand) => checkedHand
+      case Failure(e)           => Hand(cards = List.empty)
+    }
+
     val currentDeck =
       Deck(cards =
         controller.game.deck.cards.map(card =>
@@ -46,30 +52,37 @@ case class GameInfoScene(
         )
       )
 
-    val beanField: BeanField = controller.game.players(0).beanFields(0)
-    val beanFieldCards: List[Card] = beanField.bean
-      .map(bean => List.fill(beanField.quantity)(Card(bean = bean)))
-      .getOrElse(List.empty)
-    val currentBeanFieldCards =
-      BeanFieldCards(cards = beanFieldCards)
-
-    val currentPlayerHand = currentPlayerHandUnchecked match {
-      case Success(checkedHand) => checkedHand
-      case Failure(e)           => Hand(cards = List.empty)
-    }
+    val firstBeanField = createBeanField(0)
 
     root = new VBox(20) {
       alignment = Pos.CENTER
       children = Seq(
         goBackToGameButton,
         coins,
-        currentPlayerHand,
-        currentDeck,
-        currentBeanFieldCards
+        // currentPlayerHand,
+        // currentDeck,
+        firstBeanField
       )
     }
   }
 
   this.getStylesheets.add(Styles.baseCss)
   this.getStylesheets.add(Styles.gameCss)
+
+  private def createBeanFieldCards(beanFieldIndex: Int): BeanFieldCards = {
+    val beanField: BeanField =
+      controller.game.players(0).beanFields(beanFieldIndex)
+    val beanFieldCards: List[Card] = beanField.bean
+      .map(bean => List.fill(beanField.quantity)(Card(bean = bean)))
+      .getOrElse(List.empty)
+    BeanFieldCards(cards = beanFieldCards)
+  }
+
+  def createBeanField(beanFieldIndex: Int): BeanFieldContainer = {
+    val beanFieldCards = createBeanFieldCards(beanFieldIndex)
+    BeanFieldContainer(
+      beanFieldCards = beanFieldCards,
+      beanFieldId = beanFieldIndex + 1 // the id = index + 1
+    )
+  }
 }

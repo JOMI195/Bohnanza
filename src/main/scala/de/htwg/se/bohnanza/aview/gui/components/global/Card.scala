@@ -5,8 +5,13 @@ import bohnanza.model.Bean
 import scalafx.scene.layout.{StackPane, HBox, VBox}
 import scalafx.scene.image.ImageView
 
-case class Card(flipped: Boolean = true, bean: Bean, scaleFactor: Float = 0.3)
-    extends HBox {
+val mainCardScaleFactor: Float = 0.35
+
+case class Card(
+    flipped: Boolean = true,
+    bean: Bean,
+    scaleFactor: Float = mainCardScaleFactor
+) extends HBox {
   val cardsPath = "/images/cards/"
   val cardImage = ImageUtils.importImage(
     imageUrl =

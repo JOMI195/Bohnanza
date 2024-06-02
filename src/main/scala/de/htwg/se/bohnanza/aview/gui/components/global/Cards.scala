@@ -71,7 +71,7 @@ case class BeanFieldCards(cards: List[Card])
     extends HBox
     with Cards(
       cards = cards,
-      cardTranslation = 20,
+      cardTranslation = 10,
       direction = Direction.yAxis
     ) {
   alignment = Pos.CENTER
