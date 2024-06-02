@@ -14,3 +14,7 @@
 .base-button:hover {
     -fx-background-color: rgb(255, 235, 56);
 }
+
+.game-label {
+    -fx-text-fill: #7A2626;
+}
