@@ -19,6 +19,8 @@ class BeanFieldContainer(
     imageUrl = s"/images/cards/bean-field-$beanFieldId.png",
     scaleFactor = scaleFactor
   )
+  beanFieldImage.style =
+    "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
 
   val beanFieldCardsSpaced = new VBox {
     padding = Insets(50, 0, 0, 0)

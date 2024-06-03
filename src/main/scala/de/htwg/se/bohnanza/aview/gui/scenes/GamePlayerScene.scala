@@ -50,16 +50,30 @@ case class GamePlayerScene(
       "-fx-text-fill: #7A2626;"
   }
 
-  val spacer1 = new Region {
+  val topBarHSpacer1 = new Region {
     HBox.setHgrow(this, Priority.Always)
   }
-  val spacer2 = new Region {
+  val topBarHSpacer2 = new Region {
     HBox.setHgrow(this, Priority.Always)
+  }
+  val mainAreaHSpacer1 = new Region {
+    HBox.setHgrow(this, Priority.Always)
+  }
+  val mainAreaHSpacer2 = new Region {
+    HBox.setHgrow(this, Priority.Always)
+  }
+  val midAreaVSpacer1 = new Region {
+    VBox.setVgrow(this, Priority.Always)
   }
 
   val hboxFlexibleSpacing = new HBox {
-    children =
-      Seq(gameInfoButton, spacer1, currentPlayerViewText, spacer2, playersBar)
+    children = Seq(
+      gameInfoButton,
+      topBarHSpacer1,
+      currentPlayerViewText,
+      topBarHSpacer2,
+      playersBar
+    )
   }
 
   val playerBeanFields = PlayerBeanFields(
@@ -68,10 +82,11 @@ case class GamePlayerScene(
     scaleFactor = 0.4
   )
 
-  val coins = Coins(currentViewPlayer.coins, 0.4, 1.0)
+  val coins = Coins(currentViewPlayer.coins, 0.6, 1.5)
 
   val turnOverFieldContainer = TurnOverFieldContainer(
-    controller.game.turnOverField.cards
+    controller.game.turnOverField.cards,
+    scaleFactor = 0.4
   )
 
   val handcards: List[Card] = currentViewPlayer.hand.cards.map { bean =>
@@ -79,25 +94,38 @@ case class GamePlayerScene(
   }
   val hand = Hand(cards = handcards)
 
-  val middleElements = new HBox {
-    alignment = Pos.TOP_CENTER
-    children = turnOverFieldContainer
+  val leftElements = new VBox {
+    alignment = Pos.TOP_LEFT
+    children = Seq(playerBeanFields)
   }
 
-  val bottomElements = new HBox {
-    spacing = 5
+  val midElements = new VBox {
+    padding = Insets(60, 0, 0, 0)
     alignment = Pos.TOP_CENTER
-    children = Seq(hand, coins)
+    children = Seq(turnOverFieldContainer, midAreaVSpacer1, hand)
+  }
+
+  val rightElements = new VBox {
+    alignment = Pos.BOTTOM_RIGHT
+    children = Seq(coins)
+  }
+
+  val sceneMainArea = new HBox {
+    vgrow = Priority.Always
+    children = Seq(
+      leftElements,
+      mainAreaHSpacer1,
+      midElements,
+      mainAreaHSpacer2,
+      rightElements
+    )
   }
 
   root = new VBox {
-    // spacing = 20
     padding = Insets(5)
     children = Seq(
       hboxFlexibleSpacing,
-      playerBeanFields,
-      middleElements,
-      bottomElements
+      sceneMainArea
     )
   }
 
