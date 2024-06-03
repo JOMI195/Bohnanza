@@ -14,10 +14,7 @@ class PlayerBeanFields(
     player: Player,
     playerIndex: Int,
     scaleFactor: Float = mainCardScaleFactor
-) extends HBox(10) {
-  fillHeight = true
-  hgrow = Priority.Always
-  vgrow = Priority.Always
+) extends HBox {
 
   val beanFields = (0 to 2).map(createBeanField).toList
   val beanFieldsContainer = BeanFieldsContainer(beanFields)
