@@ -8,8 +8,6 @@ import bohnanza.Bohnanza.controller
 import scalafx.geometry.Pos
 import scalafx.scene.layout.Priority
 
-val mainCardScaleFactor: Float = 0.35
-
 class PlayerBeanFields(
     player: Player,
     playerIndex: Int,
