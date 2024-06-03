@@ -74,14 +74,30 @@ case class GamePlayerScene(
     controller.game.turnOverField.cards
   )
 
+  val handcards: List[Card] = currentViewPlayer.hand.cards.map { bean =>
+    Card(bean = bean, scaleFactor = 0.4)
+  }
+  val hand = Hand(cards = handcards)
+
+  val middleElements = new HBox {
+    alignment = Pos.TOP_CENTER
+    children = turnOverFieldContainer
+  }
+
+  val bottomElements = new HBox {
+    spacing = 5
+    alignment = Pos.TOP_CENTER
+    children = Seq(hand, coins)
+  }
+
   root = new VBox {
     // spacing = 20
     padding = Insets(5)
     children = Seq(
       hboxFlexibleSpacing,
       playerBeanFields,
-      coins,
-      turnOverFieldContainer
+      middleElements,
+      bottomElements
     )
   }
 
