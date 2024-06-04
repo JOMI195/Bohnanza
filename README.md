@@ -15,8 +15,8 @@ Bohnanza is a card game that revolves around trading and planting beans. Each pl
 
 ## Features
 
+* Interactive GUI, Text-based UI (TUI)
 * Singleplayer/Multiplayer mode
-* Interactive GUI, game state representation as text-based UI
 
 ## Screenshots
 
