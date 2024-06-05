@@ -13,7 +13,7 @@ case class Card(
     scaleFactor: Float = mainCardScaleFactor
 ) extends HBox {
   val cardsPath = "/images/cards/"
-  val cardImage = ImageUtils.importImage(
+  val cardImage = ImageUtils.importImageAsView(
     imageUrl =
       if (flipped) cardsPath + s"${bean.shortName}-bean.png"
       else cardsPath + "card-flipped.png",

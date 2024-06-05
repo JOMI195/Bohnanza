@@ -13,13 +13,13 @@ class TurnOverFieldContainer(
   fillHeight = false
 
   val turnOverFieldCardPath = "/images/cards/"
-  val turnOverFieldImage1 = ImageUtils.importImage(
+  val turnOverFieldImage1 = ImageUtils.importImageAsView(
     imageUrl = turnOverFieldCardPath + "turnoverField.png",
     scaleFactor = scaleFactor
   )
   turnOverFieldImage1.style =
     "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
-  val turnOverFieldImage2 = ImageUtils.importImage(
+  val turnOverFieldImage2 = ImageUtils.importImageAsView(
     imageUrl = turnOverFieldCardPath + "turnoverField.png",
     scaleFactor = scaleFactor
   )

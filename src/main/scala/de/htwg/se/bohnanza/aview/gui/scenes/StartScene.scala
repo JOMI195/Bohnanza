@@ -33,7 +33,8 @@ case class StartScene(
   playButtonBox.prefHeight = 180
 
   /** IMAGE */
-  val titleImage = ImageUtils.importImage(resourceImagesUrl + "title.png", 0.6)
+  val titleImage =
+    ImageUtils.importImageAsView(resourceImagesUrl + "title.png", 0.6)
   val titleBox = new VBox(0) {
     alignment = Pos.BOTTOM_CENTER
     children = Seq(titleImage)

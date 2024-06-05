@@ -6,7 +6,7 @@ import scalafx.scene.layout.{VBox}
 import bohnanza.controller.Controller
 import scalafx.geometry.Pos
 import bohnanza.aview.gui.Styles
-import bohnanza.aview.gui.utils.ImageUtils.importImage
+import bohnanza.aview.gui.utils.ImageUtils.importImageAsView
 import bohnanza.aview.gui.components.global.*
 import bohnanza.aview.gui.components.playerCreation.CreatePlayerCard
 

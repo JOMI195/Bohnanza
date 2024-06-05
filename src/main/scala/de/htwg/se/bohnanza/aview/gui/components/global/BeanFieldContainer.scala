@@ -15,7 +15,7 @@ class BeanFieldContainer(
 ) extends StackPane {
   alignment = Pos.TOP_CENTER
   style = "-fx-background-color: FFCD92;"
-  val beanFieldImage = ImageUtils.importImage(
+  val beanFieldImage = ImageUtils.importImageAsView(
     imageUrl = s"/images/cards/bean-field-$beanFieldId.png",
     scaleFactor = scaleFactor
   )

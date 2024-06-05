@@ -13,6 +13,8 @@ import scalafx.geometry.Insets
 import scalafx.scene.layout.Region
 import scalafx.scene.layout.Priority
 import bohnanza.model.Player
+import scalafx.scene.layout.Pane
+import scalafx.scene.layout.StackPane
 
 case class GamePlayerScene(
     controller: Controller,
@@ -66,7 +68,7 @@ case class GamePlayerScene(
     VBox.setVgrow(this, Priority.Always)
   }
 
-  val hboxFlexibleSpacing = new HBox {
+  val topInfobar = new HBox {
     children = Seq(
       gameInfoButton,
       topBarHSpacer1,
@@ -121,11 +123,26 @@ case class GamePlayerScene(
     )
   }
 
+  val snackbar = new Snackbar(
+    "This is a snackbar message",
+    initialX = windowWidth - 200,
+    initialY = windowHeight - 200
+  )
+  snackbar.showSnackbar()
+
+  val mainContent = new StackPane {
+    vgrow = Priority.Always
+    children = Seq(
+      sceneMainArea
+      // snackbar
+    )
+  }
+
   root = new VBox {
     padding = Insets(5)
     children = Seq(
-      hboxFlexibleSpacing,
-      sceneMainArea
+      topInfobar,
+      mainContent
     )
   }
 

@@ -14,7 +14,7 @@ class Coins(coins: Int, scaleImage: Float, scaleFont: Float) extends VBox {
   fillWidth = false
   alignment = Pos.CENTER
 
-  val coinImage = ImageUtils.importImage("/images/coins.png", scaleImage)
+  val coinImage = ImageUtils.importImageAsView("/images/coins.png", scaleImage)
   val coinCountText: Text = new Text {
     text = s"${coins} Coins"
     style = s"-fx-font-size: ${scaleFont * 16};" +
