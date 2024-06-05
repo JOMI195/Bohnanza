@@ -123,26 +123,19 @@ case class GamePlayerScene(
     )
   }
 
-  val snackbar = new Snackbar(
-    "This is a snackbar message",
-    initialX = windowWidth - 200,
-    initialY = windowHeight - 200
-  )
-  snackbar.showSnackbar()
+  val snackbar = new Snackbar(100, 200)
 
-  val mainContent = new StackPane {
+  root = new StackPane {
     vgrow = Priority.Always
     children = Seq(
-      sceneMainArea
+      new VBox {
+        padding = Insets(5)
+        children = Seq(
+          topInfobar,
+          sceneMainArea
+        )
+      }
       // snackbar
-    )
-  }
-
-  root = new VBox {
-    padding = Insets(5)
-    children = Seq(
-      topInfobar,
-      mainContent
     )
   }
 
