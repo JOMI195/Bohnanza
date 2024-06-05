@@ -80,6 +80,8 @@ class Snackbar(
   children.addAll(backgroundImageView, closeButton, message)
   translateY = 0
 
+  var shown = false;
+
   def showSnackbar(messageString: String): Unit = {
     val showTimeline = new Timeline {
       keyFrames = Seq(
@@ -89,6 +91,7 @@ class Snackbar(
       autoReverse = false
       cycleCount = 1
     }
+    if (shown) hideSnackbar()
     backgroundImageView.visible = true
     message.visible = true
     closeButton.visible = true
@@ -96,6 +99,7 @@ class Snackbar(
     message.text = messageString
 
     showTimeline.play()
+    shown = true
   }
 
   def hideSnackbar(): Unit = {
@@ -113,6 +117,7 @@ class Snackbar(
       message.visible = false
       closeButton.visible = false
     }
+    shown = false
   }
 
   Platform.runLater(() => {
