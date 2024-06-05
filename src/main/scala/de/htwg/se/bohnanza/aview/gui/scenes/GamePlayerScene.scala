@@ -123,7 +123,11 @@ case class GamePlayerScene(
     )
   }
 
-  val snackbar = new Snackbar(100, 200)
+  val snackbar =
+    new BottomRightSnackbar(windowWidth, windowHeight)
+
+  val snackbar21 =
+    new TopCenterSnackbar(windowWidth, windowHeight)
 
   root = new StackPane {
     vgrow = Priority.Always
@@ -134,10 +138,14 @@ case class GamePlayerScene(
           topInfobar,
           sceneMainArea
         )
-      }
-      // snackbar
+      },
+      snackbar,
+      snackbar21
     )
   }
+
+  snackbar.showSnackbar("This is an overridden info message")
+  snackbar21.showSnackbar("This is an overridden info message")
 
   this.getStylesheets.add(Styles.baseCss)
   this.getStylesheets.add(Styles.gameCss)
