@@ -15,6 +15,9 @@ import scalafx.scene.layout.Priority
 import bohnanza.model.Player
 import scalafx.scene.layout.Pane
 import scalafx.scene.layout.StackPane
+import scalafx.Includes._
+import scalafx.scene.input.MouseEvent
+import bohnanza.aview.gui.model.SelectionManager
 
 case class GamePlayerScene(
     controller: Controller,
@@ -22,7 +25,8 @@ case class GamePlayerScene(
     windowHeight: Double,
     currentPlayerViewIndex: Int,
     onGameInfoButtonClick: () => Unit,
-    moveToGamePlayerScene: (index: Int) => Unit
+    moveToGamePlayerScene: (index: Int) => Unit,
+    selectionManager: SelectionManager
 ) extends Scene(windowWidth, windowHeight) {
 
   val gameInfoButton = GameButtonFactory.createGameButton(
@@ -81,18 +85,38 @@ case class GamePlayerScene(
   val playerBeanFields = PlayerBeanFields(
     player = currentViewPlayer,
     playerIndex = currentPlayerViewIndex,
-    scaleFactor = 0.4
+    scaleFactor = 0.4,
+    selectionManager = Some(selectionManager)
   )
 
   val coins = Coins(currentViewPlayer.coins, 0.6, 1.5)
 
   val turnOverFieldContainer = TurnOverFieldContainer(
     controller.game.turnOverField.cards,
-    scaleFactor = 0.4
+    scaleFactor = 0.4,
+    selectionManager = Some(selectionManager)
   )
 
-  val handcards: List[Card] = currentViewPlayer.hand.cards.map { bean =>
-    Card(bean = bean, scaleFactor = 0.4)
+  val handcards: List[Card] = currentViewPlayer.hand.cards match {
+    case Nil => List.empty
+    case head :: tail =>
+      val selectableCard =
+        new Card(
+          bean = head,
+          scaleFactor = 0.4,
+          selectable = true,
+          selectionManager = Some(selectionManager),
+          handCard = true
+        ) {}
+      val otherCards = tail.map { bean =>
+        new Card(
+          bean = bean,
+          scaleFactor = 0.4,
+          selectionManager = None,
+          handCard = true
+        )
+      }
+      selectableCard :: otherCards
   }
   val hand = Hand(cards = handcards)
 
@@ -144,8 +168,18 @@ case class GamePlayerScene(
     )
   }
 
-  snackbar.showSnackbar("This is an overridden info message")
-  snackbar21.showSnackbar("This is an overridden info message")
+  // snackbar.showSnackbar("This is an overridden info message")
+  // snackbar21.showSnackbar("This is an overridden info message")
+
+  this.addEventFilter(
+    MouseEvent.MouseClicked,
+    (e: MouseEvent) => {
+      if (e.target != null && !e.target.isInstanceOf[Card]) {
+        handcards.foreach(_.deselect())
+        turnOverFieldContainer.deselect()
+      }
+    }
+  )
 
   this.getStylesheets.add(Styles.baseCss)
   this.getStylesheets.add(Styles.gameCss)

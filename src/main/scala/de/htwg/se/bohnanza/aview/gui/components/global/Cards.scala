@@ -2,6 +2,7 @@ package bohnanza.aview.gui.components.global
 
 import scalafx.scene.layout.{HBox, VBox, StackPane}
 import scalafx.geometry.Pos
+import bohnanza.aview.gui.model.SelectionManager
 
 enum Direction {
   case yAxis
@@ -32,7 +33,7 @@ trait Cards(
     }
   }
 
-  def flippAllCards(): Cards
+  // def flippAllCards(): Cards
 }
 
 case class Hand(cards: List[Card])
@@ -45,12 +46,12 @@ case class Hand(cards: List[Card])
 
   children = createCardContainer()
 
-  override def flippAllCards(): Hand = {
-    copy(cards = cards.map(_.flip()))
-  }
+  // override def flippAllCards(): Hand = {
+  //   copy(cards = cards.map(_.flip()))
+  // }
 }
 
-case class Deck(cards: List[Card])
+case class Deck(cards: List[Card], selectionManager: SelectionManager)
     extends HBox
     with Cards(
       cards = cards,
@@ -60,13 +61,14 @@ case class Deck(cards: List[Card])
 
   children = createCardContainer()
 
-  override def flippAllCards(): Deck = {
-    copy(cards = cards.map(_.flip()))
-  }
+  // override def flippAllCards(): Deck = {
+  //   copy(cards = cards.map(_.flip()))
+  // }
 }
 
-case class BeanFieldCards(cards: List[Card])
-    extends HBox
+case class BeanFieldCards(
+    cards: List[Card]
+) extends HBox
     with Cards(
       cards = cards,
       cardTranslation = 10,
@@ -74,7 +76,7 @@ case class BeanFieldCards(cards: List[Card])
     ) {
   children = createCardContainer()
 
-  override def flippAllCards(): BeanFieldCards = {
-    copy(cards = cards.map(_.flip()))
-  }
+  // override def flippAllCards(): BeanFieldCards = {
+  //   copy(cards = cards.map(_.flip()))
+  // }
 }

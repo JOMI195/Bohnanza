@@ -19,6 +19,7 @@ import bohnanza.aview.gui.scenes.StartScene
 import bohnanza.aview.gui.scenes.PlayerCreateScene
 import bohnanza.aview.gui.scenes.GameInfoScene
 import scalafx.application.Platform
+import bohnanza.aview.gui.model.SelectionManager
 
 object Styles {
   val baseCss = getClass.getResource("/styles/base.css").toExternalForm
@@ -68,13 +69,15 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
       windowHeight = windowHeight
     )
 
+    val selectionManager = SelectionManager()
     gamePlayerScene = GamePlayerScene(
       controller = controller,
       windowWidth = windowWidth,
       windowHeight = windowHeight,
       currentPlayerViewIndex = currentPlayerViewIndex,
       onGameInfoButtonClick = () => stage.setScene(gameInfoScene),
-      moveToGamePlayerScene = moveToGamePlayerScene
+      moveToGamePlayerScene = moveToGamePlayerScene,
+      selectionManager = selectionManager
     )
 
     gameInfoScene = GameInfoScene(
@@ -120,7 +123,7 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
       case ObserverEvent.Plant => {
         Platform.runLater(() => {
           updateControllerOfScenes()
-          stage.setScene(gameInfoScene)
+          stage.setScene(gamePlayerScene)
         })
       }
       case ObserverEvent.Harvest  =>
@@ -129,13 +132,13 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
       case ObserverEvent.Draw => {
         Platform.runLater(() => {
           updateControllerOfScenes()
-          stage.setScene(gameInfoScene)
+          stage.setScene(gamePlayerScene)
         })
       }
       case ObserverEvent.Turn => {
         Platform.runLater(() => {
           updateControllerOfScenes()
-          stage.setScene(gameInfoScene)
+          stage.setScene(gamePlayerScene)
         })
       }
       case ObserverEvent.Undo         =>

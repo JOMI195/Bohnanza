@@ -5,10 +5,12 @@ import scalafx.scene.layout.StackPane
 import scalafx.geometry.Pos
 import bohnanza.model.Bean
 import bohnanza.aview.gui.utils.ImageUtils
+import bohnanza.aview.gui.model.SelectionManager
 
 class TurnOverFieldContainer(
     cards: List[Bean],
-    scaleFactor: Float = mainCardScaleFactor
+    scaleFactor: Float = mainCardScaleFactor,
+    selectionManager: Option[SelectionManager]
 ) extends HBox(10) {
   fillHeight = false
 
@@ -33,15 +35,48 @@ class TurnOverFieldContainer(
     children.add(turnOverFieldImage2)
   }
 
+  var turnOverFieldCards: List[Card] = List.fill(2)(null)
   if (cards.nonEmpty) {
-    val card1 = Card(bean = cards(0), scaleFactor = scaleFactor)
-    card1.translateY = 50
-    stackPane1.children.add(card1)
+    turnOverFieldCards = turnOverFieldCards.updated(
+      0,
+      Card(
+        bean = cards(0),
+        scaleFactor = scaleFactor,
+        selectionManager = selectionManager,
+        selectable = true,
+        turnOverFieldCardIndex = 0
+      )
+    )
+    turnOverFieldCards(0).translateY = 50
+    stackPane1.children.add(turnOverFieldCards(0))
 
     if (cards.length > 1) {
-      val card2 = Card(bean = cards(1), scaleFactor = scaleFactor)
-      card2.translateY = 50
-      stackPane2.children.add(card2)
+      turnOverFieldCards = turnOverFieldCards.updated(
+        1,
+        Card(
+          bean = cards(1),
+          scaleFactor = scaleFactor,
+          selectionManager = selectionManager,
+          selectable = true,
+          turnOverFieldCardIndex = 1
+        )
+      )
+      turnOverFieldCards(1).translateY = 50
+      stackPane2.children.add(turnOverFieldCards(1))
+    }
+  }
+
+  def deselect(): Unit = {
+    selectionManager match {
+      case None =>
+      case Some(checkedSelectionManager) => {
+        if (checkedSelectionManager.selectedTurnOverFieldIndex == 0) {
+          turnOverFieldCards(0).deselect()
+        } else if (checkedSelectionManager.selectedTurnOverFieldIndex == 1) {
+          turnOverFieldCards(1).deselect()
+        }
+        checkedSelectionManager.selectedTurnOverFieldIndex = -1
+      }
     }
   }
 

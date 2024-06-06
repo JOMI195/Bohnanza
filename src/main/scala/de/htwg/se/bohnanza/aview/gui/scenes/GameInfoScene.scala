@@ -31,14 +31,15 @@ case class GameInfoScene(
     }
   goBackToGameButton.style = "-fx-font-size: 15;"
 
-  // currentPlayerIndex could be -1
+  // currentPlayerIndex is -1 at the beginning
   if (controller.game.currentPlayerIndex != -1) {
     val gameInfoGrid = GameInfoGrid(
       players = controller.game.players,
       moveToGamePlayerScene = moveToGamePlayerScene
     )
     val turnOverFieldContainer = TurnOverFieldContainer(
-      controller.game.turnOverField.cards
+      controller.game.turnOverField.cards,
+      selectionManager = None
     )
     turnOverFieldContainer.alignment = Pos.CENTER
     root = new StackPane {
