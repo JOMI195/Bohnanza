@@ -11,6 +11,10 @@ import bohnanza.aview.gui.model.SelectionManager
 import scalafx.scene.input.MouseEvent
 import scalafx.Includes._
 import bohnanza.aview.gui.model.selectionStyle
+import scalafx.scene.effect.ColorAdjust
+import scalafx.animation.Timeline
+import scalafx.animation.ScaleTransition
+import scalafx.util.Duration
 
 class BeanFieldContainer(
     beanFieldCards: BeanFieldCards,
@@ -33,12 +37,21 @@ class BeanFieldContainer(
     children = beanFieldCards
   }
 
+  val pulsateTransition = new ScaleTransition(Duration(1000), beanFieldImage)
+  pulsateTransition.fromX = 1.0
+  pulsateTransition.toX = 1.05
+  pulsateTransition.fromY = 1.0
+  pulsateTransition.toY = 1.05
+  pulsateTransition.cycleCount = ScaleTransition.Indefinite
+  pulsateTransition.autoReverse = true
+
   onMouseClicked = (e: MouseEvent) => {
     selectionManager match {
       case None =>
       case Some(checkedSelectionManager) => {
         checkedSelectionManager.selectedBeanFieldIndex = beanFieldId - 1
         style = selectionStyle
+        pulsateTransition.play()
       }
     }
   }

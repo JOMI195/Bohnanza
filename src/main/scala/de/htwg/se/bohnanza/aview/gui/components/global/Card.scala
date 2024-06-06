@@ -8,6 +8,12 @@ import scalafx.scene.input.MouseEvent
 import scalafx.Includes._
 import bohnanza.aview.gui.model.SelectionManager
 import bohnanza.aview.gui.model.selectionStyle
+import scalafx.animation.Timeline
+import scalafx.animation.KeyFrame
+import scalafx.util.Duration
+import scalafx.animation.KeyValue
+import scalafx.scene.effect.ColorAdjust
+import scalafx.animation.ScaleTransition
 
 val mainCardScaleFactor: Float = 0.35
 
@@ -35,6 +41,14 @@ case class Card(
     "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
   style = defaultCardStyle
 
+  val pulsateTransition = new ScaleTransition(Duration(1000), cardImage)
+  pulsateTransition.fromX = 1.0
+  pulsateTransition.toX = 1.05
+  pulsateTransition.fromY = 1.0
+  pulsateTransition.toY = 1.05
+  pulsateTransition.cycleCount = ScaleTransition.Indefinite
+  pulsateTransition.autoReverse = true
+
   def selectOnClick(): Unit = {
     isSelected = !isSelected
 
@@ -57,6 +71,14 @@ case class Card(
             }
         }
         style = if (isSelected) selectionStyle else defaultCardStyle
+
+        if (isSelected) {
+          pulsateTransition.play()
+        } else {
+          pulsateTransition.stop()
+          cardImage.scaleX = 1.0
+          cardImage.scaleY = 1.0
+        }
       }
     }
 
@@ -82,6 +104,9 @@ case class Card(
 
       isSelected = false
       style = defaultCardStyle
+      pulsateTransition.stop()
+      cardImage.scaleX = 1.0
+      cardImage.scaleY = 1.0
     }
   }
 
