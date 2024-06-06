@@ -15,6 +15,7 @@ import scalafx.scene.layout.Priority
 import bohnanza.model.Player
 import scalafx.scene.layout.Pane
 import scalafx.scene.layout.StackPane
+import bohnanza.aview.gui.SceneSnackbars
 
 case class GamePlayerScene(
     controller: Controller,
@@ -24,6 +25,10 @@ case class GamePlayerScene(
     onGameInfoButtonClick: () => Unit,
     moveToGamePlayerScene: (index: Int) => Unit
 ) extends Scene(windowWidth, windowHeight) {
+  SceneSnackbars.bottomSnackbar =
+    new BottomRightSnackbar(windowWidth, windowHeight)
+
+  SceneSnackbars.topSnackbar = new TopCenterSnackbar(windowWidth, windowHeight)
 
   val gameInfoButton = GameButtonFactory.createGameButton(
     text = "Gameinfo",
@@ -123,12 +128,6 @@ case class GamePlayerScene(
     )
   }
 
-  val snackbar =
-    new BottomRightSnackbar(windowWidth, windowHeight)
-
-  val snackbar21 =
-    new TopCenterSnackbar(windowWidth, windowHeight)
-
   root = new StackPane {
     vgrow = Priority.Always
     children = Seq(
@@ -139,13 +138,17 @@ case class GamePlayerScene(
           sceneMainArea
         )
       },
-      snackbar,
-      snackbar21
+      SceneSnackbars.bottomSnackbar,
+      SceneSnackbars.topSnackbar
     )
   }
 
-  snackbar.showSnackbar("This is an overridden info message")
-  snackbar21.showSnackbar("This is an overridden info message")
+  SceneSnackbars.bottomSnackbar.showSnackbar(
+    "This is an overridden info message"
+  )
+  SceneSnackbars.topSnackbar.showSnackbar(
+    "This is an overridden info message"
+  )
 
   this.getStylesheets.add(Styles.baseCss)
   this.getStylesheets.add(Styles.gameCss)

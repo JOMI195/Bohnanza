@@ -19,6 +19,8 @@ import bohnanza.aview.gui.scenes.StartScene
 import bohnanza.aview.gui.scenes.PlayerCreateScene
 import bohnanza.aview.gui.scenes.GameInfoScene
 import scalafx.application.Platform
+import bohnanza.aview.gui.components.global.BottomRightSnackbar
+import bohnanza.aview.gui.components.global.TopCenterSnackbar
 
 object Styles {
   val baseCss = getClass.getResource("/styles/base.css").toExternalForm
@@ -27,6 +29,11 @@ object Styles {
   val playerCreationCss =
     getClass.getResource("/styles/playerCreation.css").toExternalForm
   val gameCss = getClass.getResource("/styles/game.css").toExternalForm
+}
+
+object SceneSnackbars {
+  var bottomSnackbar: BottomRightSnackbar = _
+  var topSnackbar: TopCenterSnackbar = _
 }
 
 class Gui(controller: Controller) extends JFXApp3 with Observer {
