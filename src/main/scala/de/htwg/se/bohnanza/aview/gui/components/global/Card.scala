@@ -7,10 +7,12 @@ import scalafx.scene.image.ImageView
 import scalafx.scene.input.MouseEvent
 import scalafx.Includes._
 import bohnanza.aview.gui.model.SelectionManager
+import bohnanza.aview.gui.model.selectionStyle
 
 val mainCardScaleFactor: Float = 0.35
 
 case class Card(
+    var selectedCards: List[Card],
     flipped: Boolean = true,
     handCard: Boolean = false,
     turnOverFieldCardIndex: Int = -1,
@@ -21,9 +23,6 @@ case class Card(
 ) extends HBox {
 
   var isSelected: Boolean = false
-  var selectionMode =
-    false // To ensure that if selectionMode activated to select the Card, debug first set to true!
-
   val cardsPath = "/images/cards/"
   val cardImage = ImageUtils.importImageAsView(
     imageUrl =
@@ -37,19 +36,27 @@ case class Card(
   style = defaultCardStyle
 
   def selectOnClick(): Unit = {
+    isSelected = !isSelected
+
     selectionManager match {
       case None =>
       case Some(checkedSelectionManager) => {
-        if (handCard) {
-          checkedSelectionManager.selectFromHand = true
-        } else {
-          checkedSelectionManager.selectedTurnOverFieldIndex =
-            turnOverFieldCardIndex
+        if (isSelected) {
+          if (handCard) {
+            checkedSelectionManager.selectFromHand = true
+            checkedSelectionManager.selectedTurnOverFieldIndex = -1
+          } else {
+            checkedSelectionManager.selectFromHand = false
+            checkedSelectionManager.selectedTurnOverFieldIndex =
+              turnOverFieldCardIndex
+          }
+          selectedCards
+            .filter(_ != null)
+            .foreach { card =>
+              card.deselect()
+            }
         }
-
-        isSelected = !isSelected
-        style =
-          "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5); -fx-border-color: black; -fx-border-width: 2;"
+        style = if (isSelected) selectionStyle else defaultCardStyle
       }
     }
 
@@ -61,7 +68,15 @@ case class Card(
         case None =>
         case Some(checkedSelectionManager) => {
           // need to be careful since filter in gamePlayerScene runs this everytime a card is not selected
-          checkedSelectionManager.selectFromHand = false
+          if (handCard) {
+            checkedSelectionManager.selectFromHand = false
+          } else {
+            if (
+              checkedSelectionManager.selectedTurnOverFieldIndex != turnOverFieldCardIndex
+            ) {
+              checkedSelectionManager.selectedTurnOverFieldIndex = -1
+            }
+          }
         }
       }
 
@@ -73,14 +88,13 @@ case class Card(
   children.add(cardImage)
 
   onMouseClicked = (e: MouseEvent) => {
-    if (selectionMode && selectable) {
+    if (selectable) {
       if (isSelected) {
         deselect()
       } else {
         selectOnClick()
       }
     }
-    e.consume()
   }
 
   def flip(): Card = {

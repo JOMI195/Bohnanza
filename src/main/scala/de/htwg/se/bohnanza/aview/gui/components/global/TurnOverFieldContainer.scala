@@ -6,11 +6,13 @@ import scalafx.geometry.Pos
 import bohnanza.model.Bean
 import bohnanza.aview.gui.utils.ImageUtils
 import bohnanza.aview.gui.model.SelectionManager
+import bohnanza.aview.gui.components.gamePlayer.PlayerHand
 
 class TurnOverFieldContainer(
     cards: List[Bean],
     scaleFactor: Float = mainCardScaleFactor,
-    selectionManager: Option[SelectionManager]
+    selectionManager: Option[SelectionManager],
+    playerHand: Option[PlayerHand]
 ) extends HBox(10) {
   fillHeight = false
 
@@ -35,51 +37,53 @@ class TurnOverFieldContainer(
     children.add(turnOverFieldImage2)
   }
 
-  var turnOverFieldCards: List[Card] = List.fill(2)(null)
-  if (cards.nonEmpty) {
-    turnOverFieldCards = turnOverFieldCards.updated(
-      0,
-      Card(
-        bean = cards(0),
-        scaleFactor = scaleFactor,
-        selectionManager = selectionManager,
-        selectable = true,
-        turnOverFieldCardIndex = 0
-      )
-    )
-    turnOverFieldCards(0).translateY = 50
-    stackPane1.children.add(turnOverFieldCards(0))
-
-    if (cards.length > 1) {
-      turnOverFieldCards = turnOverFieldCards.updated(
-        1,
-        Card(
-          bean = cards(1),
-          scaleFactor = scaleFactor,
-          selectionManager = selectionManager,
-          selectable = true,
-          turnOverFieldCardIndex = 1
-        )
-      )
-      turnOverFieldCards(1).translateY = 50
-      stackPane2.children.add(turnOverFieldCards(1))
-    }
-  }
-
-  def deselect(): Unit = {
-    selectionManager match {
-      case None =>
-      case Some(checkedSelectionManager) => {
-        if (checkedSelectionManager.selectedTurnOverFieldIndex == 0) {
-          turnOverFieldCards(0).deselect()
-        } else if (checkedSelectionManager.selectedTurnOverFieldIndex == 1) {
-          turnOverFieldCards(1).deselect()
-        }
-        checkedSelectionManager.selectedTurnOverFieldIndex = -1
+  var turnOverFieldCards: List[Card] = List.empty
+  if (cards.nonEmpty && cards.length > 1) {
+    turnOverFieldCards = Card(
+      bean = cards(0),
+      scaleFactor = scaleFactor,
+      selectionManager = selectionManager,
+      selectable = true,
+      turnOverFieldCardIndex = 0,
+      selectedCards = playerHand match {
+        case None => List.empty
+        case Some(checkedPlayerHand) =>
+          List(checkedPlayerHand.selectableCard)
       }
-    }
+    ) :: turnOverFieldCards
+
+    turnOverFieldCards = Card(
+      bean = cards(1),
+      scaleFactor = scaleFactor,
+      selectionManager = selectionManager,
+      selectable = true,
+      turnOverFieldCardIndex = 1,
+      selectedCards = playerHand match {
+        case None => List.empty
+        case Some(checkedPlayerHand) =>
+          List(checkedPlayerHand.selectableCard)
+      }
+    ) :: turnOverFieldCards
+
+    println(turnOverFieldCards)
+
+    turnOverFieldCards(0).selectedCards =
+      turnOverFieldCards(1) :: turnOverFieldCards(0).selectedCards
+    turnOverFieldCards(1).selectedCards =
+      turnOverFieldCards(0) :: turnOverFieldCards(1).selectedCards
+
+    turnOverFieldCards(0).translateY = 50
+    turnOverFieldCards(1).translateY = 50
+    stackPane1.children.add(turnOverFieldCards(0))
+    stackPane2.children.add(turnOverFieldCards(1))
   }
 
   children.addAll(stackPane1, stackPane2)
+
+  def deselect() = {
+    for (card <- turnOverFieldCards) {
+      card.deselect()
+    }
+  }
 
 }

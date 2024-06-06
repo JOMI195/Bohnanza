@@ -35,7 +35,8 @@ class PlayerBeanFields(
           Card(
             bean = bean,
             scaleFactor = scaleFactor,
-            selectionManager = None
+            selectionManager = None,
+            selectedCards = List.empty
           )
         )
       )

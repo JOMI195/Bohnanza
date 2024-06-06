@@ -11,23 +11,25 @@ import bohnanza.aview.gui.model.SelectionManager
 class PlayerHand(currentViewPlayer: Player, selectionManager: SelectionManager)
     extends VBox {
   var flipped = true
+  var selectableCard: Card = _
   val handcards: List[Card] = currentViewPlayer.hand.cards match {
     case Nil => List.empty
     case head :: tail =>
-      val selectableCard =
-        new Card(
-          bean = head,
-          scaleFactor = 0.4,
-          selectable = true,
-          selectionManager = Some(selectionManager),
-          handCard = true
-        ) {}
+      selectableCard = new Card(
+        bean = head,
+        scaleFactor = 0.4,
+        selectable = true,
+        selectionManager = Some(selectionManager),
+        handCard = true,
+        selectedCards = List.empty
+      )
       val otherCards = tail.map { bean =>
         new Card(
           bean = bean,
           scaleFactor = 0.4,
           selectionManager = None,
-          handCard = true
+          handCard = true,
+          selectedCards = List.empty
         )
       }
       selectableCard :: otherCards

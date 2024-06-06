@@ -2,19 +2,14 @@ package bohnanza.aview.gui.scenes
 
 import scalafx.scene.Scene
 import scalafx.scene.control.{Button, Label}
-import scalafx.scene.layout.{VBox}
+import scalafx.scene.layout.{VBox, HBox, Region, Priority, StackPane}
 import bohnanza.controller.Controller
 import scalafx.geometry.Pos
 import bohnanza.aview.gui.Styles
 import bohnanza.aview.gui.components.global.*
 import bohnanza.aview.gui.components.gamePlayer.*
-import scalafx.scene.layout.HBox
 import scalafx.geometry.Insets
-import scalafx.scene.layout.Region
-import scalafx.scene.layout.Priority
 import bohnanza.model.Player
-import scalafx.scene.layout.Pane
-import scalafx.scene.layout.StackPane
 import scalafx.Includes._
 import scalafx.scene.input.MouseEvent
 import bohnanza.aview.gui.model.SelectionManager
@@ -112,26 +107,37 @@ case class GamePlayerScene(
   val actions = Actions(
     controller = controller,
     onHarvestButtonClick = () => {
-      SceneSnackbars.topSnackbar.showSnackbar(
-        "Please select the bean field that you want to harvest."
-      )
+      if (selectionManager.selectedBeanFieldIndex == -1) {
+        SceneSnackbars.topSnackbar.showSnackbar(
+          "Please select the bean field that you want to harvest."
+        )
+      } else {
+        controller.harvest(
+          currentPlayerViewIndex,
+          selectionManager.selectedBeanFieldIndex
+        )
+
+        deselectOnAction()
+      }
     },
     onPlantButtonClick = () => {
       SceneSnackbars.topSnackbar.showSnackbar(
         "Please select the bean and bean field that you want to plant on."
       )
+      deselectOnAction()
     }
   )
 
   val coins = Coins(currentViewPlayer.coins, 0.6, 1.5)
 
+  val playerHand = PlayerHand(currentViewPlayer, selectionManager)
+
   val turnOverFieldContainer = TurnOverFieldContainer(
     controller.game.turnOverField.cards,
     scaleFactor = 0.4,
-    selectionManager = Some(selectionManager)
+    selectionManager = Some(selectionManager),
+    playerHand = Some(playerHand)
   )
-
-  val playerHand = PlayerHand(currentViewPlayer, selectionManager)
 
   val leftElements = new VBox {
     alignment = Pos.TOP_LEFT
@@ -175,19 +181,44 @@ case class GamePlayerScene(
     )
   }
 
+  var lastSelectedCard = SelectedCard.None
+
   this.addEventFilter(
     MouseEvent.MouseClicked,
     (e: MouseEvent) => {
-      if (e.target != null && !e.target.isInstanceOf[Card]) {
+      val beanFieldContainer = "class javafx.scene.layout.VBox"
+      val card = "class javafx.scene.image.ImageView"
+
+      println(s"hand ${selectionManager.selectFromHand}")
+      println(s"turnOver ${selectionManager.selectedTurnOverFieldIndex}")
+      println(s"bean: ${selectionManager.selectedBeanFieldIndex}\n")
+      if (
+        e.target != null && !e.target
+          .getClass()
+          .toString()
+          .equals(beanFieldContainer)
+        && !e.target.getClass().toString().equals(card)
+      ) {
         playerHand.hand.cards.foreach(_.deselect())
         turnOverFieldContainer.deselect()
-      }
-      if (e.target != null && !e.target.isInstanceOf[PlayerBeanFields]) {
         playerBeanFields.deselect()
       }
+
     }
   )
 
+  def deselectOnAction(): Unit = {
+    selectionManager.selectFromHand = false
+    selectionManager.selectedBeanFieldIndex = -1
+    selectionManager.selectedTurnOverFieldIndex = -1
+  }
+
   this.getStylesheets.add(Styles.baseCss)
   this.getStylesheets.add(Styles.gameCss)
+}
+
+enum SelectedCard {
+  case HandCard
+  case TurnCard
+  case None
 }

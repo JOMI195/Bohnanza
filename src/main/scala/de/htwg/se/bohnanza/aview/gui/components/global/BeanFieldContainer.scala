@@ -10,6 +10,7 @@ import scalafx.geometry.Pos
 import bohnanza.aview.gui.model.SelectionManager
 import scalafx.scene.input.MouseEvent
 import scalafx.Includes._
+import bohnanza.aview.gui.model.selectionStyle
 
 class BeanFieldContainer(
     beanFieldCards: BeanFieldCards,
@@ -37,8 +38,7 @@ class BeanFieldContainer(
       case None =>
       case Some(checkedSelectionManager) => {
         checkedSelectionManager.selectedBeanFieldIndex = beanFieldId - 1
-        style =
-          "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5); -fx-border-color: black; -fx-border-width: 2;"
+        style = selectionStyle
       }
     }
   }
