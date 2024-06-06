@@ -3,6 +3,7 @@
 # Bohnanza Game
 
 <p align="left">
+  <img alt="Static Badge" src="https://img.shields.io/badge/FUN-100_%25-blue">
   <a href="https://coveralls.io/github/JOMI195/Bohnanza?branch=development">
     <img src="https://coveralls.io/repos/github/JOMI195/Bohnanza/badge.svg?branch=development" alt="Coverage Status">
   </a>
@@ -13,10 +14,23 @@ This is an unofficial Scala version of the BOHNANZA game for Software Engineerin
 
 Bohnanza is a card game that revolves around trading and planting beans. Each player has a hand of bean cards, which they must plant in the order they are drawn. Players can trade beans with each other to manage their fields more effectively. The goal is to collect sets of the same type of bean and then harvest them to earn coins. The player with the most coins at the end of the game wins. The game is known for its unique rule that players cannot rearrange the order of cards in their hands, which adds a strategic layer to trading and planting decisions.
 
-## Features
+## Top Game Features
 
 * Interactive GUI, Text-based UI (TUI)
 * Singleplayer/Multiplayer mode
+* Great looking Artwork
+
+## Game Roadmap
+- [x] Playable with up to 4 players
+- [x] Player can have several beanfields
+- [x] Player has coins
+- [x] Bean cards can be drawn from the deck to the players hand
+- [x] Bean cards can be drawn from the deck to the turnoverfield
+- [x] Bean cards can be planted from the players hand or the turnoverfield on the players beanfields
+- [x] Bean cards can be harvested from the players beanfield and turned into coins
+- [ ] Player can buy the third beanfield
+- [ ] Game ending
+- [ ] Trading between Players
 
 ## Screenshots
 
