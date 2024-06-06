@@ -37,9 +37,10 @@ class TurnOverFieldContainer(
     children.add(turnOverFieldImage2)
   }
 
-  var turnOverFieldCards: List[Card] = List.empty
-  if (cards.nonEmpty && cards.length > 1) {
-    turnOverFieldCards = Card(
+  var card1: Card = _
+  var card2: Card = _
+  if (cards.nonEmpty) {
+    card1 = Card(
       bean = cards(0),
       scaleFactor = scaleFactor,
       selectionManager = selectionManager,
@@ -50,40 +51,40 @@ class TurnOverFieldContainer(
         case Some(checkedPlayerHand) =>
           List(checkedPlayerHand.selectableCard)
       }
-    ) :: turnOverFieldCards
+    )
 
-    turnOverFieldCards = Card(
-      bean = cards(1),
-      scaleFactor = scaleFactor,
-      selectionManager = selectionManager,
-      selectable = true,
-      turnOverFieldCardIndex = 1,
-      selectedCards = playerHand match {
-        case None => List.empty
-        case Some(checkedPlayerHand) =>
-          List(checkedPlayerHand.selectableCard)
-      }
-    ) :: turnOverFieldCards
+    stackPane1.children.add(card1)
+    card1.translateY = 50
 
-    println(turnOverFieldCards)
+    if (cards.length > 1) {
+      card2 = Card(
+        bean = cards(1),
+        scaleFactor = scaleFactor,
+        selectionManager = selectionManager,
+        selectable = true,
+        turnOverFieldCardIndex = 1,
+        selectedCards = playerHand match {
+          case None => List.empty
+          case Some(checkedPlayerHand) =>
+            List(checkedPlayerHand.selectableCard)
+        }
+      )
 
-    turnOverFieldCards(0).selectedCards =
-      turnOverFieldCards(1) :: turnOverFieldCards(0).selectedCards
-    turnOverFieldCards(1).selectedCards =
-      turnOverFieldCards(0) :: turnOverFieldCards(1).selectedCards
-
-    turnOverFieldCards(0).translateY = 50
-    turnOverFieldCards(1).translateY = 50
-    stackPane1.children.add(turnOverFieldCards(0))
-    stackPane2.children.add(turnOverFieldCards(1))
+      card1.selectedCards = card2 :: card1.selectedCards
+      card2.selectedCards = card1 :: card2.selectedCards
+      card2.translateY = 50
+      stackPane2.children.add(card2)
+    }
   }
 
   children.addAll(stackPane1, stackPane2)
 
   def deselect() = {
-    for (card <- turnOverFieldCards) {
-      card.deselect()
+    if (cards.nonEmpty) {
+      card1.deselect()
+      if (cards.length > 1)
+        card2.deselect()
     }
-  }
 
+  }
 }

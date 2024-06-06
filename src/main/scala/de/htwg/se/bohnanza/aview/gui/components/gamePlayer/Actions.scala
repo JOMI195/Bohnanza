@@ -14,7 +14,8 @@ import scalafx.geometry.Insets
 class Actions(
     controller: Controller,
     onPlantButtonClick: () => Unit,
-    onHarvestButtonClick: () => Unit
+    onHarvestButtonClick: () => Unit,
+    onDrawButtonClick: () => Unit
 ) extends VBox {
   val buttonWidth = 180
   val buttonHeight = 35
@@ -45,6 +46,29 @@ class Actions(
   }
 
   val midButtons = new HBox {
+    val phaseChangeButton = GameButtonFactory.createGameButton(
+      text = "Next Phase",
+      width = buttonWidth,
+      height = buttonHeight
+    ) { () =>
+      controller.nextPhase
+    }
+    phaseChangeButton.style = s"-fx-font-size: ${buttonFontsize}"
+
+    val drawButton = GameButtonFactory.createGameButton(
+      text = "Draw",
+      width = buttonWidth,
+      height = buttonHeight
+    ) { () =>
+      onDrawButtonClick()
+    }
+    drawButton.style = s"-fx-font-size: ${buttonFontsize}"
+
+    spacing = buttonSpacing
+    children.addAll(phaseChangeButton, drawButton)
+  }
+
+  val bottomButtons = new HBox {
     val undoButton = GameButtonFactory.createGameButton(
       text = "Undo",
       width = buttonWidth,
@@ -65,20 +89,6 @@ class Actions(
 
     spacing = buttonSpacing
     children.addAll(undoButton, redoButton)
-  }
-
-  val bottomButtons = new HBox {
-    val phaseChangeButton = GameButtonFactory.createGameButton(
-      text = "Next Phase",
-      width = buttonWidth,
-      height = buttonHeight
-    ) { () =>
-      controller.nextPhase
-    }
-    phaseChangeButton.style = s"-fx-font-size: ${buttonFontsize}"
-
-    spacing = buttonSpacing
-    children.addAll(phaseChangeButton)
   }
 
   spacing = buttonSpacing

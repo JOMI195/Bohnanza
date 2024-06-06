@@ -53,13 +53,22 @@ case class Card(
           selectedCards
             .filter(_ != null)
             .foreach { card =>
-              card.deselect()
+              if (handCard) {
+                card.deselect()
+              } else {
+                card.deselectTurnOverFieldCards()
+              }
+
             }
         }
         style = if (isSelected) selectionStyle else defaultCardStyle
       }
     }
+  }
 
+  def deselectTurnOverFieldCards(): Unit = {
+    isSelected = false
+    style = defaultCardStyle
   }
 
   def deselect(): Unit = {
@@ -68,20 +77,16 @@ case class Card(
         case None =>
         case Some(checkedSelectionManager) => {
           // need to be careful since filter in gamePlayerScene runs this everytime a card is not selected
+          isSelected = false
+          style = defaultCardStyle
           if (handCard) {
             checkedSelectionManager.selectFromHand = false
           } else {
-            if (
-              checkedSelectionManager.selectedTurnOverFieldIndex != turnOverFieldCardIndex
-            ) {
-              checkedSelectionManager.selectedTurnOverFieldIndex = -1
-            }
+            checkedSelectionManager.selectedTurnOverFieldIndex = -1
           }
         }
       }
 
-      isSelected = false
-      style = defaultCardStyle
     }
   }
 

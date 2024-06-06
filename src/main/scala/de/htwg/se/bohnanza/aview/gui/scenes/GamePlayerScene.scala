@@ -116,15 +116,37 @@ case class GamePlayerScene(
           currentPlayerViewIndex,
           selectionManager.selectedBeanFieldIndex
         )
-
-        deselectOnAction()
       }
+      deselectOnAction()
     },
     onPlantButtonClick = () => {
-      SceneSnackbars.topSnackbar.showSnackbar(
-        "Please select the bean and bean field that you want to plant on."
+      if (
+        selectionManager.selectedBeanFieldIndex == -1 && (!selectionManager.selectFromHand || selectionManager.selectedTurnOverFieldIndex == -1)
       )
+        SceneSnackbars.topSnackbar.showSnackbar(
+          "Please select the bean and bean field that you want to plant on." +
+            s"hand ${selectionManager.selectFromHand}\n" +
+            s"turnOver ${selectionManager.selectedTurnOverFieldIndex}\n" +
+            s"bean: ${selectionManager.selectedBeanFieldIndex}\n"
+        )
+      else {
+        if (selectionManager.selectFromHand) {
+          controller.plant(
+            currentPlayerViewIndex,
+            selectionManager.selectedBeanFieldIndex
+          )
+        } else {
+          controller.take(
+            currentPlayerViewIndex,
+            selectionManager.selectedTurnOverFieldIndex,
+            selectionManager.selectedBeanFieldIndex
+          )
+        }
+      }
       deselectOnAction()
+    },
+    onDrawButtonClick = () => {
+      controller.draw(currentPlayerViewIndex)
     }
   )
 
@@ -188,19 +210,28 @@ case class GamePlayerScene(
     (e: MouseEvent) => {
       val beanFieldContainer = "class javafx.scene.layout.VBox"
       val card = "class javafx.scene.image.ImageView"
-
-      println(s"hand ${selectionManager.selectFromHand}")
-      println(s"turnOver ${selectionManager.selectedTurnOverFieldIndex}")
-      println(s"bean: ${selectionManager.selectedBeanFieldIndex}\n")
+      val button = "class javafx.scene.control.Button"
+      val labeledText = "class com.sun.javafx.scene.control.skin.LabeledText"
       if (
         e.target != null && !e.target
           .getClass()
           .toString()
           .equals(beanFieldContainer)
         && !e.target.getClass().toString().equals(card)
+        && !e.target.getClass().toString().equals(button)
+        && !e.target.getClass().toString().equals(labeledText)
       ) {
         playerHand.hand.cards.foreach(_.deselect())
         turnOverFieldContainer.deselect()
+        playerBeanFields.deselect()
+      } else if (
+        e.target
+          .getClass()
+          .toString()
+          .equals(
+            beanFieldContainer
+          ) && selectionManager.selectedBeanFieldIndex != -1
+      ) {
         playerBeanFields.deselect()
       }
 
@@ -208,9 +239,10 @@ case class GamePlayerScene(
   )
 
   def deselectOnAction(): Unit = {
-    selectionManager.selectFromHand = false
-    selectionManager.selectedBeanFieldIndex = -1
-    selectionManager.selectedTurnOverFieldIndex = -1
+    playerHand.hand.cards.foreach(_.deselect())
+    turnOverFieldContainer.deselect()
+    playerBeanFields.deselect()
+
   }
 
   this.getStylesheets.add(Styles.baseCss)
