@@ -57,6 +57,18 @@ case class GamePlayerScene(
       "-fx-text-fill: #7A2626;"
   }
 
+  val currentPhaseText: Label = new Label {
+    text = s"Current Phase: ${controller.phase.getClass.getSimpleName}"
+    style = s"-fx-font-size: ${20};" +
+      "-fx-text-fill: #7A2626;"
+  }
+
+  val topInfoText = new VBox {
+    alignment = Pos.TOP_CENTER
+    spacing = 5
+    children = Seq(currentPlayerViewText, currentPhaseText)
+  }
+
   val leftAreaVSpacer1 = new Region {
     VBox.setVgrow(this, Priority.Always)
   }
@@ -80,7 +92,7 @@ case class GamePlayerScene(
     children = Seq(
       gameInfoButton,
       topBarHSpacer1,
-      currentPlayerViewText,
+      topInfoText,
       topBarHSpacer2,
       playersBar
     )
