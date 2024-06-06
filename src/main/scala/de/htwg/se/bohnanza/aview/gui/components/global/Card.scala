@@ -91,6 +91,9 @@ case class Card(
   def deselectTurnOverFieldCards(): Unit = {
     isSelected = false
     style = defaultCardStyle
+    pulsateTransition.stop()
+    cardImage.scaleX = 1.0
+    cardImage.scaleY = 1.0
   }
 
   def deselect(): Unit = {
@@ -106,6 +109,9 @@ case class Card(
           } else {
             checkedSelectionManager.selectedTurnOverFieldIndex = -1
           }
+          pulsateTransition.stop()
+          cardImage.scaleX = 1.0
+          cardImage.scaleY = 1.0
         }
       }
 

@@ -62,8 +62,9 @@ class PlayerBeanFields(
           return;
         beanFields(checkedSelectionManager.selectedBeanFieldIndex).style =
           defaultBeanFieldStyle
+        beanFields(checkedSelectionManager.selectedBeanFieldIndex)
+          .stopAnimation()
         checkedSelectionManager.selectedBeanFieldIndex = -1
-
     }
   }
 }

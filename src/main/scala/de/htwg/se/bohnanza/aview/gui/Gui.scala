@@ -184,6 +184,7 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
       }
       case ObserverEvent.PhaseChange => {
         Platform.runLater(() => {
+          moveToGamePlayerScene(controller.game.currentPlayerIndex)
           updateControllerOfScenes()
           stage.setScene(gamePlayerScene)
         })
@@ -245,7 +246,9 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
       controller = controller,
       currentPlayerViewIndex = currentPlayerViewIndex
     )
-    gameInfoScene = gameInfoScene.copy(controller = controller)
+    gameInfoScene = gameInfoScene.copy(
+      controller = controller
+    )
   }
 
   def moveToGamePlayerScene(index: Int): Unit = {

@@ -56,5 +56,11 @@ class BeanFieldContainer(
     }
   }
 
+  def stopAnimation(): Unit = {
+    pulsateTransition.stop()
+    beanFieldImage.scaleX = 1.0
+    beanFieldImage.scaleY = 1.0
+  }
+
   children.addAll(beanFieldImage, beanFieldCardsSpaced)
 }
