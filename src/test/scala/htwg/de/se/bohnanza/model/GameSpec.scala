@@ -82,7 +82,7 @@ class GameSpec extends AnyWordSpec with Matchers {
 
       val updatedGame = game.playerHarvestField(0, 0)
 
-      updatedGame.players.head.coins shouldBe 2
+      updatedGame.players.head.coins shouldBe 1
       updatedGame.players.head.beanFields.head.quantity shouldBe 0
     }
 

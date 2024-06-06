@@ -49,7 +49,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
     controller.harvest(0, 0)
     controller.game
       .players(0)
-      .coins shouldBe coinsBeforeHarvest + 2
+      .coins shouldBe coinsBeforeHarvest + 1
     controller.game.players(0).beanFields(0).quantity shouldBe 0
   }
 
