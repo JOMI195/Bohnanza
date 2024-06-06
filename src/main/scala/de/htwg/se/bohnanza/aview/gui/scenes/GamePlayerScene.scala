@@ -57,6 +57,9 @@ case class GamePlayerScene(
       "-fx-text-fill: #7A2626;"
   }
 
+  val leftAreaVSpacer1 = new Region {
+    VBox.setVgrow(this, Priority.Always)
+  }
   val topBarHSpacer1 = new Region {
     HBox.setHgrow(this, Priority.Always)
   }
@@ -89,6 +92,12 @@ case class GamePlayerScene(
     scaleFactor = 0.4
   )
 
+  val actions = Actions(
+    controller = controller,
+    onHarvestButtonClick = () => {},
+    onPlantButtonClick = () => {}
+  )
+
   val coins = Coins(currentViewPlayer.coins, 0.6, 1.5)
 
   val turnOverFieldContainer = TurnOverFieldContainer(
@@ -103,7 +112,7 @@ case class GamePlayerScene(
 
   val leftElements = new VBox {
     alignment = Pos.TOP_LEFT
-    children = Seq(playerBeanFields)
+    children = Seq(playerBeanFields, leftAreaVSpacer1, actions)
   }
 
   val midElements = new VBox {

@@ -130,24 +130,49 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
           stage.setScene(gameInfoScene)
         })
       }
-      case ObserverEvent.Harvest  =>
-      case ObserverEvent.Take     =>
-      case ObserverEvent.GameInfo =>
-      case ObserverEvent.Draw => {
+      case ObserverEvent.Harvest => {
+        Platform.runLater(() => {
+          updateControllerOfScenes()
+          stage.setScene(gamePlayerScene)
+        })
+      }
+      case ObserverEvent.Take => {
+        Platform.runLater(() => {
+          updateControllerOfScenes()
+          stage.setScene(gamePlayerScene)
+        })
+      }
+      case ObserverEvent.GameInfo => {
         Platform.runLater(() => {
           updateControllerOfScenes()
           stage.setScene(gameInfoScene)
+        })
+      }
+      case ObserverEvent.Draw => {
+        Platform.runLater(() => {
+          updateControllerOfScenes()
+          stage.setScene(gamePlayerScene)
         })
       }
       case ObserverEvent.Turn => {
         Platform.runLater(() => {
           updateControllerOfScenes()
-          stage.setScene(gameInfoScene)
+          stage.setScene(gamePlayerScene)
         })
       }
-      case ObserverEvent.Undo         =>
-      case ObserverEvent.Redo         =>
-      case ObserverEvent.CreatePlayer => println("gui: playerCreated")
+      case ObserverEvent.Undo => {
+        Platform.runLater(() => {
+          updateControllerOfScenes()
+          stage.setScene(gamePlayerScene)
+        })
+      }
+      case ObserverEvent.Redo => {
+        Platform.runLater(() => {
+          updateControllerOfScenes()
+          stage.setScene(gamePlayerScene)
+        })
+      }
+      case ObserverEvent.CreatePlayer =>
     }
   }
 
