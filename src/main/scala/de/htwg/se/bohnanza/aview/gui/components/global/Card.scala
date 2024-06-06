@@ -86,6 +86,7 @@ case class Card(
         }
       }
     }
+  }
 
   def deselectTurnOverFieldCards(): Unit = {
     isSelected = false

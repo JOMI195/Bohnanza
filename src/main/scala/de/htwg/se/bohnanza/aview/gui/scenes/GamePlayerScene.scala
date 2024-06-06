@@ -121,7 +121,7 @@ case class GamePlayerScene(
       if (
         selectionManager.selectedBeanFieldIndex == -1 && (!selectionManager.selectFromHand || selectionManager.selectedTurnOverFieldIndex == -1)
       )
-        SceneSnackbars.topSnackbar.showSnackbar(
+        topSnackbar.showSnackbar(
           "Please select the bean and bean field that you want to plant on." +
             s"hand ${selectionManager.selectFromHand}\n" +
             s"turnOver ${selectionManager.selectedTurnOverFieldIndex}\n" +
@@ -241,14 +241,6 @@ case class GamePlayerScene(
     turnOverFieldContainer.deselect()
     playerBeanFields.deselect()
 
-  }
-
-  def showBottomSnackbar(message: String) = {
-    bottomSnackbar.showSnackbar(message)
-  }
-
-  def showTopSnackbar(message: String) = {
-    topSnackbar.showSnackbar(message)
   }
 
   def showBottomSnackbar(message: String) = {
