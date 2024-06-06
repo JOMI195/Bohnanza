@@ -7,12 +7,14 @@ import bohnanza.model.BeanField
 import bohnanza.Bohnanza.controller
 import scalafx.geometry.Pos
 import scalafx.scene.layout.Priority
+import bohnanza.aview.gui.model.SelectionManager
 
 class PlayerInfo(
     player: Player,
     playerIndex: Int,
     scaleAvatar: Float,
     scaleFont: Float,
+    selectionManager: Option[SelectionManager],
     onPlayerNameButtonClick: () => Unit
 ) extends HBox(10) {
   fillHeight = true
@@ -35,7 +37,8 @@ class PlayerInfo(
 
   val playerBeanFields = PlayerBeanFields(
     player = player,
-    playerIndex = playerIndex
+    playerIndex = playerIndex,
+    selectionManager = selectionManager
   )
 
   children = Seq(playerStats, playerBeanFields)

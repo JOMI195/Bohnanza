@@ -15,6 +15,9 @@ import scalafx.scene.layout.Priority
 import bohnanza.model.Player
 import scalafx.scene.layout.Pane
 import scalafx.scene.layout.StackPane
+import scalafx.Includes._
+import scalafx.scene.input.MouseEvent
+import bohnanza.aview.gui.model.SelectionManager
 import bohnanza.aview.gui.SceneSnackbars
 
 case class GamePlayerScene(
@@ -23,7 +26,8 @@ case class GamePlayerScene(
     windowHeight: Double,
     currentPlayerViewIndex: Int,
     onGameInfoButtonClick: () => Unit,
-    moveToGamePlayerScene: (index: Int) => Unit
+    moveToGamePlayerScene: (index: Int) => Unit,
+    selectionManager: SelectionManager
 ) extends Scene(windowWidth, windowHeight) {
   SceneSnackbars.bottomSnackbar =
     new BottomRightSnackbar(windowWidth, windowHeight)
@@ -101,7 +105,14 @@ case class GamePlayerScene(
   val playerBeanFields = PlayerBeanFields(
     player = currentViewPlayer,
     playerIndex = currentPlayerViewIndex,
-    scaleFactor = 0.4
+    scaleFactor = 0.4,
+    selectionManager = Some(selectionManager)
+  )
+
+  val actions = Actions(
+    controller = controller,
+    onHarvestButtonClick = () => {},
+    onPlantButtonClick = () => {}
   )
 
   val actions = Actions(
@@ -114,10 +125,33 @@ case class GamePlayerScene(
 
   val turnOverFieldContainer = TurnOverFieldContainer(
     controller.game.turnOverField.cards,
-    scaleFactor = 0.4
+    scaleFactor = 0.4,
+    selectionManager = Some(selectionManager)
   )
 
   val playerHand = PlayerHand(currentViewPlayer)
+  val handcards: List[Card] = currentViewPlayer.hand.cards match {
+    case Nil => List.empty
+    case head :: tail =>
+      val selectableCard =
+        new Card(
+          bean = head,
+          scaleFactor = 0.4,
+          selectable = true,
+          selectionManager = Some(selectionManager),
+          handCard = true
+        ) {}
+      val otherCards = tail.map { bean =>
+        new Card(
+          bean = bean,
+          scaleFactor = 0.4,
+          selectionManager = None,
+          handCard = true
+        )
+      }
+      selectableCard :: otherCards
+  }
+  val hand = Hand(cards = handcards)
 
   val leftElements = new VBox {
     alignment = Pos.TOP_LEFT
@@ -161,11 +195,21 @@ case class GamePlayerScene(
     )
   }
 
-  SceneSnackbars.bottomSnackbar.showSnackbar(
+  // SceneSnackbars.bottomSnackbar.showSnackbar(
     "This is an overridden info message"
   )
-  SceneSnackbars.topSnackbar.showSnackbar(
+  // SceneSnackbars.topSnackbar.showSnackbar(
     "This is an overridden info message"
+  )
+
+  this.addEventFilter(
+    MouseEvent.MouseClicked,
+    (e: MouseEvent) => {
+      if (e.target != null && !e.target.isInstanceOf[Card]) {
+        handcards.foreach(_.deselect())
+        turnOverFieldContainer.deselect()
+      }
+    }
   )
 
   this.getStylesheets.add(Styles.baseCss)
