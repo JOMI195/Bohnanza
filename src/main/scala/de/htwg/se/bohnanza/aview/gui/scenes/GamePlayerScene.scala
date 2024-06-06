@@ -182,6 +182,9 @@ case class GamePlayerScene(
         playerHand.hand.cards.foreach(_.deselect())
         turnOverFieldContainer.deselect()
       }
+      if (e.target != null && !e.target.isInstanceOf[PlayerBeanFields]) {
+        playerBeanFields.deselect()
+      }
     }
   )
 

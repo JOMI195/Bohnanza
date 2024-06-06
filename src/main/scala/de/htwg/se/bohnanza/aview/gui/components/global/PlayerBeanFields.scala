@@ -15,7 +15,8 @@ class PlayerBeanFields(
     scaleFactor: Float = mainCardScaleFactor,
     selectionManager: Option[SelectionManager]
 ) extends HBox {
-
+  val defaultBeanFieldStyle =
+    "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
   val beanFields = (0 to 2).map(createBeanField).toList
   val beanFieldsContainer = BeanFieldsContainer(beanFields)
 
@@ -50,5 +51,16 @@ class PlayerBeanFields(
       scaleFactor = scaleFactor,
       selectionManager = selectionManager
     )
+  }
+
+  def deselect(): Unit = {
+    selectionManager match {
+      case None =>
+      case Some(checkedSelectionManager) =>
+        if (checkedSelectionManager.selectedBeanFieldIndex == -1)
+          return;
+        beanFields(checkedSelectionManager.selectedBeanFieldIndex).style =
+          defaultBeanFieldStyle
+    }
   }
 }

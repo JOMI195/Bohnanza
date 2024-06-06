@@ -43,9 +43,5 @@ class BeanFieldContainer(
     }
   }
 
-  // def deselect(): Unit = {
-  //   style = defaultBeanFieldStyle
-  // }
-
   children.addAll(beanFieldImage, beanFieldCardsSpaced)
 }
