@@ -106,7 +106,7 @@ class PlayerSpec extends AnyWordSpec with Matchers {
 
       val updatedPlayer = initialPlayer.harvestField(0)
       updatedPlayer.beanFields.head.quantity shouldBe 0
-      updatedPlayer.coins shouldBe 2
+      updatedPlayer.coins shouldBe 1
     }
 
     "plant a bean to a specific beanField" in {

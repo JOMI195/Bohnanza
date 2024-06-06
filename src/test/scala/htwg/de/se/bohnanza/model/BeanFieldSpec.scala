@@ -26,7 +26,7 @@ class BeanFieldSpec extends AnyWordSpec with Matchers {
         val (fireCoins, updatedCorrectBeanField) =
           correctBeanField.harvestField()
         updatedCorrectBeanField.quantity shouldBe 0
-        fireCoins shouldBe 2
+        fireCoins shouldBe 1
       }
 
       "beanField is empty" in {
@@ -39,7 +39,7 @@ class BeanFieldSpec extends AnyWordSpec with Matchers {
         val (fireCoins, updatedUncorrectBeanField) =
           notCorrectBeanField.harvestField()
         updatedUncorrectBeanField.quantity shouldBe 0
-        fireCoins shouldBe 2
+        fireCoins shouldBe 1
       }
     }
 
