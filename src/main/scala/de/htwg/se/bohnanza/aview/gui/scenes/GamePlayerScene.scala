@@ -117,10 +117,7 @@ case class GamePlayerScene(
     scaleFactor = 0.4
   )
 
-  val handcards: List[Card] = currentViewPlayer.hand.cards.map { bean =>
-    Card(bean = bean, scaleFactor = 0.4)
-  }
-  val hand = Hand(cards = handcards)
+  val playerHand = PlayerHand(currentViewPlayer)
 
   val leftElements = new VBox {
     alignment = Pos.TOP_LEFT
@@ -130,7 +127,7 @@ case class GamePlayerScene(
   val midElements = new VBox {
     padding = Insets(60, 0, 0, 0)
     alignment = Pos.TOP_CENTER
-    children = Seq(turnOverFieldContainer, midAreaVSpacer1, hand)
+    children = Seq(turnOverFieldContainer, midAreaVSpacer1, playerHand)
   }
 
   val rightElements = new VBox {

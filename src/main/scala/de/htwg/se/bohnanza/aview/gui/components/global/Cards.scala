@@ -43,6 +43,7 @@ case class Hand(cards: List[Card])
       direction = Direction.xAxis
     ) {
 
+  alignment = Pos.CENTER
   children = createCardContainer()
 
   override def flippAllCards(): Hand = {

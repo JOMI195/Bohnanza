@@ -44,7 +44,7 @@ class Actions(
     children.addAll(plantButton, harvestButton)
   }
 
-  val bottomButtons = new HBox {
+  val midButtons = new HBox {
     val undoButton = GameButtonFactory.createGameButton(
       text = "Undo",
       width = buttonWidth,
@@ -67,6 +67,20 @@ class Actions(
     children.addAll(undoButton, redoButton)
   }
 
+  val bottomButtons = new HBox {
+    val phaseChangeButton = GameButtonFactory.createGameButton(
+      text = "Next Phase",
+      width = buttonWidth,
+      height = buttonHeight
+    ) { () =>
+      controller.nextPhase
+    }
+    phaseChangeButton.style = s"-fx-font-size: ${buttonFontsize}"
+
+    spacing = buttonSpacing
+    children.addAll(phaseChangeButton)
+  }
+
   spacing = buttonSpacing
-  children.addAll(topButtons, bottomButtons)
+  children.addAll(topButtons, midButtons, bottomButtons)
 }
