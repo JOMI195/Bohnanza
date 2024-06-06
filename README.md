@@ -1,4 +1,4 @@
-![TitleBanner](https://github.com/JOMI195/Bohnanza/assets/57303615/6641a39e-9021-4575-88d8-baebf99bedb9)
+![Github Titlebanner](https://github.com/JOMI195/Bohnanza/assets/57303615/8c8884ac-ec48-45a5-b704-71559b3b8fb3)
 
 # Bohnanza Game
 
