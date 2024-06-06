@@ -13,7 +13,6 @@ import bohnanza.model.Player
 import scalafx.Includes._
 import scalafx.scene.input.MouseEvent
 import bohnanza.aview.gui.model.SelectionManager
-import bohnanza.aview.gui.SceneSnackbars
 
 case class GamePlayerScene(
     controller: Controller,
@@ -24,10 +23,9 @@ case class GamePlayerScene(
     moveToGamePlayerScene: (index: Int) => Unit,
     selectionManager: SelectionManager
 ) extends Scene(windowWidth, windowHeight) {
-  SceneSnackbars.bottomSnackbar =
+  val bottomSnackbar =
     new BottomRightSnackbar(windowWidth, windowHeight)
-
-  SceneSnackbars.topSnackbar = new TopCenterSnackbar(windowWidth, windowHeight)
+  val topSnackbar = new TopCenterSnackbar(windowWidth, windowHeight)
 
   val gameInfoButton = GameButtonFactory.createGameButton(
     text = "Gameinfo",
@@ -108,7 +106,7 @@ case class GamePlayerScene(
     controller = controller,
     onHarvestButtonClick = () => {
       if (selectionManager.selectedBeanFieldIndex == -1) {
-        SceneSnackbars.topSnackbar.showSnackbar(
+        topSnackbar.showSnackbar(
           "Please select the bean field that you want to harvest."
         )
       } else {
@@ -121,7 +119,7 @@ case class GamePlayerScene(
       }
     },
     onPlantButtonClick = () => {
-      SceneSnackbars.topSnackbar.showSnackbar(
+      topSnackbar.showSnackbar(
         "Please select the bean and bean field that you want to plant on."
       )
       deselectOnAction()
@@ -176,8 +174,8 @@ case class GamePlayerScene(
           sceneMainArea
         )
       },
-      SceneSnackbars.bottomSnackbar,
-      SceneSnackbars.topSnackbar
+      bottomSnackbar,
+      topSnackbar
     )
   }
 
@@ -211,6 +209,14 @@ case class GamePlayerScene(
     selectionManager.selectFromHand = false
     selectionManager.selectedBeanFieldIndex = -1
     selectionManager.selectedTurnOverFieldIndex = -1
+  }
+
+  def showBottomSnackbar(message: String) = {
+    bottomSnackbar.showSnackbar(message)
+  }
+
+  def showTopSnackbar(message: String) = {
+    topSnackbar.showSnackbar(message)
   }
 
   this.getStylesheets.add(Styles.baseCss)
