@@ -16,6 +16,7 @@ import bohnanza.aview.gui.components.gameInfo.PlayerInfo
 import bohnanza.aview.gui.components.gameInfo.GameInfoGrid
 import scalafx.geometry.Insets
 import scalafx.scene.layout.StackPane
+import scalafx.application.Platform
 
 case class GameInfoScene(
     controller: Controller,
@@ -24,6 +25,9 @@ case class GameInfoScene(
     onGoBackToGameButtonClick: () => Unit,
     moveToGamePlayerScene: (index: Int) => Unit
 ) extends Scene(windowWidth, windowHeight) {
+  val bottomSnackbar =
+    new BottomRightSnackbar(windowWidth, windowHeight)
+  val topSnackbar = new TopCenterSnackbar(windowWidth, windowHeight)
 
   val goBackToGameButton =
     GameButtonFactory.createGameButton("Go Back", width = 200, height = 40) {
@@ -52,9 +56,19 @@ case class GameInfoScene(
             goBackToGameButton,
             gameInfoGrid
           )
-        }
+        },
+        bottomSnackbar,
+        topSnackbar
       )
     }
+  }
+
+  def showBottomSnackbar(message: String) = {
+    bottomSnackbar.showSnackbar(message)
+  }
+
+  def showTopSnackbar(message: String) = {
+    topSnackbar.showSnackbar(message)
   }
 
   this.getStylesheets.add(Styles.baseCss)

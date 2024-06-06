@@ -19,8 +19,6 @@ import bohnanza.aview.gui.scenes.StartScene
 import bohnanza.aview.gui.scenes.PlayerCreateScene
 import bohnanza.aview.gui.scenes.GameInfoScene
 import scalafx.application.Platform
-import bohnanza.aview.gui.components.global.BottomRightSnackbar
-import bohnanza.aview.gui.components.global.TopCenterSnackbar
 import bohnanza.aview.gui.model.SelectionManager
 
 object Styles {
@@ -30,11 +28,6 @@ object Styles {
   val playerCreationCss =
     getClass.getResource("/styles/playerCreation.css").toExternalForm
   val gameCss = getClass.getResource("/styles/game.css").toExternalForm
-}
-
-object SceneSnackbars {
-  var bottomSnackbar: BottomRightSnackbar = _
-  var topSnackbar: TopCenterSnackbar = _
 }
 
 class Gui(controller: Controller) extends JFXApp3 with Observer {
@@ -82,7 +75,10 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
       windowWidth = windowWidth,
       windowHeight = windowHeight,
       currentPlayerViewIndex = currentPlayerViewIndex,
-      onGameInfoButtonClick = () => stage.setScene(gameInfoScene),
+      onGameInfoButtonClick = () => {
+        updateControllerOfScenes()
+        stage.setScene(gameInfoScene)
+      },
       moveToGamePlayerScene = moveToGamePlayerScene,
       selectionManager = selectionManager
     )
@@ -91,7 +87,10 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
       controller = controller,
       windowWidth = windowWidth,
       windowHeight = windowHeight,
-      onGoBackToGameButtonClick = () => stage.setScene(gamePlayerScene),
+      onGoBackToGameButtonClick = () => {
+        updateControllerOfScenes()
+        stage.setScene(gamePlayerScene)
+      },
       moveToGamePlayerScene = moveToGamePlayerScene
     )
 
@@ -107,17 +106,74 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
   // ------------ Observer ---------------------------------------------------
   override def update(error: HandlerResponse): Unit = {
     error match {
-      case HandlerResponse.BeanFieldIndexError        =>
-      case HandlerResponse.PlayerIndexError           =>
-      case HandlerResponse.CurrentPlayerIndexError    =>
-      case HandlerResponse.TurnOverFieldIndexError    =>
-      case HandlerResponse.HandIndexError             =>
-      case HandlerResponse.MethodError                =>
-      case HandlerResponse.ArgsError                  =>
-      case HandlerResponse.Success                    =>
-      case HandlerResponse.MissingPlayerCreationError =>
-      case HandlerResponse.TakeInvalidPlantError      =>
-      case HandlerResponse.InvalidPlantError          =>
+      case HandlerResponse.BeanFieldIndexError => {
+        Platform.runLater(() => {
+          val message = "You don't have this bean field."
+          gameInfoScene.showBottomSnackbar(message)
+          gamePlayerScene.showBottomSnackbar(message)
+        })
+      }
+      case HandlerResponse.PlayerIndexError => {
+        Platform.runLater(() => {
+          val message = "This player does not exist."
+          gameInfoScene.showBottomSnackbar(message)
+          gamePlayerScene.showBottomSnackbar(message)
+        })
+      }
+      case HandlerResponse.CurrentPlayerIndexError => {
+        Platform.runLater(() => {
+          val message = "This player is not the current player."
+          gameInfoScene.showBottomSnackbar(message)
+          gamePlayerScene.showBottomSnackbar(message)
+        })
+      }
+      case HandlerResponse.TurnOverFieldIndexError => {
+        Platform.runLater(() => {
+          val message = "You can't access a turn-over card with this index."
+          gameInfoScene.showBottomSnackbar(message)
+          gamePlayerScene.showBottomSnackbar(message)
+        })
+      }
+      case HandlerResponse.HandIndexError => {
+        Platform.runLater(() => {
+          val message = "You don't have any cards to plant anymore."
+          gameInfoScene.showBottomSnackbar(message)
+          gamePlayerScene.showBottomSnackbar(message)
+        })
+      }
+      case HandlerResponse.MethodError => {
+        Platform.runLater(() => {
+          val message = "You can't use this method in this phase."
+          gameInfoScene.showBottomSnackbar(message)
+          gamePlayerScene.showBottomSnackbar(message)
+        })
+      }
+      case HandlerResponse.ArgsError =>
+      case HandlerResponse.Success   =>
+      case HandlerResponse.MissingPlayerCreationError => {
+        Platform.runLater(() => {
+          val message =
+            "You can't go to the next phase because you didn't create any player yet."
+          gameInfoScene.showBottomSnackbar(message)
+          gamePlayerScene.showBottomSnackbar(message)
+        })
+      }
+      case HandlerResponse.TakeInvalidPlantError => {
+        Platform.runLater(() => {
+          val message =
+            "The bean from the turn over field does not match with the bean on your bean field."
+          gameInfoScene.showBottomSnackbar(message)
+          gamePlayerScene.showBottomSnackbar(message)
+        })
+      }
+      case HandlerResponse.InvalidPlantError => {
+        Platform.runLater(() => {
+          val message =
+            "The bean from your hand does not match with the bean on your bean field."
+          gameInfoScene.showBottomSnackbar(message)
+          gamePlayerScene.showBottomSnackbar(message)
+        })
+      }
     }
   }
   override def update(event: ObserverEvent): Unit = {
@@ -151,12 +207,6 @@ class Gui(controller: Controller) extends JFXApp3 with Observer {
         })
       }
       case ObserverEvent.GameInfo => {
-        Platform.runLater(() => {
-          updateControllerOfScenes()
-          stage.setScene(gamePlayerScene)
-        })
-      }
-      case ObserverEvent.Draw => {
         Platform.runLater(() => {
           updateControllerOfScenes()
           stage.setScene(gamePlayerScene)
