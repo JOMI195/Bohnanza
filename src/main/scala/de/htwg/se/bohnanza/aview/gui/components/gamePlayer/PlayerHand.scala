@@ -6,11 +6,31 @@ import scalafx.scene.layout.VBox
 import bohnanza.model.Player
 import bohnanza.aview.gui.components.global.GameButtonFactory
 import scalafx.geometry.Pos
+import bohnanza.aview.gui.model.SelectionManager
 
-class PlayerHand(currentViewPlayer: Player) extends VBox {
+class PlayerHand(currentViewPlayer: Player, selectionManager: SelectionManager)
+    extends VBox {
   var flipped = true
-  val handcards: List[Card] = currentViewPlayer.hand.cards.map { bean =>
-    Card(bean = bean, scaleFactor = 0.4)
+  val handcards: List[Card] = currentViewPlayer.hand.cards match {
+    case Nil => List.empty
+    case head :: tail =>
+      val selectableCard =
+        new Card(
+          bean = head,
+          scaleFactor = 0.4,
+          selectable = true,
+          selectionManager = Some(selectionManager),
+          handCard = true
+        ) {}
+      val otherCards = tail.map { bean =>
+        new Card(
+          bean = bean,
+          scaleFactor = 0.4,
+          selectionManager = None,
+          handCard = true
+        )
+      }
+      selectableCard :: otherCards
   }
   val hand = Hand(cards = handcards)
 

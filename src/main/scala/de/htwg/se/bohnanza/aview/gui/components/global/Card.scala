@@ -10,7 +10,7 @@ import bohnanza.aview.gui.model.SelectionManager
 
 val mainCardScaleFactor: Float = 0.35
 
-class Card(
+case class Card(
     flipped: Boolean = true,
     handCard: Boolean = false,
     turnOverFieldCardIndex: Int = -1,
@@ -21,8 +21,8 @@ class Card(
 ) extends HBox {
 
   var isSelected: Boolean = false
-  var gameMode =
-    true // To ensure that if gameMode activated to select the Card, debug first set to true!
+  var selectionMode =
+    false // To ensure that if selectionMode activated to select the Card, debug first set to true!
 
   val cardsPath = "/images/cards/"
   val cardImage = ImageUtils.importImageAsView(
@@ -73,7 +73,7 @@ class Card(
   children.add(cardImage)
 
   onMouseClicked = (e: MouseEvent) => {
-    if (gameMode && selectable) {
+    if (selectionMode && selectable) {
       if (isSelected) {
         deselect()
       } else {
@@ -81,5 +81,9 @@ class Card(
       }
     }
     e.consume()
+  }
+
+  def flip(): Card = {
+    copy(flipped = !flipped)
   }
 }

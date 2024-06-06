@@ -33,7 +33,7 @@ trait Cards(
     }
   }
 
-  // def flippAllCards(): Cards
+  def flippAllCards(): Cards
 }
 
 case class Hand(cards: List[Card])
@@ -47,9 +47,9 @@ case class Hand(cards: List[Card])
   alignment = Pos.CENTER
   children = createCardContainer()
 
-  // override def flippAllCards(): Hand = {
-  //   copy(cards = cards.map(_.flip()))
-  // }
+  override def flippAllCards(): Hand = {
+    copy(cards = cards.map(_.flip()))
+  }
 }
 
 case class Deck(cards: List[Card], selectionManager: SelectionManager)
@@ -62,9 +62,9 @@ case class Deck(cards: List[Card], selectionManager: SelectionManager)
 
   children = createCardContainer()
 
-  // override def flippAllCards(): Deck = {
-  //   copy(cards = cards.map(_.flip()))
-  // }
+  override def flippAllCards(): Deck = {
+    copy(cards = cards.map(_.flip()))
+  }
 }
 
 case class BeanFieldCards(
@@ -77,7 +77,7 @@ case class BeanFieldCards(
     ) {
   children = createCardContainer()
 
-  // override def flippAllCards(): BeanFieldCards = {
-  //   copy(cards = cards.map(_.flip()))
-  // }
+  override def flippAllCards(): BeanFieldCards = {
+    copy(cards = cards.map(_.flip()))
+  }
 }

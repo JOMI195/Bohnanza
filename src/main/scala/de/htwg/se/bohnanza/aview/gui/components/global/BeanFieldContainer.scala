@@ -23,8 +23,9 @@ class BeanFieldContainer(
     imageUrl = s"/images/cards/bean-field-$beanFieldId.png",
     scaleFactor = scaleFactor
   )
-  beanFieldImage.style =
+  val defaultBeanFieldStyle =
     "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
+  beanFieldImage.style = defaultBeanFieldStyle
 
   val beanFieldCardsSpaced = new VBox {
     padding = Insets(50, 0, 0, 0)
@@ -36,9 +37,15 @@ class BeanFieldContainer(
       case None =>
       case Some(checkedSelectionManager) => {
         checkedSelectionManager.selectedBeanFieldIndex = beanFieldId - 1
+        style =
+          "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5); -fx-border-color: black; -fx-border-width: 2;"
       }
     }
   }
+
+  // def deselect(): Unit = {
+  //   style = defaultBeanFieldStyle
+  // }
 
   children.addAll(beanFieldImage, beanFieldCardsSpaced)
 }

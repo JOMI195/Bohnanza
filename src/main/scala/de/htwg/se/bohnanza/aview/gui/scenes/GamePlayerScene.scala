@@ -111,14 +111,16 @@ case class GamePlayerScene(
 
   val actions = Actions(
     controller = controller,
-    onHarvestButtonClick = () => {},
-    onPlantButtonClick = () => {}
-  )
-
-  val actions = Actions(
-    controller = controller,
-    onHarvestButtonClick = () => {},
-    onPlantButtonClick = () => {}
+    onHarvestButtonClick = () => {
+      SceneSnackbars.topSnackbar.showSnackbar(
+        "Please select the bean field that you want to harvest."
+      )
+    },
+    onPlantButtonClick = () => {
+      SceneSnackbars.topSnackbar.showSnackbar(
+        "Please select the bean and bean field that you want to plant on."
+      )
+    }
   )
 
   val coins = Coins(currentViewPlayer.coins, 0.6, 1.5)
@@ -129,29 +131,7 @@ case class GamePlayerScene(
     selectionManager = Some(selectionManager)
   )
 
-  val playerHand = PlayerHand(currentViewPlayer)
-  val handcards: List[Card] = currentViewPlayer.hand.cards match {
-    case Nil => List.empty
-    case head :: tail =>
-      val selectableCard =
-        new Card(
-          bean = head,
-          scaleFactor = 0.4,
-          selectable = true,
-          selectionManager = Some(selectionManager),
-          handCard = true
-        ) {}
-      val otherCards = tail.map { bean =>
-        new Card(
-          bean = bean,
-          scaleFactor = 0.4,
-          selectionManager = None,
-          handCard = true
-        )
-      }
-      selectableCard :: otherCards
-  }
-  val hand = Hand(cards = handcards)
+  val playerHand = PlayerHand(currentViewPlayer, selectionManager)
 
   val leftElements = new VBox {
     alignment = Pos.TOP_LEFT
@@ -195,18 +175,11 @@ case class GamePlayerScene(
     )
   }
 
-  // SceneSnackbars.bottomSnackbar.showSnackbar(
-    "This is an overridden info message"
-  )
-  // SceneSnackbars.topSnackbar.showSnackbar(
-    "This is an overridden info message"
-  )
-
   this.addEventFilter(
     MouseEvent.MouseClicked,
     (e: MouseEvent) => {
       if (e.target != null && !e.target.isInstanceOf[Card]) {
-        handcards.foreach(_.deselect())
+        playerHand.hand.cards.foreach(_.deselect())
         turnOverFieldContainer.deselect()
       }
     }
