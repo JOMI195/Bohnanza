@@ -156,6 +156,11 @@ case class GamePlayerScene(
     playerHand = Some(playerHand)
   )
 
+  // need to be changed, since cards can be empty so there is no instance of selectedCard
+  if (playerHand.currentViewPlayer.hand.cards.nonEmpty)
+    playerHand.selectableCard.selectedCards =
+      turnOverFieldContainer.getTurnOverFieldCards()
+
   val leftElements = new VBox {
     alignment = Pos.TOP_LEFT
     children = Seq(playerBeanFields, leftAreaVSpacer1, actions)

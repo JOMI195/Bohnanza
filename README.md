@@ -35,6 +35,11 @@ Bohnanza is a card game that revolves around trading and planting beans. Each pl
 - [ ] Trading between Players
 
 ## Screenshots
+![Screenshot 2024-06-07 165321](https://github.com/JOMI195/Bohnanza/assets/57303615/4f6a1cbc-505c-41bb-9f9e-9b6be469e813)
+![Screenshot 2024-06-07 165401](https://github.com/JOMI195/Bohnanza/assets/57303615/f4bf07e2-4b5a-4a91-8ab2-f7d8e92d1015)
+![Screenshot 2024-06-07 170130](https://github.com/JOMI195/Bohnanza/assets/57303615/4bb86868-a50f-48a1-8eb8-aa9de905c530)
+![Screenshot 2024-06-07 170006](https://github.com/JOMI195/Bohnanza/assets/57303615/ec973a11-b712-46b3-b1b5-bbb1dbf59b4b)
+![Screenshot 2024-06-07 165954](https://github.com/JOMI195/Bohnanza/assets/57303615/20dbf9af-9493-4680-b598-803aabd44889)
 
 ## Installation
 ### Prerequisites
