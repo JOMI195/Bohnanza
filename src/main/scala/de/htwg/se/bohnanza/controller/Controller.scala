@@ -99,8 +99,15 @@ class Controller(
     )
 
     if (response == HandlerResponse.Success) {
-      undoManager.doStep(NextPhaseCommand(this))
-      notifyObservers(ObserverEvent.PhaseChange)
+      phase match {
+        case _: GameInitializationPhase => {
+          undoManager.doStep(NextPhaseCommand(this))
+          notifyObservers(ObserverEvent.StartGame)
+        }
+        case _ =>
+          undoManager.doStep(NextPhaseCommand(this))
+          notifyObservers(ObserverEvent.PhaseChange)
+      }
       return
     }
 

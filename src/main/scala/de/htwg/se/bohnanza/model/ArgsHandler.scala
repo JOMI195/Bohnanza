@@ -1,6 +1,8 @@
 package bohnanza.model
 
 import scala.util.Try
+import scala.util.Success
+import scala.util.Failure
 
 enum HandlerKey(val key: String) {
   case PlayerFieldIndex extends HandlerKey("playerIndex")
@@ -185,17 +187,22 @@ case class InvalidPlantHandler(next: Option[HandlerTemplate])
                   .players(checkedPlayerIndex)
                   .beanFields(checkedBeanFieldIndex)
                   .bean
-                val beanToPlant =
+                val beanToPlant = Try(
                   game.players(checkedPlayerIndex).hand.cards(0)
+                )
 
-                beanOnBeanField match {
-                  case Some(checkedBean) => {
-                    if (checkedBean != beanToPlant) {
-                      return HandlerResponse.InvalidPlantError
+                beanToPlant match {
+                  case Success(beanToPlant) =>
+                    beanOnBeanField match {
+                      case Some(checkedBean) => {
+                        if (checkedBean != beanToPlant) {
+                          return HandlerResponse.InvalidPlantError
+                        }
+
+                      }
+                      case None =>
                     }
-
-                  }
-                  case None =>
+                  case Failure(e) => return HandlerResponse.HandIndexError
                 }
               }
               case None => return HandlerResponse.ArgsError
@@ -273,7 +280,11 @@ case class MethodHandler(next: Option[HandlerTemplate])
             }
             return HandlerResponse.MethodError
           }
-          case _: DrawCardsPhase => return HandlerResponse.MethodError
+          case _: DrawCardsPhase =>
+            if (method == "next") {
+              return HandlerResponse.Success
+            }
+            return HandlerResponse.MethodError
         }
       }
       case None => HandlerResponse.ArgsError

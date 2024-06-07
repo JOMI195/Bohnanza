@@ -4,8 +4,8 @@ import org.scalatest.wordspec.AnyWordSpec
 
 import bohnanza.model.*
 
-val correctBeanField = BeanField(Option(Bean.Firebean), 4)
-val notCorrectBeanField = BeanField(Option(Bean.Firebean), 5)
+val correctBeanField = BeanField(Option(Bean.ChiliBean), 4)
+val notCorrectBeanField = BeanField(Option(Bean.ChiliBean), 5)
 val emptyBeanField = BeanField(None)
 
 class BeanFieldSpec extends AnyWordSpec with Matchers {
@@ -17,7 +17,7 @@ class BeanFieldSpec extends AnyWordSpec with Matchers {
       }
 
       "the field contains beans" in {
-        correctBeanField.toString should be("Firebean x4")
+        correctBeanField.toString should be("ChiliBean x4")
       }
     }
 
@@ -26,7 +26,7 @@ class BeanFieldSpec extends AnyWordSpec with Matchers {
         val (fireCoins, updatedCorrectBeanField) =
           correctBeanField.harvestField()
         updatedCorrectBeanField.quantity shouldBe 0
-        fireCoins shouldBe 2
+        fireCoins shouldBe 1
       }
 
       "beanField is empty" in {
@@ -39,16 +39,16 @@ class BeanFieldSpec extends AnyWordSpec with Matchers {
         val (fireCoins, updatedUncorrectBeanField) =
           notCorrectBeanField.harvestField()
         updatedUncorrectBeanField.quantity shouldBe 0
-        fireCoins shouldBe 2
+        fireCoins shouldBe 1
       }
     }
 
     "plantToField should plant a bean to a beanField" when {
       "bean is right type" in {
         val updatedEmptyField =
-          emptyBeanField.plantToField(Bean.Firebean)
+          emptyBeanField.plantToField(Bean.ChiliBean)
         updatedEmptyField.quantity shouldBe emptyBeanField.quantity + 1
-        updatedEmptyField.bean shouldBe Some(Bean.Firebean)
+        updatedEmptyField.bean shouldBe Some(Bean.ChiliBean)
       }
 
       "bean is wrong type" in {

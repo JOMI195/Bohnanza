@@ -8,7 +8,7 @@ class ConcreteCommandsSpec extends AnyWordSpec with Matchers {
   val initialPlayer =
     Player("Player1", List(BeanField(None)), 0, Hand(List.empty))
   val initialPlayers = List(initialPlayer)
-  val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
+  val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
   val emptyTurnOverField = TurnOverField(List.empty)
   val initialGame = Game(initialPlayers, 0, initialDeck, emptyTurnOverField)
 
@@ -57,10 +57,10 @@ class ConcreteCommandsSpec extends AnyWordSpec with Matchers {
               "Player1",
               List(BeanField(None)),
               0,
-              Hand(List(Bean.Firebean))
+              Hand(List(Bean.ChiliBean))
             )
           val initialPlayers = List(initialPlayer)
-          val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
+          val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
           val emptyTurnOverField = TurnOverField(List.empty)
           val initialGame =
             Game(initialPlayers, 0, initialDeck, emptyTurnOverField)
@@ -78,7 +78,7 @@ class ConcreteCommandsSpec extends AnyWordSpec with Matchers {
             .players(playerIndex)
             .beanFields(beanFieldIndex)
             .bean should contain(
-            Bean.Firebean
+            Bean.ChiliBean
           )
         }
       }
@@ -133,8 +133,8 @@ class ConcreteCommandsSpec extends AnyWordSpec with Matchers {
           val initialPlayer =
             Player("Player1", List(BeanField(None)), 0, Hand(List.empty))
           val initialPlayers = List(initialPlayer)
-          val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
-          val emptyTurnOverField = TurnOverField(List(Bean.Firebean))
+          val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
+          val emptyTurnOverField = TurnOverField(List(Bean.ChiliBean))
           val initialGame =
             Game(initialPlayers, 0, initialDeck, emptyTurnOverField)
 
@@ -154,7 +154,7 @@ class ConcreteCommandsSpec extends AnyWordSpec with Matchers {
             .players(playerIndex)
             .beanFields(beanFieldIndex)
             .bean contains (
-            Bean.Firebean
+            Bean.ChiliBean
           )
         }
       }
