@@ -7,9 +7,12 @@ import bohnanza.model.Player
 import bohnanza.aview.gui.components.global.GameButtonFactory
 import scalafx.geometry.Pos
 import bohnanza.aview.gui.model.SelectionManager
+import bohnanza.aview.gui.components.global.TurnOverFieldContainer
 
-class PlayerHand(currentViewPlayer: Player, selectionManager: SelectionManager)
-    extends VBox {
+case class PlayerHand(
+    currentViewPlayer: Player,
+    selectionManager: SelectionManager
+) extends VBox {
   var flipped = true
   var selectableCard: Card = _
   val handcards: List[Card] = currentViewPlayer.hand.cards match {
