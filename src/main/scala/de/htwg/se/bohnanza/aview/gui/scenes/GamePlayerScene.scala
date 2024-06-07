@@ -122,10 +122,7 @@ case class GamePlayerScene(
         selectionManager.selectedBeanFieldIndex == -1 && (!selectionManager.selectFromHand || selectionManager.selectedTurnOverFieldIndex == -1)
       )
         topSnackbar.showSnackbar(
-          "Please select the bean and bean field that you want to plant on." +
-            s"hand ${selectionManager.selectFromHand}\n" +
-            s"turnOver ${selectionManager.selectedTurnOverFieldIndex}\n" +
-            s"bean: ${selectionManager.selectedBeanFieldIndex}\n"
+          "Please select the bean and bean field that you want to plant on."
         )
       else {
         if (selectionManager.selectFromHand) {

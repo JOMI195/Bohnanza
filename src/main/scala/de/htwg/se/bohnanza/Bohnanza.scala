@@ -8,9 +8,9 @@ import bohnanza.aview.gui.*
 import scalafx.application.Platform
 
 object Bohnanza {
-  // val d = FullDeckCreateStrategy().createDeck()
-  val d =
-    SingleChiliBeanDeckCreateStrategy().createDeck() // for debugging purposes
+  val d = FullDeckCreateStrategy().createDeck()
+  // val d =
+  //   SingleChiliBeanDeckCreateStrategy().createDeck() // for debugging purposes
   val t = TurnOverField(cards = List())
 
   val game = Game(
