@@ -3,6 +3,7 @@
 # Bohnanza Game
 
 <p align="left">
+  <img alt="Static Badge" src="https://hits.dwyl.com/JOMI195/Bohnanza.svg?style=flat-square">
   <img alt="Static Badge" src="https://img.shields.io/badge/FUN-100_%25-blue">
   <a href="https://coveralls.io/github/JOMI195/Bohnanza?branch=development">
     <img src="https://coveralls.io/repos/github/JOMI195/Bohnanza/badge.svg?branch=development" alt="Coverage Status">
