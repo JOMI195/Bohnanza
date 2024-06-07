@@ -3,9 +3,11 @@
 # Bohnanza Game
 
 <p align="left">
+  <img alt="Static Badge" src="https://hits.dwyl.com/JOMI195/Bohnanza.svg?style=flat-square">
   <img alt="Static Badge" src="https://img.shields.io/badge/FUN-100_%25-blue">
+  <a href="https://app.codacy.com/gh/JOMI195/Bohnanza/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/b881c589a0184f27be3bcf5c08aca157?branch=main"/></a>
   <a href="https://coveralls.io/github/JOMI195/Bohnanza?branch=development">
-    <img src="https://coveralls.io/repos/github/JOMI195/Bohnanza/badge.svg?branch=development" alt="Coverage Status">
+    <img src="https://coveralls.io/repos/github/JOMI195/Bohnanza/badge.svg?branch=main" alt="Coverage Status">
   </a>
   <img src="https://img.shields.io/github/actions/workflow/status/JOMI195/Bohnanza/scala.yml" alt="GitHub Actions Workflow Status">
 </p>
