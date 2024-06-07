@@ -13,6 +13,7 @@ enum ObserverEvent {
   case Undo
   case Redo
   case CreatePlayer
+  case StartGame
 }
 
 trait Observer {

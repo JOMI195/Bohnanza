@@ -15,7 +15,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
   val initialPlayer =
     Player("Player1", List(BeanField(None)), 0, Hand(List.empty))
   val initialPlayers = List(initialPlayer)
-  val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
+  val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
   val emptyTurnOverField = TurnOverField(List.empty)
   val initialGame = Game(initialPlayers, 0, initialDeck, emptyTurnOverField)
 
@@ -122,7 +122,12 @@ class TuiSpec extends AnyWordSpec with Matchers {
       val msg = "Usage: plant [playerIndex] [beanFieldIndex]"
       "process plant command with valid player and bean field indexes" in {
         val initialPlayer =
-          Player("Player1", List(BeanField(None)), 0, Hand(List(Bean.Firebean)))
+          Player(
+            "Player1",
+            List(BeanField(None)),
+            0,
+            Hand(List(Bean.ChiliBean))
+          )
         val game = Game(List(initialPlayer), 0, emptyDeck, emptyTurnOverField)
         val controller = Controller(game)
         val tui = Tui(controller)
@@ -180,7 +185,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
     }
 
     "take" when {
-      val turnOverField = TurnOverField(List(Bean.Firebean, Bean.Firebean))
+      val turnOverField = TurnOverField(List(Bean.ChiliBean, Bean.ChiliBean))
       val game = Game(initialPlayers, 0, initialDeck, turnOverField)
       val controller = Controller(game)
       val tui = Tui(controller)
@@ -257,7 +262,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
         }
         stream
           .toString()
-          .trim() shouldBe "You can't access a hand card with this index."
+          .trim() shouldBe "You don't have any cards to plant anymore."
       }
 
       "handles MethodError" in {
@@ -327,12 +332,12 @@ class TuiSpec extends AnyWordSpec with Matchers {
       val initialPlayer =
         Player(
           "Player1",
-          List(BeanField(Option(Bean.Firebean), 4)),
+          List(BeanField(Option(Bean.ChiliBean), 4)),
           0,
-          Hand(List(Bean.Firebean))
+          Hand(List(Bean.ChiliBean))
         )
       val initialPlayers = List(initialPlayer)
-      val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
+      val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
       val emptyTurnOverField = TurnOverField(List.empty)
       val initialGame = Game(initialPlayers, 0, initialDeck, emptyTurnOverField)
 
@@ -390,7 +395,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
             "\r\n",
             "\n"
           ) shouldBe (
-          "No method is allowed here, because everything is done automatically for you. :)\n"
+          "No method except next is allowed here, because everything is done automatically for you. :)\n"
         ).trim()
 
         controller.phase = PlayCardPhase()

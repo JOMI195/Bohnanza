@@ -15,14 +15,14 @@ class HandSpec extends AnyWordSpec with Matchers {
       }
 
       "the hand contains cards" in {
-        val handWithCards = Hand(List(Bean.Firebean, Bean.BlueBean))
-        handWithCards.toString should be("| Firebean | BlueBean |")
+        val handWithCards = Hand(List(Bean.ChiliBean, Bean.BlueBean))
+        handWithCards.toString should be("| ChiliBean | BlueBean |")
       }
     }
 
     "add a card correctly" in {
       val initialHand = Hand(List.empty)
-      val cardToAdd = Bean.Firebean
+      val cardToAdd = Bean.ChiliBean
 
       val updatedHand = initialHand.addCard(cardToAdd)
 
@@ -31,11 +31,11 @@ class HandSpec extends AnyWordSpec with Matchers {
 
     "pop a card correctly" when {
       "the hand is not empty" in {
-        val initialHand = Hand(List(Bean.Firebean, Bean.Firebean))
+        val initialHand = Hand(List(Bean.ChiliBean, Bean.ChiliBean))
         val (poppedCard, updatedHand) = initialHand.popCard()
 
-        poppedCard should be(Some(Bean.Firebean))
-        updatedHand.cards should be(List(Bean.Firebean))
+        poppedCard should be(Some(Bean.ChiliBean))
+        updatedHand.cards should be(List(Bean.ChiliBean))
       }
 
       "the hand is empty" in {
