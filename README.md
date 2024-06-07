@@ -2,6 +2,8 @@
 
 # Bohnanza Game
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/2dccba7e1def4590881bb6f0b6ceac5e)](https://app.codacy.com/gh/JOMI195/Bohnanza?utm_source=github.com&utm_medium=referral&utm_content=JOMI195/Bohnanza&utm_campaign=Badge_Grade)
+
 <p align="left">
   <img alt="Static Badge" src="https://img.shields.io/badge/FUN-100_%25-blue">
   <a href="https://coveralls.io/github/JOMI195/Bohnanza?branch=development">
