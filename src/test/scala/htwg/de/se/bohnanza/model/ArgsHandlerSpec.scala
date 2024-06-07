@@ -11,7 +11,7 @@ class HandlerSpec extends AnyWordSpec with Matchers {
     hand = Hand(List.empty)
   )
   val d = FullDeckCreateStrategy().createDeck()
-  val t = TurnOverField(cards = List(Bean.Firebean))
+  val t = TurnOverField(cards = List(Bean.ChiliBean))
 
   val initialGame = Game(
     players = List(p1),
@@ -31,7 +31,7 @@ class HandlerSpec extends AnyWordSpec with Matchers {
       )
       val deck = FullDeckCreateStrategy().createDeck()
       val turnOverField =
-        TurnOverField(cards = List(Bean.Firebean, Bean.BlueBean))
+        TurnOverField(cards = List(Bean.ChiliBean, Bean.BlueBean))
 
       val game = Game(
         players = List(playerTest),
@@ -61,11 +61,11 @@ class HandlerSpec extends AnyWordSpec with Matchers {
         val p1 = Player(
           name = "Player1",
           coins = 0,
-          beanFields = List(BeanField(Option(Bean.Firebean))),
+          beanFields = List(BeanField(Option(Bean.ChiliBean))),
           hand = Hand(List.empty)
         )
         val d = FullDeckCreateStrategy().createDeck()
-        val t = TurnOverField(cards = List(Bean.Firebean))
+        val t = TurnOverField(cards = List(Bean.ChiliBean))
 
         val initialGame1 = Game(
           players = List(p1),
@@ -178,7 +178,7 @@ class HandlerSpec extends AnyWordSpec with Matchers {
         coins = 0,
         beanFields = List(
           BeanField(Option(Bean.BlueBean), 1),
-          BeanField(Option(Bean.Firebean), 1)
+          BeanField(Option(Bean.ChiliBean), 1)
         ),
         hand = Hand(List(Bean.BlueBean))
       )

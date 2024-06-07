@@ -14,14 +14,20 @@ trait DeckCreateStragtegyTemplate {
 
 class FullDeckCreateStrategy extends DeckCreateStragtegyTemplate {
   def fill(): List[Bean] = {
-    List.fill(Bean.Firebean.frequency)(Bean.Firebean) ++
-      List.fill(Bean.BlueBean.frequency)(Bean.BlueBean)
+    List.fill(Bean.ChiliBean.frequency)(Bean.ChiliBean) ++
+      List.fill(Bean.BlueBean.frequency)(Bean.BlueBean) ++
+      List.fill(Bean.StinkyBean.frequency)(Bean.StinkyBean) ++
+      List.fill(Bean.GreenBean.frequency)(Bean.GreenBean) ++
+      List.fill(Bean.SoyBean.frequency)(Bean.SoyBean) ++
+      List.fill(Bean.BlackEyedBean.frequency)(Bean.BlackEyedBean) ++
+      List.fill(Bean.RedBean.frequency)(Bean.RedBean) ++
+      List.fill(Bean.GardenBean.frequency)(Bean.GardenBean)
   }
 }
 
-class SingleFireBeanDeckCreateStrategy extends DeckCreateStragtegyTemplate {
+class SingleChiliBeanDeckCreateStrategy extends DeckCreateStragtegyTemplate {
   def fill(): List[Bean] =
-    List.fill(Bean.Firebean.frequency)(Bean.Firebean)
+    List.fill(Bean.ChiliBean.frequency)(Bean.ChiliBean)
 }
 
 case class Deck(cards: List[Bean]) {

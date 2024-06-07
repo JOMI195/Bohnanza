@@ -19,7 +19,7 @@ class GameSpec extends AnyWordSpec with Matchers {
         val initialPlayer =
           Player("Player1", List(BeanField(None)), 0, Hand(List.empty))
         val initialPlayers = List(initialPlayer)
-        val initialDeck = Deck(List(Bean.Firebean))
+        val initialDeck = Deck(List(Bean.ChiliBean))
         val initialTurnOverField = TurnOverField(List(Bean.BlueBean))
         val game = Game(initialPlayers, 0, initialDeck, initialTurnOverField)
         val expectedString =
@@ -34,12 +34,12 @@ class GameSpec extends AnyWordSpec with Matchers {
       val initialTurnOverField = TurnOverField(List.empty)
 
       "card drawn from deck is valid" in {
-        val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
+        val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
         val game = Game(initialPlayers, 0, initialDeck, initialTurnOverField)
         val updatedGame = game.playerDrawCardFromDeck(0)
 
-        updatedGame.deck.cards shouldBe List(Bean.Firebean)
-        updatedGame.players.head.hand.cards should be(List(Bean.Firebean))
+        updatedGame.deck.cards shouldBe List(Bean.ChiliBean)
+        updatedGame.players.head.hand.cards should be(List(Bean.ChiliBean))
       }
 
       "card drawn from deck is none" in {
@@ -53,7 +53,7 @@ class GameSpec extends AnyWordSpec with Matchers {
 
     "plant a card from hand to the player's bean field" in {
       val initialPlayer =
-        Player("Player1", List(BeanField(None)), 0, Hand(List(Bean.Firebean)))
+        Player("Player1", List(BeanField(None)), 0, Hand(List(Bean.ChiliBean)))
       val initialPlayers = List(initialPlayer)
       val initialDeck = Deck(List.empty)
       val initialTurnOverField = TurnOverField(List.empty)
@@ -63,7 +63,7 @@ class GameSpec extends AnyWordSpec with Matchers {
 
       updatedGame.players.head.hand.cards should be(List.empty)
       updatedGame.players.head.beanFields.head.bean should be(
-        Some(Bean.Firebean)
+        Some(Bean.ChiliBean)
       )
     }
 
@@ -71,9 +71,9 @@ class GameSpec extends AnyWordSpec with Matchers {
       val initialPlayer =
         Player(
           "Player1",
-          List(BeanField(Option(Bean.Firebean), 4)),
+          List(BeanField(Option(Bean.ChiliBean), 4)),
           0,
-          Hand(List(Bean.Firebean))
+          Hand(List(Bean.ChiliBean))
         )
       val initialPlayers = List(initialPlayer)
       val initialDeck = Deck(List.empty)
@@ -82,7 +82,7 @@ class GameSpec extends AnyWordSpec with Matchers {
 
       val updatedGame = game.playerHarvestField(0, 0)
 
-      updatedGame.players.head.coins shouldBe 2
+      updatedGame.players.head.coins shouldBe 1
       updatedGame.players.head.beanFields.head.quantity shouldBe 0
     }
 
@@ -90,14 +90,14 @@ class GameSpec extends AnyWordSpec with Matchers {
       val initialPlayer =
         Player(
           "Player1",
-          List(BeanField(Option(Bean.Firebean), 3)),
+          List(BeanField(Option(Bean.ChiliBean), 3)),
           0,
-          Hand(List(Bean.Firebean))
+          Hand(List(Bean.ChiliBean))
         )
       val initialPlayers = List(initialPlayer)
       val initialDeck = Deck(List.empty)
       val initialTurnOverField =
-        TurnOverField(List(Bean.Firebean, Bean.Firebean))
+        TurnOverField(List(Bean.ChiliBean, Bean.ChiliBean))
       val game = Game(initialPlayers, 0, initialDeck, initialTurnOverField)
       val updatedGame = game.playerPlantFromTurnOverField(0, 0, 0)
 
@@ -105,14 +105,14 @@ class GameSpec extends AnyWordSpec with Matchers {
     }
 
     "draw card from deck to turnOverField" in {
-      val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
+      val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
       val game = Game(List.empty, 0, initialDeck, TurnOverField(List.empty))
       val updatedGame = game.drawCardToTurnOverField()
 
       updatedGame.turnOverField.cards.size shouldBe 2
       updatedGame.turnOverField.cards shouldBe List(
-        Bean.Firebean,
-        Bean.Firebean
+        Bean.ChiliBean,
+        Bean.ChiliBean
       )
     }
   }

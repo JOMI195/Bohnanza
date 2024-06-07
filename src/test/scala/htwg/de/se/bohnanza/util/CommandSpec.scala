@@ -13,7 +13,7 @@ class UndoManagerSpec extends AnyWordSpec with Matchers {
   val initialPlayer =
     Player("Player1", List(BeanField(None)), 0, Hand(List.empty))
   val initialPlayers = List(initialPlayer)
-  val initialDeck = Deck(List(Bean.Firebean, Bean.Firebean))
+  val initialDeck = Deck(List(Bean.ChiliBean, Bean.ChiliBean))
   val emptyTurnOverField = TurnOverField(List.empty)
   val initialGame = Game(initialPlayers, 0, initialDeck, emptyTurnOverField)
 
