@@ -85,6 +85,17 @@ class TurnOverFieldContainer(
       if (cards.length > 1)
         card2.deselect()
     }
+  }
 
+  def getTurnOverFieldCards(): List[Card] = {
+    val turnOverFieldCards: List[Card] = List.empty[Card]
+    if (card1 != null) {
+      val updatedTurnOverFieldCards = card1 :: turnOverFieldCards
+      if (card2 != null) {
+        return card2 :: updatedTurnOverFieldCards
+      }
+      return updatedTurnOverFieldCards
+    }
+    return turnOverFieldCards
   }
 }
