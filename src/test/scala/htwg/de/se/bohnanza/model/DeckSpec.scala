@@ -43,8 +43,21 @@ class DeckCreateStragtegyTemplateSpec extends AnyWordSpec with Matchers {
       val cards = fullDeckCreator.fill()
       val expectedOutput =
         List.fill(Bean.ChiliBean.frequency)(Bean.ChiliBean) ++
-          List.fill(Bean.BlueBean.frequency)(Bean.BlueBean)
-      Bean.ChiliBean.frequency + Bean.BlueBean.frequency shouldBe expectedOutput.length
+          List.fill(Bean.BlueBean.frequency)(Bean.BlueBean) ++
+          List.fill(Bean.StinkyBean.frequency)(Bean.StinkyBean) ++
+          List.fill(Bean.GreenBean.frequency)(Bean.GreenBean) ++
+          List.fill(Bean.SoyBean.frequency)(Bean.SoyBean) ++
+          List.fill(Bean.BlackEyedBean.frequency)(Bean.BlackEyedBean) ++
+          List.fill(Bean.RedBean.frequency)(Bean.RedBean) ++
+          List.fill(Bean.GardenBean.frequency)(Bean.GardenBean)
+      Bean.ChiliBean.frequency +
+        Bean.BlueBean.frequency +
+        Bean.StinkyBean.frequency +
+        Bean.GreenBean.frequency +
+        Bean.SoyBean.frequency +
+        Bean.BlackEyedBean.frequency +
+        Bean.RedBean.frequency +
+        Bean.GardenBean.frequency shouldBe expectedOutput.length
       cards shouldBe expectedOutput
     }
   }
