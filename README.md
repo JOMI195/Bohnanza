@@ -10,6 +10,7 @@
     <img src="https://coveralls.io/repos/github/JOMI195/Bohnanza/badge.svg?branch=main" alt="Coverage Status">
   </a>
   <img src="https://img.shields.io/github/actions/workflow/status/JOMI195/Bohnanza/scala.yml" alt="GitHub Actions Workflow Status">
+  <img alt="Static Badge" src="https://img.shields.io/badge/License-MIT-red">
 </p>
 
 This is an unofficial Scala version of the BOHNANZA game for Software Engineering classes at HTWG Konstanz.
@@ -21,6 +22,15 @@ Bohnanza is a card game that revolves around trading and planting beans. Each pl
 * Interactive GUI, Text-based UI (TUI)
 * Singleplayer/Multiplayer mode
 * Great looking Artwork
+
+## Table of content
+- [Bohnanza Game](#bohnanza-game)
+  * [Top Game Features](#top-game-features)
+  * [Game Roadmap](#game-roadmap)
+  * [Screenshots](#screenshots)
+  * [Installation](#installation)
+    + [Prerequisites](#prerequisites)
+    + [Setup](#setup)
 
 ## Game Roadmap
 - [x] Playable with up to 4 players
@@ -35,6 +45,11 @@ Bohnanza is a card game that revolves around trading and planting beans. Each pl
 - [ ] Trading between Players
 
 ## Screenshots
+![Screenshot 2024-06-07 165321](https://github.com/JOMI195/Bohnanza/assets/57303615/4f6a1cbc-505c-41bb-9f9e-9b6be469e813)
+![Screenshot 2024-06-07 165401](https://github.com/JOMI195/Bohnanza/assets/57303615/f4bf07e2-4b5a-4a91-8ab2-f7d8e92d1015)
+![Screenshot 2024-06-07 170130](https://github.com/JOMI195/Bohnanza/assets/57303615/4bb86868-a50f-48a1-8eb8-aa9de905c530)
+![Screenshot 2024-06-07 170006](https://github.com/JOMI195/Bohnanza/assets/57303615/ec973a11-b712-46b3-b1b5-bbb1dbf59b4b)
+![Screenshot 2024-06-07 165954](https://github.com/JOMI195/Bohnanza/assets/57303615/20dbf9af-9493-4680-b598-803aabd44889)
 
 ## Installation
 ### Prerequisites
