@@ -1,4 +1,4 @@
-package bohnanza.model
+package de.htwg.se.bohnanza.model.GameComponent
 
 enum Bean(
     val quantityToCoins: Map[Int, Int],

@@ -1,6 +1,8 @@
-package bohnanza.model
+package de.htwg.se.bohnanza.model.GameComponent.HandComponent
 
-case class Hand(cards: List[Bean]) {
+import de.htwg.se.bohnanza.model.GameComponent.Bean
+
+case class Hand(cards: List[Bean]) extends IHand(cards) {
 
   override def toString(): String = {
     if (cards.isEmpty) {
@@ -9,16 +11,11 @@ case class Hand(cards: List[Bean]) {
     "| " + cards.map(_.toString).mkString(" | ") + " |"
   }
 
-  /** Adds a card to the hand cards
-    */
   def addCard(card: Bean): Hand = {
     val updatedHand = copy(cards = cards :+ card)
     updatedHand
   }
 
-  /** Pops the first card from the hand cards. If the hand cards is empty, no
-    * card is returned.
-    */
   def popCard(): (Option[Bean], Hand) = {
     val (card, updatedCards) = cards match {
       case Nil          => (None, cards)

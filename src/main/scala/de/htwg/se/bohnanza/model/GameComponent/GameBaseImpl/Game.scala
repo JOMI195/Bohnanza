@@ -1,11 +1,19 @@
-package bohnanza.model
+package de.htwg.se.bohnanza.model.GameComponent
+
+import de.htwg.se.bohnanza.model.GameComponent.{IGame}
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.{Player}
+import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.{Deck}
+import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.{
+  TurnOverField
+}
+import de.htwg.se.bohnanza.model.GameComponent.Bean
 
 case class Game(
     players: List[Player],
     currentPlayerIndex: Int,
     deck: Deck,
     turnOverField: TurnOverField
-) {
+) extends IGame(players, currentPlayerIndex, deck, turnOverField) {
 
   override def toString(): String = {
     val turnOverField = "Turnoverfield: " + this.turnOverField + "\n"
@@ -16,9 +24,6 @@ case class Game(
     turnOverField + "\n" + players
   }
 
-  /** Draws a card from the deck and adds it to the specified player's hand. If
-    * the deck is empty, no card is drawn.
-    */
   def playerDrawCardFromDeck(playerIndex: Int): Game = {
     val player = players(playerIndex)
     val (card, updatedDeck) = deck.draw()
@@ -33,9 +38,6 @@ case class Game(
     )
   }
 
-  /** Pops the first card from the hand cards of a player and plant it to the
-    * players beanField
-    */
   def playerPlantCardFromHand(playerIndex: Int, beanFieldIndex: Int): Game = {
     val player = players(playerIndex)
     val updatedPlayer = players(playerIndex).plantCardFromHand(beanFieldIndex)
