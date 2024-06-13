@@ -6,6 +6,7 @@ import bohnanza.aview.*
 import bohnanza.controller.*
 import bohnanza.aview.gui.*
 import scalafx.application.Platform
+import de.htwg.se.bohnanza.controller.ControllerComponent.{Controller}
 
 object Bohnanza {
   val d = FullDeckCreateStrategy().createDeck()

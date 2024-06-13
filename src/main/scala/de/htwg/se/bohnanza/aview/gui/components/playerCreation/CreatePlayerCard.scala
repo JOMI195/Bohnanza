@@ -6,10 +6,10 @@ import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.paint.Color
 import scalafx.scene.control.Button
 import scalafx.event.ActionEvent
-import bohnanza.controller.Controller
+import de.htwg.se.bohnanza.controller.ControllerComponent.*
 import bohnanza.aview.gui.components.global.GameButtonFactory
 
-class CreatePlayerCard(controller: Controller) extends VBox {
+class CreatePlayerCard(controller: IController) extends VBox {
   prefHeight = 450
   prefWidth = 450
   fillWidth = false

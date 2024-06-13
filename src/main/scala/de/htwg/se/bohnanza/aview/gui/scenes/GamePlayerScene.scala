@@ -3,7 +3,7 @@ package bohnanza.aview.gui.scenes
 import scalafx.scene.Scene
 import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.{VBox, HBox, Region, Priority, StackPane}
-import bohnanza.controller.Controller
+import de.htwg.se.bohnanza.controller.ControllerComponent.*
 import scalafx.geometry.Pos
 import bohnanza.aview.gui.Styles
 import bohnanza.aview.gui.components.global.*
@@ -15,7 +15,7 @@ import scalafx.scene.input.MouseEvent
 import bohnanza.aview.gui.model.SelectionManager
 
 case class GamePlayerScene(
-    controller: Controller,
+    controller: IController,
     windowWidth: Double,
     windowHeight: Double,
     currentPlayerViewIndex: Int,

@@ -1,42 +1,22 @@
-package bohnanza.model
+package de.htwg.se.bohnanza.model.ArgsHandlerComponent
 
 import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
-
-enum HandlerKey(val key: String) {
-  case PlayerFieldIndex extends HandlerKey("playerIndex")
-  case BeanFieldIndex extends HandlerKey("beanFieldIndex")
-  case TurnOverFieldIndex extends HandlerKey("turnOverFieldIndex")
-  case Method extends HandlerKey("method")
-  case HandIndex extends HandlerKey("handIndex")
-}
-
-enum HandlerResponse {
-  case BeanFieldIndexError
-  case PlayerIndexError
-  case CurrentPlayerIndexError
-  case TurnOverFieldIndexError
-  case TakeInvalidPlantError
-  case InvalidPlantError
-  case MissingPlayerCreationError
-  case HandIndexError
-  case MethodError
-  case ArgsError
-  case Success
-}
+import de.htwg.se.bohnanza.model.PhaseStateComponent.*
+import bohnanza.model.Game
 
 trait HandlerTemplate {
   val next: Option[HandlerTemplate]
   def check(
       args: Map[String, Any],
-      phase: PhaseState,
+      phase: IPhaseState,
       game: Game
   ): HandlerResponse
 
   def checkOrDelegate(
       args: Map[String, Any],
-      phase: PhaseState,
+      phase: IPhaseState,
       game: Game
   ): HandlerResponse = {
     val response = check(args, phase, game)
@@ -52,12 +32,32 @@ trait HandlerTemplate {
   }
 }
 
+class ArgumentHandler extends IArgumentHandler {
+  val takeInvalidPlantHandler = TakeInvalidPlantHandler(None)
+  val invalidPlantHandler = InvalidPlantHandler(Option(takeInvalidPlantHandler))
+  val turnOverFieldIndexHandler = TurnOverFieldIndexHandler(
+    Option(invalidPlantHandler)
+  )
+  val beanFieldIndexHandler = BeanFieldIndexHandler(
+    Option(turnOverFieldIndexHandler)
+  )
+  val playerIndexHandler = PlayerIndexHandler(Option(beanFieldIndexHandler))
+
+  def checkOrDelegate(
+      args: Map[String, Any],
+      phase: IPhaseState,
+      game: Game
+  ): HandlerResponse = {
+    MethodHandler(Option(playerIndexHandler)).checkOrDelegate(args, phase, game)
+  }
+}
+
 case class PlayerIndexHandler(next: Option[HandlerTemplate])
     extends HandlerTemplate {
 
   def check(
       args: Map[String, Any],
-      phase: PhaseState,
+      phase: IPhaseState,
       game: Game
   ): HandlerResponse = {
     val key = HandlerKey.PlayerFieldIndex.key
@@ -85,7 +85,7 @@ case class BeanFieldIndexHandler(next: Option[HandlerTemplate])
 
   def check(
       args: Map[String, Any],
-      phase: PhaseState,
+      phase: IPhaseState,
       game: Game
   ): HandlerResponse = {
     val playerIndexKey = HandlerKey.PlayerFieldIndex.key
@@ -121,7 +121,7 @@ case class TakeInvalidPlantHandler(next: Option[HandlerTemplate])
 
   def check(
       args: Map[String, Any],
-      phase: PhaseState,
+      phase: IPhaseState,
       game: Game
   ): HandlerResponse = {
     args.get(HandlerKey.Method.key) match {
@@ -173,7 +173,7 @@ case class InvalidPlantHandler(next: Option[HandlerTemplate])
 
   def check(
       args: Map[String, Any],
-      phase: PhaseState,
+      phase: IPhaseState,
       game: Game
   ): HandlerResponse = {
     args.get(HandlerKey.Method.key) match {
@@ -225,7 +225,7 @@ case class TurnOverFieldIndexHandler(next: Option[HandlerTemplate])
 
   def check(
       args: Map[String, Any],
-      phase: PhaseState,
+      phase: IPhaseState,
       game: Game
   ): HandlerResponse = {
     val turnoverFieldIndexKey = HandlerKey.TurnOverFieldIndex.key
@@ -250,7 +250,7 @@ case class MethodHandler(next: Option[HandlerTemplate])
     extends HandlerTemplate {
   override def check(
       args: Map[String, Any],
-      phase: PhaseState,
+      phase: IPhaseState,
       game: Game
   ): HandlerResponse = {
     args.get(HandlerKey.Method.key) match {

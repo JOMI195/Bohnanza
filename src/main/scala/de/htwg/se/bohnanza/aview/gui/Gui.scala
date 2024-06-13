@@ -10,9 +10,9 @@ import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.text.Font
 import bohnanza.aview.gui.components.*
 import bohnanza.util.Observer
-import bohnanza.controller.Controller
+import de.htwg.se.bohnanza.controller.ControllerComponent.*
 import bohnanza.util.ObserverEvent
-import bohnanza.model.HandlerResponse
+import de.htwg.se.bohnanza.model.ArgsHandlerComponent.HandlerResponse
 import scalafx.application.JFXApp3.PrimaryStage
 import bohnanza.aview.gui.scenes.GamePlayerScene
 import bohnanza.aview.gui.scenes.StartScene
@@ -30,7 +30,7 @@ object Styles {
   val gameCss = getClass.getResource("/styles/game.css").toExternalForm
 }
 
-class Gui(controller: Controller) extends JFXApp3 with Observer {
+class Gui(controller: IController) extends JFXApp3 with Observer {
 
   var startScene: StartScene = _
 

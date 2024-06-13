@@ -5,14 +5,14 @@ import scalafx.scene.control.Label
 import scalafx.geometry.Pos
 import bohnanza.model.Player
 import bohnanza.aview.gui.components.global.GameButtonFactory
-import bohnanza.controller.Controller
+import de.htwg.se.bohnanza.controller.ControllerComponent.*
 import scalafx.scene.text.Text
 import bohnanza.aview.gui.components.global.PlayerAvatar
 import bohnanza.aview.gui.components.global.GameLabel
 import scalafx.geometry.Insets
 
 class PlayersBar(
-    controller: Controller,
+    controller: IController,
     moveToGamePlayerScene: (index: Int) => Unit
 ) extends HBox {
 

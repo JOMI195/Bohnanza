@@ -1,4 +1,7 @@
-package bohnanza.controller
+package de.htwg.se.bohnanza.controller.ControllerComponent
+
+import de.htwg.se.bohnanza.model.PhaseStateComponent.*
+import de.htwg.se.bohnanza.model.ArgsHandlerComponent.*
 
 import bohnanza.model.*
 import bohnanza.util.*
@@ -7,20 +10,11 @@ import bohnanza.util.UndoManager
 
 class Controller(
     var game: Game,
-    var phase: PhaseState = GameInitializationPhase()
-) extends Observable {
+    var phase: IPhaseState = GameInitializationPhase()
+) extends IController {
 
   val undoManager = new UndoManager
-  val takeInvalidPlantHandler = TakeInvalidPlantHandler(None)
-  val invalidPlantHandler = InvalidPlantHandler(Option(takeInvalidPlantHandler))
-  val turnOverFieldIndexHandler = TurnOverFieldIndexHandler(
-    Option(invalidPlantHandler)
-  )
-  val beanFieldIndexHandler = BeanFieldIndexHandler(
-    Option(turnOverFieldIndexHandler)
-  )
-  val playerIndexHandler = PlayerIndexHandler(Option(beanFieldIndexHandler))
-  val argumentHandler = MethodHandler(Option(playerIndexHandler))
+  val argumentHandler: IArgumentHandler = new ArgumentHandler();
 
   def createPlayer(playerName: String): Unit = {
     val response = argumentHandler.checkOrDelegate(

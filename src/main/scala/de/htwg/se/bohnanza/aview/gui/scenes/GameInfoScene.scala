@@ -3,7 +3,7 @@ package bohnanza.aview.gui.scenes
 import scalafx.scene.Scene
 import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.{VBox}
-import bohnanza.controller.Controller
+import de.htwg.se.bohnanza.controller.ControllerComponent.*
 import scalafx.geometry.Pos
 import bohnanza.aview.gui.components.global.*
 import bohnanza.aview.gui.Styles
@@ -19,7 +19,7 @@ import scalafx.scene.layout.StackPane
 import scalafx.application.Platform
 
 case class GameInfoScene(
-    controller: Controller,
+    controller: IController,
     windowWidth: Double,
     windowHeight: Double,
     onGoBackToGameButtonClick: () => Unit,

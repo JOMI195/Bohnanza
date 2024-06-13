@@ -1,7 +1,7 @@
-package bohnanza.controller
+package de.htwg.se.bohnanza.controller.ControllerComponent
 
 import bohnanza.util.Command
-import bohnanza.model.Player
+import bohnanza.model.*
 
 case class PlayerCreationCommand(controller: Controller, playerName: String)
     extends Command(controller) {

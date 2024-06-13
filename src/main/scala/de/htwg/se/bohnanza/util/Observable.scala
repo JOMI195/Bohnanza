@@ -1,6 +1,7 @@
 package bohnanza.util
 
 import bohnanza.model.*
+import de.htwg.se.bohnanza.model.ArgsHandlerComponent.{HandlerResponse}
 
 enum ObserverEvent {
   case PhaseChange
