@@ -2,7 +2,7 @@ package de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent
 
 import de.htwg.se.bohnanza.model.GameComponent.Bean
 
-trait ITurnOverField(cards: List[Bean]) {
+trait ITurnOverField(val cards: List[Bean]) {
 
   /* Converts the TurnOverField to a string representation. */
   override def toString(): String
