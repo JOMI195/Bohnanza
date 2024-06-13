@@ -1,17 +1,18 @@
-package bohnanza.aview.gui.scenes
+package de.htwg.se.bohnanza.aview.gui.scenes
 
 import scalafx.scene.Scene
 import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.{VBox}
-import bohnanza.controller.Controller
 import scalafx.geometry.Pos
-import bohnanza.aview.gui.Styles
-import bohnanza.aview.gui.utils.ImageUtils.importImageAsView
-import bohnanza.aview.gui.components.global.*
-import bohnanza.aview.gui.components.playerCreation.CreatePlayerCard
+
+import de.htwg.se.bohnanza.controller.ControllerComponent.*
+import de.htwg.se.bohnanza.aview.gui.Styles
+import de.htwg.se.bohnanza.aview.gui.utils.ImageUtils.importImageAsView
+import de.htwg.se.bohnanza.aview.gui.components.global.*
+import de.htwg.se.bohnanza.aview.gui.components.playerCreation.CreatePlayerCard
 
 case class PlayerCreateScene(
-    controller: Controller,
+    controller: IController,
     windowWidth: Double,
     windowHeight: Double
 ) extends Scene(windowWidth, windowHeight) {

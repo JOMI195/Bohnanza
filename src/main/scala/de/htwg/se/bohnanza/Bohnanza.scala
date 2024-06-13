@@ -1,11 +1,14 @@
-package bohnanza
-import scala.io.StdIn.readLine
+package de.htwg.se.bohnanza
 
-import bohnanza.model.*
-import bohnanza.aview.*
-import bohnanza.controller.*
-import bohnanza.aview.gui.*
+import scala.io.StdIn.readLine
 import scalafx.application.Platform
+
+import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.FullDeckCreateStrategy
+import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.TurnOverField
+import de.htwg.se.bohnanza.model.GameComponent.Game
+import de.htwg.se.bohnanza.aview.Tui
+import de.htwg.se.bohnanza.aview.gui.*
+import de.htwg.se.bohnanza.controller.ControllerComponent.{Controller}
 
 object Bohnanza {
   val d = FullDeckCreateStrategy().createDeck()

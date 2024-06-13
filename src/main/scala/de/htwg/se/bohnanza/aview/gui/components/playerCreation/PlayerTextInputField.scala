@@ -1,4 +1,4 @@
-package bohnanza.aview.gui.components.playerCreation
+package de.htwg.se.bohnanza.aview.gui.components.playerCreation
 
 import scalafx.scene.layout.VBox
 import scalafx.scene.control.{Button, Label, TextField}

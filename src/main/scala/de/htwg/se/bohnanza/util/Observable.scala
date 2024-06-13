@@ -1,6 +1,7 @@
-package bohnanza.util
+package de.htwg.se.bohnanza.util
 
-import bohnanza.model.*
+import _root_.de.htwg.se.bohnanza.model.GameComponent.IGame
+import _root_.de.htwg.se.bohnanza.model.ArgsHandlerComponent.{HandlerResponse}
 
 enum ObserverEvent {
   case PhaseChange
