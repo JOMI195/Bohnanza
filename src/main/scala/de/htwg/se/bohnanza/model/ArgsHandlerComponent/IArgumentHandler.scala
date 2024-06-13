@@ -1,7 +1,7 @@
 package de.htwg.se.bohnanza.model.ArgsHandlerComponent
 
 import de.htwg.se.bohnanza.model.PhaseStateComponent.*
-import de.htwg.se.bohnanza.model.Game
+import de.htwg.se.bohnanza.model.GameComponent.IGame
 
 enum HandlerKey(val key: String) {
   case PlayerFieldIndex extends HandlerKey("playerIndex")
@@ -29,6 +29,6 @@ trait IArgumentHandler {
   def checkOrDelegate(
       args: Map[String, Any],
       phase: IPhaseState,
-      game: Game
+      game: IGame
   ): HandlerResponse
 }

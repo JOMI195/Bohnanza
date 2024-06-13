@@ -3,9 +3,10 @@ package de.htwg.se.bohnanza
 import scala.io.StdIn.readLine
 import scalafx.application.Platform
 
-import de.htwg.se.bohnanza.model.*
-import de.htwg.se.bohnanza.aview.*
-import de.htwg.se.bohnanza.controller.*
+import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.FullDeckCreateStrategy
+import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.TurnOverField
+import de.htwg.se.bohnanza.model.GameComponent.Game
+import de.htwg.se.bohnanza.aview.Tui
 import de.htwg.se.bohnanza.aview.gui.*
 import de.htwg.se.bohnanza.controller.ControllerComponent.{Controller}
 

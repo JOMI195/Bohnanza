@@ -1,6 +1,6 @@
 package de.htwg.se.bohnanza.util
 
-import de.htwg.se.bohnanza.controller.ControllerComponent.{IController}
+import _root_.de.htwg.se.bohnanza.controller.ControllerComponent.IController
 
 abstract class Command(controller: IController) {
   val memento: GameMemento = GameMemento(controller.game, controller.phase)

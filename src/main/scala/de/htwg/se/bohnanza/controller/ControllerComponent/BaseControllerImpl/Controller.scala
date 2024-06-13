@@ -3,10 +3,7 @@ package de.htwg.se.bohnanza.controller.ControllerComponent
 import de.htwg.se.bohnanza.model.PhaseStateComponent.*
 import de.htwg.se.bohnanza.model.ArgsHandlerComponent.*
 import de.htwg.se.bohnanza.model.GameComponent.*
-
-import bohnanza.util.*
-import java.util.Observer
-import bohnanza.util.UndoManager
+import de.htwg.se.bohnanza.util.*
 
 class Controller(
     var game: IGame,

@@ -11,7 +11,7 @@ import scalafx.scene.input.MouseEvent
 import de.htwg.se.bohnanza.controller.ControllerComponent.*
 import de.htwg.se.bohnanza.aview.gui.components.global.*
 import de.htwg.se.bohnanza.aview.gui.components.gamePlayer.*
-import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.Player
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.{IPlayer, Player}
 import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
 import de.htwg.se.bohnanza.aview.gui.Styles
 
@@ -42,7 +42,7 @@ case class GamePlayerScene(
     moveToGamePlayerScene = moveToGamePlayerScene
   )
 
-  val currentViewPlayer: Player =
+  val currentViewPlayer: IPlayer =
     if (controller.game.players.size > 0)
       controller.game.players(
         currentPlayerViewIndex

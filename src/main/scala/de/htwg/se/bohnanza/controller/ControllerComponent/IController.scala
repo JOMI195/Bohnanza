@@ -1,11 +1,8 @@
 package de.htwg.se.bohnanza.controller.ControllerComponent
 
 import de.htwg.se.bohnanza.model.GameComponent.IGame
-import de.htwg.se.bohnanza.util.*
-import de.htwg.se.bohnanza.util.UndoManager
 import de.htwg.se.bohnanza.model.PhaseStateComponent.*
-
-import java.util.Observer
+import de.htwg.se.bohnanza.util.*
 
 trait IController extends Observable {
   var game: IGame

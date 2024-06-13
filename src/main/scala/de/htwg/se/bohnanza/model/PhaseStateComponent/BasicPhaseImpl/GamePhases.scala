@@ -1,19 +1,19 @@
 package de.htwg.se.bohnanza.model.PhaseStateComponent
 
-import de.htwg.se.bohnanza.model.Game
+import de.htwg.se.bohnanza.model.GameComponent.IGame
 
 class DrawCardsPhase extends IDrawCardsPhase {
   override def toString(): String = {
     "No method except next is allowed here, because everything is done automatically for you. :)\n"
   }
   def nextPhase: IPlayCardPhase = PlayCardPhase()
-  override def startPhase(game: Game): Game =
+  override def startPhase(game: IGame): IGame =
     game.playerDrawCardFromDeck(game.currentPlayerIndex)
 }
 
 class GameInitializationPhase extends IGameInitializationPhase {
   def nextPhase: IPlayCardPhase = PlayCardPhase()
-  override def startPhase(game: Game): Game = game
+  override def startPhase(game: IGame): IGame = game
 }
 
 class TradeAndPlantPhase extends ITradeAndPlantPhase {
@@ -24,7 +24,7 @@ class TradeAndPlantPhase extends ITradeAndPlantPhase {
       " - plant\n"
   }
   def nextPhase: IDrawCardsPhase = DrawCardsPhase()
-  override def startPhase(game: Game): Game = game.drawCardToTurnOverField()
+  override def startPhase(game: IGame): IGame = game.drawCardToTurnOverField()
 }
 
 class PlayCardPhase extends IPlayCardPhase {
@@ -37,7 +37,7 @@ class PlayCardPhase extends IPlayCardPhase {
       " - turn\n"
   }
   def nextPhase: ITradeAndPlantPhase = TradeAndPlantPhase()
-  override def startPhase(game: Game): Game = {
+  override def startPhase(game: IGame): IGame = {
     val updatedPlayerIndex = (game.currentPlayerIndex + 1) % game.players.length
     game.copy(currentPlayerIndex = updatedPlayerIndex)
   }
