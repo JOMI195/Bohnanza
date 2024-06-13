@@ -2,7 +2,13 @@ import org.scalatest._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-import bohnanza.model.*
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.Player
+import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
+import de.htwg.se.bohnanza.model.GameComponent.HandComponent.Hand
+import de.htwg.se.bohnanza.model.GameComponent.Bean
+import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.*
+import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.TurnOverField
+import de.htwg.se.bohnanza.model.GameComponent.*
 
 class GameSpec extends AnyWordSpec with Matchers {
   "Game" should {

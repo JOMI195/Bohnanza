@@ -2,7 +2,8 @@ import org.scalatest._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-import bohnanza.model.*
+import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
+import de.htwg.se.bohnanza.model.GameComponent.Bean
 
 val correctBeanField = BeanField(Option(Bean.ChiliBean), 4)
 val notCorrectBeanField = BeanField(Option(Bean.ChiliBean), 5)
@@ -57,6 +58,20 @@ class BeanFieldSpec extends AnyWordSpec with Matchers {
         updatedBeanField shouldBe correctBeanField
       }
     }
+    "copy the BeanField with the specified beans and quantity" in {
+      val newBean = Some(Bean.SoyBean)
+      val newQuantity = 2
+      val copiedBeanField = correctBeanField.copy(newBean, newQuantity)
+      copiedBeanField.bean shouldBe newBean
+      copiedBeanField.quantity shouldBe newQuantity
+      copiedBeanField should not be theSameInstanceAs(correctBeanField)
+    }
 
+    "copy the BeanField without specifying new beans and quantity" in {
+      val copiedBeanField = correctBeanField.copy()
+      copiedBeanField.bean shouldBe correctBeanField.bean
+      copiedBeanField.quantity shouldBe correctBeanField.quantity
+      copiedBeanField should not be theSameInstanceAs(correctBeanField)
+    }
   }
 }

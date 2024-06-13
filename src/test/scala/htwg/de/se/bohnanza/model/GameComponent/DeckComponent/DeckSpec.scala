@@ -2,7 +2,8 @@ import org.scalatest._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-import bohnanza.model.*
+import de.htwg.se.bohnanza.model.GameComponent.Bean
+import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.*
 
 class DeckSpec extends AnyWordSpec with Matchers {
 
@@ -24,6 +25,19 @@ class DeckSpec extends AnyWordSpec with Matchers {
 
       drawnCard should be(None)
       updatedDeck should be(Deck(Nil))
+    }
+
+    "copy the deck with overriden parameters" in {
+      val newCards = List(Bean.SoyBean, Bean.BlueBean)
+      val copiedDeck = initialDeck.copy(newCards)
+      copiedDeck.cards shouldBe newCards
+      copiedDeck.cards should not be initialDeck.cards
+    }
+
+    "copy the deck without specifying parameters" in {
+      val copiedDeck = initialDeck.copy()
+      copiedDeck.cards shouldBe initialDeck.cards
+      copiedDeck should not be theSameInstanceAs(initialDeck)
     }
   }
 }

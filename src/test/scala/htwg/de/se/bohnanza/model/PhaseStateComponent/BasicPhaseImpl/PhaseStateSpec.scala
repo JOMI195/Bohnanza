@@ -1,38 +1,44 @@
-package htwg.de.se.bohnanza.model
-
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import bohnanza.model.*
 
-val p1 = Player(
-  name = "Player1",
-  coins = 0,
-  beanFields = List(BeanField(None)),
-  hand = Hand(List.empty)
-)
-val p2 = Player(
-  name = "Player2",
-  coins = 0,
-  beanFields = List(BeanField(None)),
-  hand = Hand(List.empty)
-)
-val d = FullDeckCreateStrategy().createDeck()
-val t = TurnOverField(cards = List.empty)
-
-val initialGame = Game(
-  players = List(p1, p2),
-  deck = d,
-  turnOverField = t,
-  currentPlayerIndex = 0
-)
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.Player
+import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
+import de.htwg.se.bohnanza.model.GameComponent.HandComponent.Hand
+import de.htwg.se.bohnanza.model.GameComponent.Bean
+import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.*
+import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.TurnOverField
+import de.htwg.se.bohnanza.model.GameComponent.*
+import de.htwg.se.bohnanza.model.PhaseStateComponent.*
 
 class PhaseStateSpec extends AnyWordSpec with Matchers {
-  "PhaseStae" should {
+  val p1 = Player(
+    name = "Player1",
+    coins = 0,
+    beanFields = List(BeanField(None)),
+    hand = Hand(List.empty)
+  )
+  val p2 = Player(
+    name = "Player2",
+    coins = 0,
+    beanFields = List(BeanField(None)),
+    hand = Hand(List.empty)
+  )
+  val d = FullDeckCreateStrategy().createDeck()
+  val t = TurnOverField(cards = List.empty)
+
+  val initialGame = Game(
+    players = List(p1, p2),
+    deck = d,
+    turnOverField = t,
+    currentPlayerIndex = 0
+  )
+
+  "PhaseState" should {
 
     "nextPhase" should {
       "return itself by default" in {
-        val phaseState = new PhaseState {
-          override def nextPhase: PhaseState = this
+        val phaseState = new IPhaseState {
+          override def nextPhase: IPhaseState = this
         }
         phaseState.nextPhase shouldBe theSameInstanceAs(phaseState)
       }
@@ -40,8 +46,8 @@ class PhaseStateSpec extends AnyWordSpec with Matchers {
 
     "startPhase" should {
       "return the same game by default" in {
-        val phaseState = new PhaseState {
-          override def nextPhase: PhaseState =
+        val phaseState = new IPhaseState {
+          override def nextPhase: IPhaseState =
             this // Provide a default implementation
         }
         val updatedGame = phaseState.startPhase(initialGame)
@@ -54,6 +60,14 @@ class PhaseStateSpec extends AnyWordSpec with Matchers {
         "transition to PlayCardPhase" in {
           val gameInitializationPhase = new GameInitializationPhase()
           gameInitializationPhase.nextPhase shouldBe a[PlayCardPhase]
+        }
+      }
+
+      "startPhase" should {
+        "return the same game" in {
+          val gameInitializationPhase = new GameInitializationPhase()
+          val updatedGame = gameInitializationPhase.startPhase(initialGame)
+          updatedGame shouldEqual initialGame
         }
       }
     }

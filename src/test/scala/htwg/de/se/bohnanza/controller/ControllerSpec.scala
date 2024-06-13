@@ -2,8 +2,18 @@ import org.scalatest._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 
-import bohnanza.model.*
-import bohnanza.controller.*
+import de.htwg.se.bohnanza.aview.Tui
+import de.htwg.se.bohnanza.controller.ControllerComponent.Controller
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.Player
+import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
+import de.htwg.se.bohnanza.model.GameComponent.HandComponent.Hand
+import de.htwg.se.bohnanza.model.GameComponent.Bean
+import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.Deck
+import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.TurnOverField
+import de.htwg.se.bohnanza.model.GameComponent.Game
+import de.htwg.se.bohnanza.model.ArgsHandlerComponent.HandlerResponse
+import de.htwg.se.bohnanza.model.PhaseStateComponent.*
+import de.htwg.se.bohnanza.util.ObserverEvent
 
 val initialPlayer =
   Player(

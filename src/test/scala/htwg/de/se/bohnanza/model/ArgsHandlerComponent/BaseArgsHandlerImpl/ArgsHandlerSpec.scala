@@ -1,6 +1,14 @@
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
-import bohnanza.model.*
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.Player
+import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
+import de.htwg.se.bohnanza.model.GameComponent.HandComponent.Hand
+import de.htwg.se.bohnanza.model.GameComponent.Bean
+import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.*
+import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.TurnOverField
+import de.htwg.se.bohnanza.model.GameComponent.*
+import de.htwg.se.bohnanza.model.ArgsHandlerComponent.*
+import de.htwg.se.bohnanza.model.PhaseStateComponent.*
 
 class HandlerSpec extends AnyWordSpec with Matchers {
 
@@ -381,6 +389,16 @@ class HandlerSpec extends AnyWordSpec with Matchers {
     "MethodHandler" should {
       val handler = MethodHandler(None)
 
+      "return Success if method is 'next' in DrawCardsPhase" in {
+        val args = Map(HandlerKey.Method.key -> "next")
+
+        handler.check(
+          args,
+          new DrawCardsPhase,
+          initialGame
+        ) shouldBe HandlerResponse.Success
+      }
+
       "return MissingPlayerCreationError if no player is created on method next in GameInitializationPhase " in {
         val args = Map(HandlerKey.Method.key -> "next")
         val initialGame = Game(
@@ -485,8 +503,8 @@ class HandlerSpec extends AnyWordSpec with Matchers {
 
         override def check(
             args: Map[String, Any],
-            phase: PhaseState,
-            game: Game
+            phase: IPhaseState,
+            game: IGame
         ): HandlerResponse = {
           response
         }
