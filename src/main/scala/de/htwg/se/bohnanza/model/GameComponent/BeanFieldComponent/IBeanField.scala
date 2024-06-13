@@ -16,4 +16,10 @@ trait IBeanField(val bean: Option[Bean], val quantity: Int) {
      type of bean, increases the quantity by 1. Otherwise, initializes the field
      with the new bean type and a quantity of 1. Returns the updated BeanField. */
   def plantToField(beanToPlant: Bean): IBeanField
+
+  /* Creates a copy of the beanfield */
+  def copy(
+      bean: Option[Bean] = this.bean,
+      quantity: Int = this.quantity
+  ): IBeanField
 }

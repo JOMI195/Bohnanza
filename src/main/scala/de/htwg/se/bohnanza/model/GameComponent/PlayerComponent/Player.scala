@@ -9,13 +9,13 @@ import de.htwg.se.bohnanza.model.GameComponent.Bean
 
 case class Player(
     name: String,
-    beanFields: List[BeanField] = List(
+    beanFields: List[IBeanField] = List(
       BeanField(None),
       BeanField(None),
       BeanField(None)
     ), // for now it has all three beanFields
     coins: Int = 0,
-    hand: Hand = Hand(List.empty)
+    hand: IHand = Hand(List.empty)
 ) extends IPlayer(name, beanFields, coins, hand) {
 
   override def toString: String = {
@@ -28,7 +28,7 @@ case class Player(
     start + hand + beanFields
   }
 
-  def plantCardFromHand(beanFieldIndex: Int): Player = {
+  def plantCardFromHand(beanFieldIndex: Int): IPlayer = {
     val (card, updatedHand) = hand.popCard()
     val updatedPlayer = copy(hand = updatedHand)
     val updatedFieldPlayer = card match {
@@ -38,7 +38,7 @@ case class Player(
     updatedFieldPlayer
   }
 
-  def harvestField(beanFieldIndex: Int): Player = {
+  def harvestField(beanFieldIndex: Int): IPlayer = {
     val (coins, updatedBeanField) = beanFields(beanFieldIndex).harvestField()
     copy(
       coins = coins,
@@ -46,9 +46,16 @@ case class Player(
     )
   }
 
-  def plantToField(bean: Bean, beanFieldIndex: Int): Player = {
+  def plantToField(bean: Bean, beanFieldIndex: Int): IPlayer = {
     val updatedBeanField = beanFields(beanFieldIndex).plantToField(bean)
     val updatedBeanFields = beanFields.updated(beanFieldIndex, updatedBeanField)
     copy(beanFields = updatedBeanFields)
   }
+
+  def copy(
+      name: String = this.name,
+      beanFields: List[IBeanField] = this.beanFields,
+      coins: Int = this.coins,
+      hand: IHand = this.hand
+  ): IPlayer = Player(name, beanFields, coins, hand)
 }

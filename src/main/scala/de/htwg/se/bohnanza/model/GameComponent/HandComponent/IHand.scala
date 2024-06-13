@@ -13,4 +13,7 @@ trait IHand(cards: List[Bean]) {
   /* Removes the top card from the hand and returns it along with the updated
      IHand instance. If the hand is empty, returns (None, this). */
   def popCard(): (Option[Bean], Hand)
+
+  /* Creates a copy of the hand */
+  def copy(cards: List[Bean] = this.cards): IHand
 }

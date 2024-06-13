@@ -39,4 +39,12 @@ trait IGame(
   /* Draws two cards from the deck and adds them to the turn over field, updating
      the game's deck and turn over field. */
   def drawCardToTurnOverField(): IGame
+
+  /* Creates a copy of the game */
+  def copy(
+      players: List[IPlayer] = this.players,
+      currentPlayerIndex: Int = this.currentPlayerIndex,
+      deck: IDeck = this.deck,
+      turnOverField: ITurnOverField = this.turnOverField
+  ): IGame
 }

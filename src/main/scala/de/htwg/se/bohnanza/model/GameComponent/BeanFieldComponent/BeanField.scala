@@ -13,7 +13,7 @@ case class BeanField(bean: Option[Bean], quantity: Int = 0)
 
   }
 
-  def harvestField(): (Int, BeanField) = {
+  def harvestField(): (Int, IBeanField) = {
     bean match {
       case Some(bean) => {
         val coins = bean.quantityToCoins.getOrElse(
@@ -32,7 +32,7 @@ case class BeanField(bean: Option[Bean], quantity: Int = 0)
     }
   }
 
-  def plantToField(beanToPlant: Bean): BeanField = {
+  def plantToField(beanToPlant: Bean): IBeanField = {
     val updatedBeanfield = bean match {
       case Some(bean) => {
         if (bean == beanToPlant) {
@@ -45,5 +45,10 @@ case class BeanField(bean: Option[Bean], quantity: Int = 0)
     }
     updatedBeanfield
   }
+
+  def copy(
+      bean: Option[Bean] = this.bean,
+      quantity: Int = this.quantity
+  ): IBeanField = BeanField(bean, quantity)
 
 }

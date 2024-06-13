@@ -1,18 +1,18 @@
 package de.htwg.se.bohnanza.model.GameComponent
 
 import de.htwg.se.bohnanza.model.GameComponent.{IGame}
-import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.{Player}
-import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.{Deck}
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.{IPlayer}
+import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.{IDeck}
 import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.{
-  TurnOverField
+  ITurnOverField
 }
 import de.htwg.se.bohnanza.model.GameComponent.Bean
 
 case class Game(
-    players: List[Player],
+    players: List[IPlayer],
     currentPlayerIndex: Int,
-    deck: Deck,
-    turnOverField: TurnOverField
+    deck: IDeck,
+    turnOverField: ITurnOverField
 ) extends IGame(players, currentPlayerIndex, deck, turnOverField) {
 
   override def toString(): String = {
@@ -24,7 +24,7 @@ case class Game(
     turnOverField + "\n" + players
   }
 
-  def playerDrawCardFromDeck(playerIndex: Int): Game = {
+  def playerDrawCardFromDeck(playerIndex: Int): IGame = {
     val player = players(playerIndex)
     val (card, updatedDeck) = deck.draw()
     val updatedHand = card match {
@@ -38,14 +38,14 @@ case class Game(
     )
   }
 
-  def playerPlantCardFromHand(playerIndex: Int, beanFieldIndex: Int): Game = {
+  def playerPlantCardFromHand(playerIndex: Int, beanFieldIndex: Int): IGame = {
     val player = players(playerIndex)
     val updatedPlayer = players(playerIndex).plantCardFromHand(beanFieldIndex)
     val updatedPlayers = players.updated(playerIndex, updatedPlayer)
     copy(players = updatedPlayers)
   }
 
-  def playerHarvestField(playerIndex: Int, beanFieldIndex: Int): Game = {
+  def playerHarvestField(playerIndex: Int, beanFieldIndex: Int): IGame = {
     val updatedPlayer = players(playerIndex).harvestField(beanFieldIndex)
     val updatedPlayers = players.updated(playerIndex, updatedPlayer)
     copy(players = updatedPlayers)
@@ -55,7 +55,7 @@ case class Game(
       playerIndex: Int,
       cardIndex: Int,
       beanFieldIndex: Int
-  ): Game = {
+  ): IGame = {
     val (cardTaken, updatedTurnOverField) = turnOverField.takeCard(cardIndex)
     val updatedPlayer = players(playerIndex).plantToField(
       cardTaken,
@@ -67,7 +67,7 @@ case class Game(
     )
   }
 
-  def drawCardToTurnOverField(): Game = {
+  def drawCardToTurnOverField(): IGame = {
     val (firstCard, firstDeck) = deck.draw()
     val firstTurnOverField =
       turnOverField.addCardToTurnOverField(firstCard)
@@ -77,4 +77,11 @@ case class Game(
       firstTurnOverField.addCardToTurnOverField(secondCard)
     copy(deck = secondDeck, turnOverField = secondTurnOverField)
   }
+
+  def copy(
+      players: List[IPlayer] = this.players,
+      currentPlayerIndex: Int = this.currentPlayerIndex,
+      deck: IDeck = this.deck,
+      turnOverField: ITurnOverField = this.turnOverField
+  ): IGame = Game(players, currentPlayerIndex, deck, turnOverField)
 }
