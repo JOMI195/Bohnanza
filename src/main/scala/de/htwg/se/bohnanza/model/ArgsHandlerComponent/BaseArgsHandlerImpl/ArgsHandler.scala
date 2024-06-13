@@ -1,10 +1,9 @@
 package de.htwg.se.bohnanza.model.ArgsHandlerComponent
 
-import scala.util.Try
-import scala.util.Success
-import scala.util.Failure
+import scala.util.{Try, Success, Failure}
+
 import de.htwg.se.bohnanza.model.PhaseStateComponent.*
-import bohnanza.model.Game
+import de.htwg.se.bohnanza.model.Game
 
 trait HandlerTemplate {
   val next: Option[HandlerTemplate]

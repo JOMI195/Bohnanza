@@ -2,14 +2,14 @@ package de.htwg.se.bohnanza.controller.ControllerComponent
 
 import de.htwg.se.bohnanza.model.PhaseStateComponent.*
 import de.htwg.se.bohnanza.model.ArgsHandlerComponent.*
+import de.htwg.se.bohnanza.model.GameComponent.*
 
-import bohnanza.model.*
 import bohnanza.util.*
 import java.util.Observer
 import bohnanza.util.UndoManager
 
 class Controller(
-    var game: Game,
+    var game: IGame,
     var phase: IPhaseState = GameInitializationPhase()
 ) extends IController {
 

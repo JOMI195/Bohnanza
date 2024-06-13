@@ -1,16 +1,17 @@
-package bohnanza.aview.gui.components.global
+package de.htwg.se.bohnanza.aview.gui.components.global
+
+import de.htwg.se.bohnanza.aview.gui.components.global.BeanFieldCards
+import de.htwg.se.bohnanza.aview.gui.utils.ImageUtils
+import de.htwg.se.bohnanza.aview.gui.components.global.mainCardScaleFactor
+import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
+import de.htwg.se.bohnanza.aview.gui.model.selectionStyle
 
 import scalafx.scene.layout.StackPane
-import bohnanza.aview.gui.components.global.BeanFieldCards
-import bohnanza.aview.gui.utils.ImageUtils
-import bohnanza.aview.gui.components.global.mainCardScaleFactor
 import scalafx.scene.layout.{VBox, Region}
 import scalafx.geometry.Insets
 import scalafx.geometry.Pos
-import bohnanza.aview.gui.model.SelectionManager
 import scalafx.scene.input.MouseEvent
 import scalafx.Includes._
-import bohnanza.aview.gui.model.selectionStyle
 import scalafx.scene.effect.ColorAdjust
 import scalafx.animation.Timeline
 import scalafx.animation.ScaleTransition

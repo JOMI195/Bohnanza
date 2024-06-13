@@ -1,7 +1,8 @@
 package de.htwg.se.bohnanza.controller.ControllerComponent
 
-import bohnanza.util.Command
-import bohnanza.model.*
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.Player
+import de.htwg.se.bohnanza.util.Command
+import de.htwg.se.bohnanza.model.*
 
 case class PlayerCreationCommand(controller: Controller, playerName: String)
     extends Command(controller) {

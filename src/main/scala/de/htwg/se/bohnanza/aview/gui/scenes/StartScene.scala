@@ -1,13 +1,14 @@
-package bohnanza.aview.gui.scenes
+package de.htwg.se.bohnanza.aview.gui.scenes
 
 import scalafx.scene.Scene
 import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.{VBox}
-import de.htwg.se.bohnanza.controller.ControllerComponent.*
 import scalafx.geometry.Pos
-import bohnanza.aview.gui.Styles
-import bohnanza.aview.gui.components.global.*
-import bohnanza.aview.gui.utils.ImageUtils
+
+import de.htwg.se.bohnanza.controller.ControllerComponent.*
+import de.htwg.se.bohnanza.aview.gui.Styles
+import de.htwg.se.bohnanza.aview.gui.components.global.*
+import de.htwg.se.bohnanza.aview.gui.utils.ImageUtils
 
 case class StartScene(
     controller: IController,

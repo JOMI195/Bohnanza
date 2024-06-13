@@ -1,16 +1,18 @@
-package bohnanza.aview.gui.components.gamePlayer
+package de.htwg.se.bohnanza.aview.gui.components.gamePlayer
 
-import bohnanza.aview.gui.components.global.Card
-import bohnanza.aview.gui.components.global.Hand
-import scalafx.scene.layout.VBox
-import bohnanza.model.Player
-import bohnanza.aview.gui.components.global.GameButtonFactory
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.IPlayer
+
+import de.htwg.se.bohnanza.aview.gui.components.global.Card
+import de.htwg.se.bohnanza.aview.gui.components.global.Hand
+import de.htwg.se.bohnanza.aview.gui.components.global.GameButtonFactory
+import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
+import de.htwg.se.bohnanza.aview.gui.components.global.TurnOverFieldContainer
+
 import scalafx.geometry.Pos
-import bohnanza.aview.gui.model.SelectionManager
-import bohnanza.aview.gui.components.global.TurnOverFieldContainer
+import scalafx.scene.layout.VBox
 
 case class PlayerHand(
-    currentViewPlayer: Player,
+    currentViewPlayer: IPlayer,
     selectionManager: SelectionManager
 ) extends VBox {
   var flipped = true

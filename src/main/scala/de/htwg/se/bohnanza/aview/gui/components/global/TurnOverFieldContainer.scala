@@ -1,12 +1,13 @@
-package bohnanza.aview.gui.components.global
+package de.htwg.se.bohnanza.aview.gui.components.global
 
 import scalafx.scene.layout.HBox
 import scalafx.scene.layout.StackPane
 import scalafx.geometry.Pos
-import bohnanza.model.Bean
-import bohnanza.aview.gui.utils.ImageUtils
-import bohnanza.aview.gui.model.SelectionManager
-import bohnanza.aview.gui.components.gamePlayer.PlayerHand
+
+import de.htwg.se.bohnanza.model.GameComponent.Bean
+import de.htwg.se.bohnanza.aview.gui.utils.ImageUtils
+import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
+import de.htwg.se.bohnanza.aview.gui.components.gamePlayer.PlayerHand
 
 class TurnOverFieldContainer(
     cards: List[Bean],

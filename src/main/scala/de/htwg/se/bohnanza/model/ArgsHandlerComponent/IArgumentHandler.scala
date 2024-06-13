@@ -1,7 +1,7 @@
 package de.htwg.se.bohnanza.model.ArgsHandlerComponent
 
 import de.htwg.se.bohnanza.model.PhaseStateComponent.*
-import bohnanza.model.Game
+import de.htwg.se.bohnanza.model.Game
 
 enum HandlerKey(val key: String) {
   case PlayerFieldIndex extends HandlerKey("playerIndex")

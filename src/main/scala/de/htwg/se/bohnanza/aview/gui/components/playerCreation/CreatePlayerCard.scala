@@ -1,4 +1,4 @@
-package bohnanza.aview.gui.components.playerCreation
+package de.htwg.se.bohnanza.aview.gui.components.playerCreation
 
 import scalafx.scene.layout.VBox
 import scalafx.scene.text.{Font, Text}
@@ -6,8 +6,9 @@ import scalafx.geometry.{Insets, Pos}
 import scalafx.scene.paint.Color
 import scalafx.scene.control.Button
 import scalafx.event.ActionEvent
+
 import de.htwg.se.bohnanza.controller.ControllerComponent.*
-import bohnanza.aview.gui.components.global.GameButtonFactory
+import de.htwg.se.bohnanza.aview.gui.components.global.GameButtonFactory
 
 class CreatePlayerCard(controller: IController) extends VBox {
   prefHeight = 450

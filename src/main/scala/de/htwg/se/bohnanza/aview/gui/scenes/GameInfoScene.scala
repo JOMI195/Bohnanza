@@ -1,22 +1,24 @@
-package bohnanza.aview.gui.scenes
+package de.htwg.se.bohnanza.aview.gui.scenes
 
 import scalafx.scene.Scene
 import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.{VBox}
-import de.htwg.se.bohnanza.controller.ControllerComponent.*
 import scalafx.geometry.Pos
-import bohnanza.aview.gui.components.global.*
-import bohnanza.aview.gui.Styles
 import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
-import bohnanza.model.BeanField
-import bohnanza.aview.gui.components.global.BeanFieldContainer
-import bohnanza.aview.gui.components.gameInfo.PlayerInfo
-import bohnanza.aview.gui.components.gameInfo.GameInfoGrid
 import scalafx.geometry.Insets
 import scalafx.scene.layout.StackPane
 import scalafx.application.Platform
+
+import de.htwg.se.bohnanza.controller.ControllerComponent.*
+import de.htwg.se.bohnanza.aview.gui.components.global.*
+import de.htwg.se.bohnanza.aview.gui.Styles
+import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
+import de.htwg.se.bohnanza.aview.gui.components.global.BeanFieldContainer
+import de.htwg.se.bohnanza.aview.gui.components.gameInfo.PlayerInfo
+import de.htwg.se.bohnanza.aview.gui.components.gameInfo.GameInfoGrid
+import de.htwg.se.bohnanza.Bohnanza.controller
 
 case class GameInfoScene(
     controller: IController,
