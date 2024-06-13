@@ -9,4 +9,7 @@ trait IDeck(cards: List[Bean]) {
      as Some(card) along with the updated Deck instance with the card removed.
      If the deck is empty, it returns (None, this) indicating no card was drawn. */
   def draw(): (Option[Bean], IDeck)
+
+  /* Creates a copy of the deck */
+  def copy(cards: List[Bean] = this.cards): IDeck
 }

@@ -11,16 +11,20 @@ case class TurnOverField(cards: List[Bean]) extends ITurnOverField(cards) {
     "| " + cards.map(_.toString).mkString(" | ") + " |"
   }
 
-  def addCardToTurnOverField(card: Option[Bean]): TurnOverField = {
+  def addCardToTurnOverField(card: Option[Bean]): ITurnOverField = {
     card match {
       case Some(card) => TurnOverField(cards :+ card)
       case None       => this
     }
   }
 
-  def takeCard(cardIndex: Int): (Bean, TurnOverField) = {
+  def takeCard(cardIndex: Int): (Bean, ITurnOverField) = {
     val cardTaken = cards(cardIndex)
     val updatedTurnOverField = cards.patch(cardIndex, Nil, 1)
     (cardTaken, TurnOverField(updatedTurnOverField))
   }
+
+  def copy(cards: List[Bean] = this.cards): ITurnOverField = TurnOverField(
+    cards
+  )
 }

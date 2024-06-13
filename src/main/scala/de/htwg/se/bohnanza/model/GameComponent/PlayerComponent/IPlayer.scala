@@ -26,4 +26,13 @@ trait IPlayer(
   /* Plants a specified bean into a specified bean field, updating the bean field
      accordingly. */
   def plantToField(bean: Bean, beanFieldIndex: Int): IPlayer
+
+  /* Creates a copy of the Player with the option to update the name, bean fields,
+     number of coins, and hand. */
+  def copy(
+      name: String = this.name,
+      beanFields: List[IBeanField] = this.beanFields,
+      coins: Int = this.coins,
+      hand: IHand = this.hand
+  ): IPlayer
 }

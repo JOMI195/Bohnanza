@@ -11,12 +11,12 @@ case class Hand(cards: List[Bean]) extends IHand(cards) {
     "| " + cards.map(_.toString).mkString(" | ") + " |"
   }
 
-  def addCard(card: Bean): Hand = {
+  def addCard(card: Bean): IHand = {
     val updatedHand = copy(cards = cards :+ card)
     updatedHand
   }
 
-  def popCard(): (Option[Bean], Hand) = {
+  def popCard(): (Option[Bean], IHand) = {
     val (card, updatedCards) = cards match {
       case Nil          => (None, cards)
       case head :: tail => (Some(head), tail)
@@ -24,4 +24,6 @@ case class Hand(cards: List[Bean]) extends IHand(cards) {
     val updatedHand = copy(cards = updatedCards)
     (card, updatedHand)
   }
+
+  def copy(cards: List[Bean] = this.cards): IHand = Hand(cards)
 }

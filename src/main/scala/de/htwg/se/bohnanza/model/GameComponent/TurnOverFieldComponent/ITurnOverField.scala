@@ -15,4 +15,7 @@ trait ITurnOverField(cards: List[Bean]) {
   /* Removes a card from the TurnOverField at the specified index and returns a
      tuple containing the removed card and the updated TurnOverField. */
   def takeCard(cardIndex: Int): (Bean, ITurnOverField)
+
+  /* Creates a copy of the turnoverfield */
+  def copy(cards: List[Bean] = this.cards): ITurnOverField
 }
