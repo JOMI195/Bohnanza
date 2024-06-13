@@ -1,17 +1,18 @@
-package bohnanza.aview.gui.components.global
+package de.htwg.se.bohnanza.aview.gui.components.global
 
 import scalafx.scene.layout.VBox
-import bohnanza.aview.gui.Gui
-import bohnanza.aview.gui.utils.ImageUtils
 import scalafx.scene.text.Text
 import scalafx.geometry.Pos
 import scalafx.scene.control.Label
 import scalafx.geometry.Insets
 import scalafx.scene.shape.Circle
-import bohnanza.model.Player
+
+import de.htwg.se.bohnanza.aview.gui.Gui
+import de.htwg.se.bohnanza.aview.gui.utils.ImageUtils
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.IPlayer
 
 class PlayerAvatar(
-    player: Player,
+    player: IPlayer,
     playerIndex: Int,
     scaleAvatar: Float,
     scaleFont: Float,

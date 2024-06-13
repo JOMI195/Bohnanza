@@ -1,15 +1,16 @@
-package bohnanza.aview.gui.components.gamePlayer
+package de.htwg.se.bohnanza.aview.gui.components.gamePlayer
 
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.IPlayer
+import de.htwg.se.bohnanza.aview.gui.components.global.GameButtonFactory
+import de.htwg.se.bohnanza.controller.ControllerComponent.*
+import de.htwg.se.bohnanza.aview.gui.components.global.PlayerAvatar
+import de.htwg.se.bohnanza.aview.gui.components.global.GameLabel
+
+import scalafx.scene.text.Text
+import scalafx.geometry.Insets
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.scene.control.Label
 import scalafx.geometry.Pos
-import bohnanza.model.Player
-import bohnanza.aview.gui.components.global.GameButtonFactory
-import de.htwg.se.bohnanza.controller.ControllerComponent.*
-import scalafx.scene.text.Text
-import bohnanza.aview.gui.components.global.PlayerAvatar
-import bohnanza.aview.gui.components.global.GameLabel
-import scalafx.geometry.Insets
 
 class PlayersBar(
     controller: IController,

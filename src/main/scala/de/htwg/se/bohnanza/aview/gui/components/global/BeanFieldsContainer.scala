@@ -1,8 +1,9 @@
-package bohnanza.aview.gui.components.global
+package de.htwg.se.bohnanza.aview.gui.components.global
+
+import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
 
 import scalafx.scene.layout.HBox
 import scalafx.geometry.Pos
-import bohnanza.aview.gui.model.SelectionManager
 
 class BeanFieldsContainer(
     beanFields: List[BeanFieldContainer]

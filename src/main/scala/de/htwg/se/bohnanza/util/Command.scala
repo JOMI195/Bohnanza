@@ -1,4 +1,4 @@
-package bohnanza.util
+package de.htwg.se.bohnanza.util
 
 import de.htwg.se.bohnanza.controller.ControllerComponent.{IController}
 

@@ -1,11 +1,12 @@
-package bohnanza
-import scala.io.StdIn.readLine
+package de.htwg.se.bohnanza
 
-import bohnanza.model.*
-import bohnanza.aview.*
-import bohnanza.controller.*
-import bohnanza.aview.gui.*
+import scala.io.StdIn.readLine
 import scalafx.application.Platform
+
+import de.htwg.se.bohnanza.model.*
+import de.htwg.se.bohnanza.aview.*
+import de.htwg.se.bohnanza.controller.*
+import de.htwg.se.bohnanza.aview.gui.*
 import de.htwg.se.bohnanza.controller.ControllerComponent.{Controller}
 
 object Bohnanza {

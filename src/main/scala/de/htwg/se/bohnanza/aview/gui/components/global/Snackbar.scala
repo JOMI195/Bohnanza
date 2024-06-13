@@ -1,4 +1,4 @@
-package bohnanza.aview.gui.components.global
+package de.htwg.se.bohnanza.aview.gui.components.global
 
 import scalafx.Includes._
 import scalafx.animation.TranslateTransition
@@ -6,13 +6,14 @@ import scalafx.scene.control.Button
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.{Pane, StackPane}
 import scalafx.util.Duration
-import bohnanza.aview.gui.utils.ImageUtils
 import scalafx.application.Platform
 import scalafx.animation.Timeline
 import scalafx.scene.effect.Glow
 import scalafx.scene.effect.BlendMode
 import scalafx.animation.KeyFrame
 import scalafx.geometry.Pos
+
+import de.htwg.se.bohnanza.aview.gui.utils.ImageUtils
 
 class BottomRightSnackbar(
     windowWidth: Double,

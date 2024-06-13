@@ -1,13 +1,14 @@
 package de.htwg.se.bohnanza.controller.ControllerComponent
 
-import bohnanza.model.*
-import bohnanza.util.*
-import java.util.Observer
-import bohnanza.util.UndoManager
+import de.htwg.se.bohnanza.model.GameComponent.IGame
+import de.htwg.se.bohnanza.util.*
+import de.htwg.se.bohnanza.util.UndoManager
 import de.htwg.se.bohnanza.model.PhaseStateComponent.*
 
+import java.util.Observer
+
 trait IController extends Observable {
-  var game: Game
+  var game: IGame
   var phase: IPhaseState
 
   def createPlayer(playerName: String): Unit

@@ -1,16 +1,17 @@
-package bohnanza.aview.gui.components.global
+package de.htwg.se.bohnanza.aview.gui.components.global
+
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.IPlayer
+import de.htwg.se.bohnanza.Bohnanza.controller
+import de.htwg.se.bohnanza.aview.gui.components.global.*
+import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
+import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
 
 import scalafx.scene.layout.{HBox, VBox}
-import bohnanza.model.Player
-import bohnanza.aview.gui.components.global.*
-import bohnanza.aview.gui.model.SelectionManager
-import bohnanza.model.BeanField
-import bohnanza.Bohnanza.controller
 import scalafx.geometry.Pos
 import scalafx.scene.layout.Priority
 
 class PlayerBeanFields(
-    player: Player,
+    player: IPlayer,
     playerIndex: Int,
     scaleFactor: Float = mainCardScaleFactor,
     selectionManager: Option[SelectionManager]

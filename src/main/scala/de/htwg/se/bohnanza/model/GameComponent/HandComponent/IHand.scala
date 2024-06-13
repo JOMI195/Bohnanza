@@ -2,7 +2,7 @@ package de.htwg.se.bohnanza.model.GameComponent.HandComponent
 
 import de.htwg.se.bohnanza.model.GameComponent.Bean
 
-trait IHand(cards: List[Bean]) {
+trait IHand(val cards: List[Bean]) {
 
   /* Converts the Hand to a string representation */
   override def toString(): String

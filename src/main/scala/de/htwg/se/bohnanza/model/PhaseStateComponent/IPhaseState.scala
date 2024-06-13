@@ -1,6 +1,6 @@
 package de.htwg.se.bohnanza.model.PhaseStateComponent
 
-import bohnanza.model.Game
+import de.htwg.se.bohnanza.model.Game
 
 trait IPhaseState {
   def nextPhase: IPhaseState
