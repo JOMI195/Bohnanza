@@ -1,6 +1,8 @@
-package bohnanza.model
+package de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent
 
-case class TurnOverField(cards: List[Bean]) {
+import de.htwg.se.bohnanza.model.GameComponent.Bean
+
+case class TurnOverField(cards: List[Bean]) extends ITurnOverField(cards) {
 
   override def toString(): String = {
     if (cards.isEmpty) {

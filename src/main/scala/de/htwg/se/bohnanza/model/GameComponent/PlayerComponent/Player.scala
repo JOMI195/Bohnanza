@@ -1,4 +1,11 @@
-package bohnanza.model
+package de.htwg.se.bohnanza.model.GameComponent.PlayerComponent
+
+import de.htwg.se.bohnanza.model.GameComponent.HandComponent.{IHand, Hand}
+import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.{
+  IBeanField,
+  BeanField
+}
+import de.htwg.se.bohnanza.model.GameComponent.Bean
 
 case class Player(
     name: String,
@@ -9,7 +16,7 @@ case class Player(
     ), // for now it has all three beanFields
     coins: Int = 0,
     hand: Hand = Hand(List.empty)
-) {
+) extends IPlayer(name, beanFields, coins, hand) {
 
   override def toString: String = {
     val start = s"Player $name | coins: $coins |\n"
@@ -21,8 +28,6 @@ case class Player(
     start + hand + beanFields
   }
 
-  /** Pops the first card from the hand cards and plant it to the beanField
-    */
   def plantCardFromHand(beanFieldIndex: Int): Player = {
     val (card, updatedHand) = hand.popCard()
     val updatedPlayer = copy(hand = updatedHand)
@@ -33,7 +38,6 @@ case class Player(
     updatedFieldPlayer
   }
 
-//   def buyBeanField(): Player {}
   def harvestField(beanFieldIndex: Int): Player = {
     val (coins, updatedBeanField) = beanFields(beanFieldIndex).harvestField()
     copy(
