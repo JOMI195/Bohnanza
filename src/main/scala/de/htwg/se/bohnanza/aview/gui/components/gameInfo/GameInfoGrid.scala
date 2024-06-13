@@ -1,12 +1,14 @@
-package bohnanza.aview.gui.components.gameInfo
+package de.htwg.se.bohnanza.aview.gui.components.gameInfo
 
-import bohnanza.model.Player
 import scalafx.scene.layout.{VBox, GridPane, HBox, Region, Priority}
 import scalafx.geometry.Insets
 import scalafx.geometry.Pos
 
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.IPlayer
+import de.htwg.se.bohnanza.aview.gui.components.gameInfo.PlayerInfo
+
 class GameInfoGrid(
-    players: List[Player],
+    players: List[IPlayer],
     moveToGamePlayerScene: (index: Int) => Unit
 ) extends GridPane {
   padding = Insets(10)

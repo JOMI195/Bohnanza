@@ -1,8 +1,8 @@
-package bohnanza.util
+package de.htwg.se.bohnanza.util
 
-import bohnanza.controller.Controller
+import _root_.de.htwg.se.bohnanza.controller.ControllerComponent.IController
 
-abstract class Command(controller: Controller) {
+abstract class Command(controller: IController) {
   val memento: GameMemento = GameMemento(controller.game, controller.phase)
   def doStep: Unit
   def undoStep: Unit = {

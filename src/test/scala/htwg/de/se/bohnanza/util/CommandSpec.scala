@@ -1,9 +1,16 @@
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
-import bohnanza.controller.Controller
-import bohnanza.model._
-import bohnanza.util.Command
-import bohnanza.util.UndoManager
+
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.Player
+import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
+import de.htwg.se.bohnanza.model.GameComponent.HandComponent.Hand
+import de.htwg.se.bohnanza.model.GameComponent.Bean
+import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.*
+import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.TurnOverField
+import de.htwg.se.bohnanza.model.GameComponent.*
+import de.htwg.se.bohnanza.controller.ControllerComponent.Controller
+import de.htwg.se.bohnanza.util.Command
+import de.htwg.se.bohnanza.util.UndoManager
 
 class TestCommand(controller: Controller) extends Command(controller) {
   override def doStep: Unit = {}
