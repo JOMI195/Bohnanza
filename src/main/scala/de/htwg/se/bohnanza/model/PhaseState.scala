@@ -44,5 +44,4 @@ class DrawCardsPhase extends PhaseState {
   def nextPhase: PhaseState = PlayCardPhase()
   override def startPhase(game: Game): Game =
     game.playerDrawCardFromDeck(game.currentPlayerIndex)
-
 }

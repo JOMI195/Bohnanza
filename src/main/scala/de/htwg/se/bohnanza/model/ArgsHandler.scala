@@ -41,12 +41,14 @@ trait HandlerTemplate {
   ): HandlerResponse = {
     val response = check(args, phase, game)
     if (response != HandlerResponse.Success) {
+      println("Richtiger Branch!")
       return response
     }
 
     next match {
       case Some(handler) => handler.checkOrDelegate(args, phase, game)
-      case None          => response
+      case None =>
+        response
     }
   }
 }
