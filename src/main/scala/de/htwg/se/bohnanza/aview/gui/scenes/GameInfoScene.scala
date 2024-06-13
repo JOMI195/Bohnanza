@@ -18,6 +18,7 @@ import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
 import de.htwg.se.bohnanza.aview.gui.components.global.BeanFieldContainer
 import de.htwg.se.bohnanza.aview.gui.components.gameInfo.PlayerInfo
 import de.htwg.se.bohnanza.aview.gui.components.gameInfo.GameInfoGrid
+import de.htwg.se.bohnanza.Bohnanza.controller
 
 case class GameInfoScene(
     controller: IController,

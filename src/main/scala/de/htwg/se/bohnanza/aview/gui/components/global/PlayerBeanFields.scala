@@ -4,7 +4,10 @@ import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.IPlayer
 import de.htwg.se.bohnanza.Bohnanza.controller
 import de.htwg.se.bohnanza.aview.gui.components.global.*
 import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
-import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
+import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.{
+  IBeanField,
+  BeanField
+}
 
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.geometry.Pos
@@ -26,7 +29,7 @@ class PlayerBeanFields(
   private def createBeanFieldCards(
       beanFieldIndex: Int
   ): BeanFieldCards = {
-    val beanField: BeanField =
+    val beanField: IBeanField =
       if (controller.game.players.size > 0)
         controller.game.players(playerIndex).beanFields(beanFieldIndex)
       else BeanField(None)

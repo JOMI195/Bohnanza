@@ -4,14 +4,12 @@ import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.IPlayer
 import de.htwg.se.bohnanza.aview.gui.components.global.*
 import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
 import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
-import de.htwg.se.bohnanza.controller.ControllerComponent.IController
 
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.geometry.Pos
 import scalafx.scene.layout.Priority
 
 class PlayerInfo(
-    controller: IController,
     player: IPlayer,
     playerIndex: Int,
     scaleAvatar: Float,
