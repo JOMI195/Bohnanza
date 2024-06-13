@@ -8,14 +8,14 @@ import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.{
 import de.htwg.se.bohnanza.model.GameComponent.Bean
 
 case class Player(
-    name: String,
-    beanFields: List[IBeanField] = List(
+    override val name: String,
+    override val beanFields: List[IBeanField] = List(
       BeanField(None),
       BeanField(None),
       BeanField(None)
     ), // for now it has all three beanFields
-    coins: Int = 0,
-    hand: IHand = Hand(List.empty)
+    override val coins: Int = 0,
+    override val hand: IHand = Hand(List.empty)
 ) extends IPlayer(name, beanFields, coins, hand) {
 
   override def toString: String = {

@@ -9,10 +9,10 @@ import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.{
 import de.htwg.se.bohnanza.model.GameComponent.Bean
 
 case class Game(
-    players: List[IPlayer],
-    currentPlayerIndex: Int,
-    deck: IDeck,
-    turnOverField: ITurnOverField
+    override val players: List[IPlayer],
+    override val currentPlayerIndex: Int,
+    override val deck: IDeck,
+    override val turnOverField: ITurnOverField
 ) extends IGame(players, currentPlayerIndex, deck, turnOverField) {
 
   override def toString(): String = {

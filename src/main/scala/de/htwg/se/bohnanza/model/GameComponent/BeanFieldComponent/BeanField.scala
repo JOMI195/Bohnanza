@@ -2,8 +2,10 @@ package de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent
 
 import de.htwg.se.bohnanza.model.GameComponent.Bean
 
-case class BeanField(bean: Option[Bean], quantity: Int = 0)
-    extends IBeanField(bean, quantity) {
+case class BeanField(
+    override val bean: Option[Bean],
+    override val quantity: Int = 0
+) extends IBeanField(bean, quantity) {
 
   override def toString: String = {
     bean match {
