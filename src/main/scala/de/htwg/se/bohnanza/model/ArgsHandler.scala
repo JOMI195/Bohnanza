@@ -41,7 +41,6 @@ trait HandlerTemplate {
   ): HandlerResponse = {
     val response = check(args, phase, game)
     if (response != HandlerResponse.Success) {
-      println("Richtiger Branch!")
       return response
     }
 
