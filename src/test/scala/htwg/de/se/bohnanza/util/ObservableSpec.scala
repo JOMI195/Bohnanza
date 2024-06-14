@@ -1,8 +1,8 @@
 import org.scalatest._
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import de.htwg.se.bohnanza.util.*
 import de.htwg.se.bohnanza.model.ArgsHandlerComponent.HandlerResponse
+import de.htwg.se.bohnanza.util.*
 
 // only test here the remove and notify function. The other functions were already being tested!
 object testObserver extends Observer {
