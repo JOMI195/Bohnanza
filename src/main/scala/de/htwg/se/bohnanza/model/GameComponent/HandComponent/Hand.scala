@@ -1,8 +1,10 @@
 package de.htwg.se.bohnanza.model.GameComponent.HandComponent
 
 import de.htwg.se.bohnanza.model.GameComponent.Bean
+import com.google.inject.Inject
 
-case class Hand(override val cards: List[Bean]) extends IHand(cards) {
+case class Hand @Inject() (override val cards: List[Bean])
+    extends IHand(cards) {
 
   override def toString(): String = {
     if (cards.isEmpty) {

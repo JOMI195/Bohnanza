@@ -1,8 +1,9 @@
 package de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent
 
 import de.htwg.se.bohnanza.model.GameComponent.Bean
+import com.google.inject.Inject
 
-case class TurnOverField(override val cards: List[Bean])
+case class TurnOverField @Inject() (override val cards: List[Bean])
     extends ITurnOverField(cards) {
 
   override def toString(): String = {

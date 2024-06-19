@@ -1,8 +1,9 @@
 package de.htwg.se.bohnanza.model.PhaseStateComponent
 
 import de.htwg.se.bohnanza.model.GameComponent.IGame
+import com.google.inject.Inject
 
-class DrawCardsPhase extends IDrawCardsPhase {
+class DrawCardsPhase @Inject() extends IDrawCardsPhase {
   override def toString(): String = {
     "No method except next is allowed here, because everything is done automatically for you. :)\n"
   }
@@ -11,12 +12,12 @@ class DrawCardsPhase extends IDrawCardsPhase {
     game.playerDrawCardFromDeck(game.currentPlayerIndex)
 }
 
-class GameInitializationPhase extends IGameInitializationPhase {
+class GameInitializationPhase @Inject() extends IGameInitializationPhase {
   def nextPhase: IPlayCardPhase = PlayCardPhase()
   override def startPhase(game: IGame): IGame = game
 }
 
-class TradeAndPlantPhase extends ITradeAndPlantPhase {
+class TradeAndPlantPhase @Inject() extends ITradeAndPlantPhase {
   override def toString(): String = {
     "Phase: TradeAndPlantPhase\n" +
       "The allowed methods are:\n" +
@@ -27,7 +28,7 @@ class TradeAndPlantPhase extends ITradeAndPlantPhase {
   override def startPhase(game: IGame): IGame = game.drawCardToTurnOverField()
 }
 
-class PlayCardPhase extends IPlayCardPhase {
+class PlayCardPhase @Inject() extends IPlayCardPhase {
   override def toString(): String = {
     "Phase: PlayCardPhase\n" +
       "The allowed methods are:\n" +

@@ -9,21 +9,13 @@ import de.htwg.se.bohnanza.model.GameComponent.Game
 import de.htwg.se.bohnanza.aview.Tui
 import de.htwg.se.bohnanza.aview.gui.*
 import de.htwg.se.bohnanza.controller.ControllerComponent.{Controller}
+import com.google.inject.{Injector, Guice}
+import de.htwg.se.bohnanza.controller.ControllerComponent.IController
 
 object Bohnanza {
-  val d = FullDeckCreateStrategy().createDeck()
-  // val d =
-  //   SingleChiliBeanDeckCreateStrategy().createDeck() // for debugging purposes
-  val t = TurnOverField(cards = List())
+  val injector: Injector = Guice.createInjector(new BohnanzaModule)
 
-  val game = Game(
-    players = List.empty,
-    deck = d,
-    turnOverField = t,
-    currentPlayerIndex = -1
-  )
-
-  val controller = Controller(game)
+  val controller = injector.getInstance(classOf[IController])
   val tui = new Tui(controller)
   val gui = new Gui(controller)
 

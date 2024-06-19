@@ -6,8 +6,9 @@ import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.{
   BeanField
 }
 import de.htwg.se.bohnanza.model.GameComponent.Bean
+import com.google.inject.Inject
 
-case class Player(
+case class Player @Inject() (
     override val name: String,
     override val beanFields: List[IBeanField] = List(
       BeanField(None),

@@ -4,6 +4,7 @@ import scala.util.{Try, Success, Failure}
 
 import de.htwg.se.bohnanza.model.PhaseStateComponent.*
 import de.htwg.se.bohnanza.model.GameComponent.IGame
+import com.google.inject.Inject
 
 trait HandlerTemplate {
   val next: Option[HandlerTemplate]
@@ -31,7 +32,7 @@ trait HandlerTemplate {
   }
 }
 
-class ArgumentHandler extends IArgumentHandler {
+class ArgumentHandler @Inject() extends IArgumentHandler {
   val takeInvalidPlantHandler = TakeInvalidPlantHandler(None)
   val invalidPlantHandler = InvalidPlantHandler(Option(takeInvalidPlantHandler))
   val turnOverFieldIndexHandler = TurnOverFieldIndexHandler(

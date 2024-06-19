@@ -7,8 +7,9 @@ import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.{
   ITurnOverField
 }
 import de.htwg.se.bohnanza.model.GameComponent.Bean
+import com.google.inject.Inject
 
-case class Game(
+case class Game @Inject() (
     override val players: List[IPlayer],
     override val currentPlayerIndex: Int,
     override val deck: IDeck,

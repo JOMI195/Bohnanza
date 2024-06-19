@@ -4,10 +4,11 @@ import de.htwg.se.bohnanza.model.PhaseStateComponent.*
 import de.htwg.se.bohnanza.model.ArgsHandlerComponent.*
 import de.htwg.se.bohnanza.model.GameComponent.*
 import de.htwg.se.bohnanza.util.*
+import com.google.inject.Inject
 
-class Controller(
+class Controller @Inject() (
     var game: IGame,
-    var phase: IPhaseState = GameInitializationPhase()
+    var phase: IPhaseState
 ) extends IController {
 
   val undoManager = new UndoManager

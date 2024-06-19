@@ -1,8 +1,9 @@
 package de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent
 
 import de.htwg.se.bohnanza.model.GameComponent.Bean
+import com.google.inject.Inject
 
-case class BeanField(
+case class BeanField @Inject() (
     override val bean: Option[Bean],
     override val quantity: Int = 0
 ) extends IBeanField(bean, quantity) {
