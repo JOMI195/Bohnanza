@@ -28,41 +28,50 @@ import de.htwg.se.bohnanza.model.PhaseStateComponent.*
 import com.google.inject.Scopes
 import com.google.inject.Provides
 import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.FullDeckCreateStrategy
+import de.htwg.se.bohnanza.model.GameComponent.Bean
+import com.google.inject.name.Names
 
 class BohnanzaModule extends AbstractModule with ScalaModule {
 
   override def configure(): Unit = {
-    bind(classOf[IController]).to(classOf[Controller])
-    bind(classOf[IArgumentHandler]).to(classOf[ArgumentHandler])
-    bind(classOf[IBeanField]).to(classOf[BeanField])
-    bind(classOf[IDeck]).to(classOf[Deck])
-    bind(classOf[ITurnOverField]).to(classOf[TurnOverField])
-    bind(classOf[IGame]).to(classOf[Game])
-    bind(classOf[IHand]).to(classOf[Hand])
+    /* WRAPPER-CLASSES CONFIGURATION */
+    /* -- INTEGER (most of the default ints aure initialized with 0) */
+    bind(classOf[Integer]).toInstance(0)
+
+    /* MODELS CONFIGURATION */
+    /* -- DECK */
+    bind(classOf[IDeck]).toInstance(FullDeckCreateStrategy().createDeck())
+    /* -- BEANFIELD */
+    bind(classOf[IBeanField]).toInstance(new BeanField(bean = None))
+    bind(new TypeLiteral[List[IBeanField]] {})
+      .toInstance(List(BeanField(None), BeanField(None), BeanField(None)))
+    /* -- HAND */
+    bind(classOf[IHand]).toInstance(new Hand(cards = List.empty))
+    /* -- TURNOVERFIELD */
+    bind(classOf[ITurnOverField]).toInstance(
+      new TurnOverField(cards = List.empty)
+    )
+    /* -- PLAYER */
     bind(classOf[IPlayer]).to(classOf[Player])
+    bind(new TypeLiteral[List[IPlayer]] {})
+      .toInstance(List.empty)
+    /* -- GAME */
+    bind(classOf[IGame]).to(classOf[Game])
+    bind(classOf[Int])
+      .annotatedWith(Names.named("currentPlayerIndex"))
+      .toInstance(-1)
+
+    /* CONTROLLER CONFIGURATION */
+    bind(classOf[IController]).to(classOf[Controller])
+
+    /* ARGUMENTHANDLER CONFIGURATION */
+    bind(classOf[IArgumentHandler]).to(classOf[ArgumentHandler])
+
+    /* PHASES CONFIGURATION */
+    bind(classOf[IPhaseState]).toInstance(GameInitializationPhase())
     bind(classOf[IDrawCardsPhase]).to(classOf[DrawCardsPhase])
     bind(classOf[IGameInitializationPhase]).to(classOf[GameInitializationPhase])
     bind(classOf[IPlayCardPhase]).to(classOf[PlayCardPhase])
     bind(classOf[ITradeAndPlantPhase]).to(classOf[TradeAndPlantPhase])
   }
-
-  @Provides
-  def provideInitialGame(): IGame = {
-    val d = FullDeckCreateStrategy().createDeck()
-    // val d =
-    //   SingleChiliBeanDeckCreateStrategy().createDeck() // for debugging purposes
-    val t = TurnOverField(cards = List())
-    Game(
-      players = List.empty,
-      deck = d,
-      turnOverField = t,
-      currentPlayerIndex = -1
-    )
-  }
-
-  @Provides
-  def provideInitialPhaseState(): IPhaseState = {
-    GameInitializationPhase()
-  }
-
 }

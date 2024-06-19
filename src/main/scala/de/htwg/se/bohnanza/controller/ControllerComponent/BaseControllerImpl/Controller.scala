@@ -8,7 +8,7 @@ import com.google.inject.Inject
 
 class Controller @Inject() (
     var game: IGame,
-    var phase: IPhaseState
+    var phase: IPhaseState = GameInitializationPhase()
 ) extends IController {
 
   val undoManager = new UndoManager
