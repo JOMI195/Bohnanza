@@ -1,14 +1,14 @@
-package bohnanza.aview
+package de.htwg.se.bohnanza.aview
 
-import bohnanza.model.{Game, HandlerResponse, Player}
-import bohnanza.util.{Observer, ObserverEvent}
-import bohnanza.controller.{Controller}
 import scala.util.{Try, Success, Failure}
-import bohnanza.model.PlayCardPhase
-import bohnanza.model.TradeAndPlantPhase
-import bohnanza.model.DrawCardsPhase
 
-class Tui(controller: Controller) extends Observer {
+import de.htwg.se.bohnanza.util.{Observer, ObserverEvent}
+import de.htwg.se.bohnanza.model.ArgsHandlerComponent.*
+import de.htwg.se.bohnanza.controller.ControllerComponent.Controller
+import de.htwg.se.bohnanza.model.PhaseStateComponent.*
+import de.htwg.se.bohnanza.controller.ControllerComponent.IController
+
+class Tui(controller: IController) extends Observer {
 
   controller.add(this)
 

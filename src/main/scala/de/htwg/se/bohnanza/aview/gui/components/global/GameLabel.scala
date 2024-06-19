@@ -1,4 +1,4 @@
-package bohnanza.aview.gui.components.global
+package de.htwg.se.bohnanza.aview.gui.components.global
 
 import scalafx.beans.property.DoubleProperty
 import scalafx.scene.control.Label

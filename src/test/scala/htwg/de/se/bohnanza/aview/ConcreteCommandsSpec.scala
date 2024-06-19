@@ -1,7 +1,13 @@
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
-import bohnanza.controller._
-import bohnanza.model._
+import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.Player
+import de.htwg.se.bohnanza.model.GameComponent.BeanFieldComponent.BeanField
+import de.htwg.se.bohnanza.model.GameComponent.HandComponent.Hand
+import de.htwg.se.bohnanza.model.GameComponent.DeckComponent.Deck
+import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.TurnOverField
+import de.htwg.se.bohnanza.model.GameComponent.*
+import de.htwg.se.bohnanza.controller.ControllerComponent.*
+import de.htwg.se.bohnanza.model.PhaseStateComponent.PlayCardPhase
 
 class ConcreteCommandsSpec extends AnyWordSpec with Matchers {
 

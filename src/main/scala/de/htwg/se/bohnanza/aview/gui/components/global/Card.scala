@@ -1,13 +1,14 @@
-package bohnanza.aview.gui.components.global
+package de.htwg.se.bohnanza.aview.gui.components.global
 
-import bohnanza.aview.gui.utils.ImageUtils
-import bohnanza.model.Bean
+import de.htwg.se.bohnanza.aview.gui.utils.ImageUtils
+import de.htwg.se.bohnanza.model.GameComponent.Bean
+import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
+import de.htwg.se.bohnanza.aview.gui.model.selectionStyle
+
 import scalafx.scene.layout.{StackPane, HBox, VBox}
 import scalafx.scene.image.ImageView
 import scalafx.scene.input.MouseEvent
 import scalafx.Includes._
-import bohnanza.aview.gui.model.SelectionManager
-import bohnanza.aview.gui.model.selectionStyle
 import scalafx.animation.Timeline
 import scalafx.animation.KeyFrame
 import scalafx.util.Duration

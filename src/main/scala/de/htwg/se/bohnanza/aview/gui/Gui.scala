@@ -1,4 +1,4 @@
-package bohnanza.aview.gui
+package de.htwg.se.bohnanza.aview.gui
 
 import scalafx.Includes.*
 import scalafx.application.JFXApp3
@@ -8,18 +8,19 @@ import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.{HBox, VBox}
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.text.Font
-import bohnanza.aview.gui.components.*
-import bohnanza.util.Observer
-import bohnanza.controller.Controller
-import bohnanza.util.ObserverEvent
-import bohnanza.model.HandlerResponse
 import scalafx.application.JFXApp3.PrimaryStage
-import bohnanza.aview.gui.scenes.GamePlayerScene
-import bohnanza.aview.gui.scenes.StartScene
-import bohnanza.aview.gui.scenes.PlayerCreateScene
-import bohnanza.aview.gui.scenes.GameInfoScene
 import scalafx.application.Platform
-import bohnanza.aview.gui.model.SelectionManager
+
+import de.htwg.se.bohnanza.aview.gui.components.*
+import de.htwg.se.bohnanza.util.Observer
+import de.htwg.se.bohnanza.controller.ControllerComponent.*
+import de.htwg.se.bohnanza.util.ObserverEvent
+import de.htwg.se.bohnanza.model.ArgsHandlerComponent.HandlerResponse
+import de.htwg.se.bohnanza.aview.gui.scenes.GamePlayerScene
+import de.htwg.se.bohnanza.aview.gui.scenes.StartScene
+import de.htwg.se.bohnanza.aview.gui.scenes.PlayerCreateScene
+import de.htwg.se.bohnanza.aview.gui.scenes.GameInfoScene
+import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
 
 object Styles {
   val baseCss = getClass.getResource("/styles/base.css").toExternalForm
@@ -30,7 +31,7 @@ object Styles {
   val gameCss = getClass.getResource("/styles/game.css").toExternalForm
 }
 
-class Gui(controller: Controller) extends JFXApp3 with Observer {
+class Gui(controller: IController) extends JFXApp3 with Observer {
 
   var startScene: StartScene = _
 
