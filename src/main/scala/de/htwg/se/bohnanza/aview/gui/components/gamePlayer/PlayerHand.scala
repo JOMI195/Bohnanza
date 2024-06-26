@@ -10,31 +10,23 @@ import de.htwg.se.bohnanza.aview.gui.components.global.TurnOverFieldContainer
 
 import scalafx.geometry.Pos
 import scalafx.scene.layout.VBox
+import de.htwg.se.bohnanza.aview.gui.components.global.HandCard
 
-case class PlayerHand(
-    currentViewPlayer: IPlayer,
-    selectionManager: SelectionManager
-) extends VBox {
+case class PlayerHand(currentViewPlayer: IPlayer) extends VBox {
   var flipped = true
-  var selectableCard: Card = _
-  val handcards: List[Card] = currentViewPlayer.hand.cards match {
+  var selectableCard: HandCard = _
+  val handcards: List[HandCard] = currentViewPlayer.hand.cards match {
     case Nil => List.empty
     case head :: tail =>
-      selectableCard = new Card(
+      selectableCard = new HandCard(
         bean = head,
-        scaleFactor = 0.4,
-        selectable = true,
-        selectionManager = Some(selectionManager),
-        handCard = true,
-        selectedCards = List.empty
+        isSelectable = true,
+        selectionManager = None
       )
       val otherCards = tail.map { bean =>
-        new Card(
+        new HandCard(
           bean = bean,
-          scaleFactor = 0.4,
-          selectionManager = None,
-          handCard = true,
-          selectedCards = List.empty
+          selectionManager = None
         )
       }
       selectableCard :: otherCards
@@ -55,6 +47,13 @@ case class PlayerHand(
   }
   flipCardsButton.style = s"-fx-font-size: ${12}"
 
+  if (currentViewPlayer.hand.cards.isEmpty) { flipCardsButton.visible = false }
+  else { flipCardsButton.visible = true }
+
+  children = Seq(flipCardsButton, hand.flippAllCards())
+  alignment = Pos.TOP_CENTER
+  spacing = buttonSpacing
+
   def onFlipCardsButtonClick(): Unit = {
     flipped = !flipped
 
@@ -65,10 +64,7 @@ case class PlayerHand(
     }
   }
 
-  if (currentViewPlayer.hand.cards.isEmpty) { flipCardsButton.visible = false }
-  else { flipCardsButton.visible = true }
-
-  children = Seq(flipCardsButton, hand.flippAllCards())
-  alignment = Pos.TOP_CENTER
-  spacing = buttonSpacing
+  def updateSelectionManager(selectionManager: SelectionManager): Unit = {
+    selectableCard.selectionManager = Some(selectionManager)
+  }
 }

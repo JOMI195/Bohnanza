@@ -21,7 +21,7 @@ class BeanFieldContainer(
     beanFieldCards: BeanFieldCards,
     beanFieldId: Int,
     scaleFactor: Float = mainCardScaleFactor,
-    selectionManager: Option[SelectionManager]
+    var selectionManager: Option[SelectionManager]
 ) extends StackPane {
   alignment = Pos.TOP_CENTER
   style = "-fx-background-color: FFCD92;"
@@ -48,7 +48,7 @@ class BeanFieldContainer(
 
   onMouseClicked = (e: MouseEvent) => {
     selectionManager match {
-      case None =>
+      case None => println("Selection Manager not initalized yet.")
       case Some(checkedSelectionManager) => {
         checkedSelectionManager.selectedBeanFieldIndex = beanFieldId - 1
         style = selectionStyle

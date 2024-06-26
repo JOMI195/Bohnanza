@@ -14,6 +14,7 @@ import de.htwg.se.bohnanza.aview.gui.components.gamePlayer.*
 import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.{IPlayer, Player}
 import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
 import de.htwg.se.bohnanza.aview.gui.Styles
+import de.htwg.se.bohnanza.aview.gui.model.selectionStyle
 
 case class GamePlayerScene(
     controller: IController,
@@ -98,7 +99,6 @@ case class GamePlayerScene(
   val coins = Coins(currentViewPlayer.coins, 0.6, 1.5)
 
   val playerHand = PlayerHand(currentViewPlayer)
-
   val turnOverFieldContainer = TurnOverFieldContainer(
     controller.game.turnOverField.cards,
     scaleFactor = 0.4
@@ -108,9 +108,15 @@ case class GamePlayerScene(
     playerIndex = currentPlayerViewIndex,
     scaleFactor = 0.4
   )
-
   val selectionManager =
-    SelectionManager(playerBeanFields, playerHand, turnOverFieldContainer)
+    SelectionManager(
+      playerBeanFields = playerBeanFields,
+      playerHand = playerHand,
+      turnOverField = turnOverFieldContainer
+    )
+  playerHand.updateSelectionManager(selectionManager)
+  turnOverFieldContainer.updateSelectionManager(selectionManager)
+  playerBeanFields.updateSelectionManager(selectionManager)
 
   val actions = Actions(
     controller = controller,
@@ -125,7 +131,7 @@ case class GamePlayerScene(
           selectionManager.selectedBeanFieldIndex
         )
       }
-      deselectOnAction()
+      // deselectOnAction()
     },
     onPlantButtonClick = () => {
       if (
@@ -148,17 +154,12 @@ case class GamePlayerScene(
           )
         }
       }
-      deselectOnAction()
+      // deselectOnAction()
     },
     onDrawButtonClick = () => {
       controller.draw(currentPlayerViewIndex)
     }
   )
-
-  // need to be changed, since cards can be empty so there is no instance of selectedCard
-  if (playerHand.currentViewPlayer.hand.cards.nonEmpty)
-    playerHand.selectableCard.selectedCards =
-      turnOverFieldContainer.getTurnOverFieldCards()
 
   val leftElements = new VBox {
     alignment = Pos.TOP_LEFT
@@ -202,45 +203,45 @@ case class GamePlayerScene(
     )
   }
 
-  this.addEventFilter(
-    MouseEvent.MouseClicked,
-    (e: MouseEvent) => {
-      val beanFieldContainer = "class javafx.scene.layout.VBox"
-      val card = "class javafx.scene.image.ImageView"
-      val button = "class javafx.scene.control.Button"
-      val labeledText = "class com.sun.javafx.scene.control.skin.LabeledText"
-      if (
-        e.target != null && !e.target
-          .getClass()
-          .toString()
-          .equals(beanFieldContainer)
-        && !e.target.getClass().toString().equals(card)
-        && !e.target.getClass().toString().equals(button)
-        && !e.target.getClass().toString().equals(labeledText)
-      ) {
-        playerHand.hand.cards.foreach(_.deselect())
-        turnOverFieldContainer.deselect()
-        playerBeanFields.deselect()
-      } else if (
-        e.target
-          .getClass()
-          .toString()
-          .equals(
-            beanFieldContainer
-          ) && selectionManager.selectedBeanFieldIndex != -1
-      ) {
-        playerBeanFields.deselect()
-      }
+  // this.addEventFilter(
+  //   MouseEvent.MouseClicked,
+  //   (e: MouseEvent) => {
+  //     val beanFieldContainer = "class javafx.scene.layout.VBox"
+  //     val card = "class javafx.scene.image.ImageView"
+  //     val button = "class javafx.scene.control.Button"
+  //     val labeledText = "class com.sun.javafx.scene.control.skin.LabeledText"
+  //     if (
+  //       e.target != null && !e.target
+  //         .getClass()
+  //         .toString()
+  //         .equals(beanFieldContainer)
+  //       && !e.target.getClass().toString().equals(card)
+  //       && !e.target.getClass().toString().equals(button)
+  //       && !e.target.getClass().toString().equals(labeledText)
+  //     ) {
+  //       playerHand.hand.cards.foreach(_.deselect())
+  //       turnOverFieldContainer.deselect()
+  //       playerBeanFields.deselect()
+  //     } else if (
+  //       e.target
+  //         .getClass()
+  //         .toString()
+  //         .equals(
+  //           beanFieldContainer
+  //         ) && selectionManager.selectedBeanFieldIndex != -1
+  //     ) {
+  //       playerBeanFields.deselect()
+  //     }
 
-    }
-  )
+  //   }
+  // )
 
-  def deselectOnAction(): Unit = {
-    playerHand.hand.cards.foreach(_.deselect())
-    turnOverFieldContainer.deselect()
-    playerBeanFields.deselect()
+  // def deselectOnAction(): Unit = {
+  //   playerHand.hand.cards.foreach(_.deselect())
+  //   turnOverFieldContainer.deselect()
+  //   playerBeanFields.deselect()
 
-  }
+  // }
 
   def showBottomSnackbar(message: String) = {
     bottomSnackbar.showSnackbar(message)

@@ -16,18 +16,18 @@ import scalafx.animation.KeyValue
 import scalafx.scene.effect.ColorAdjust
 import scalafx.animation.ScaleTransition
 
+val defaultCardStyle =
+  "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
 val mainCardScaleFactor: Float = 0.35
 
-case class Card(
+abstract class Card(
     flipped: Boolean = true,
-    isHandCard: Boolean = false,
-    turnOverFieldCardIndex: Int = -1,
     isSelectable: Boolean = false,
     bean: Bean,
-    scaleFactor: Float = mainCardScaleFactor,
-    selectionManager: Option[SelectionManager]
+    scaleFactor: Float = mainCardScaleFactor
 ) extends HBox {
   var isSelected: Boolean = false
+  var selectionManager: Option[SelectionManager]
 
   val cardsPath = "/images/cards/"
   val cardImage = ImageUtils.importImageAsView(
@@ -37,10 +37,6 @@ case class Card(
     scaleFactor = scaleFactor
   )
 
-  val defaultCardStyle =
-    "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
-  style = defaultCardStyle
-
   val pulsateTransition = new ScaleTransition(Duration(1000), cardImage)
   pulsateTransition.fromX = 1.0
   pulsateTransition.toX = 1.05
@@ -49,7 +45,20 @@ case class Card(
   pulsateTransition.cycleCount = ScaleTransition.Indefinite
   pulsateTransition.autoReverse = true
 
+  style = defaultCardStyle
+
   children.add(cardImage)
+
+  def flip(): Card
+}
+
+case class HandCard(
+    flipped: Boolean = true,
+    isSelectable: Boolean = false,
+    bean: Bean,
+    scaleFactor: Float = mainCardScaleFactor,
+    var selectionManager: Option[SelectionManager]
+) extends Card(flipped, isSelectable, bean, scaleFactor) {
 
   def flip(): Card = {
     copy(flipped = !flipped)
@@ -60,19 +69,44 @@ case class Card(
       case None => println("Selection Manager not initalized yet.")
       case Some(checkedSelectionManager) => {
         if (isSelectable) {
-          if (isSelected) {
-            checkedSelectionManager.deselect(
-              isHandCard,
-              turnOverFieldCardIndex
-            )
-            isSelected = false
-          } else {
-            checkedSelectionManager.selectOnClick(isSelected)
-            isSelected = true
-          }
+          checkedSelectionManager.selectHandCard()
         }
       }
     }
-
   }
+}
+
+case class TurnOverFieldCard(
+    flipped: Boolean = true,
+    isSelectable: Boolean = true,
+    bean: Bean,
+    scaleFactor: Float = mainCardScaleFactor,
+    var selectionManager: Option[SelectionManager],
+    turnOverFieldCardIndex: Int
+) extends Card(flipped, isSelectable, bean, scaleFactor) {
+
+  def flip(): Card = {
+    copy(flipped = !flipped)
+  }
+
+  onMouseClicked = (e: MouseEvent) => {
+    selectionManager match {
+      case None => println("Selection Manager not initalized yet.")
+      case Some(checkedSelectionManager) => {
+        checkedSelectionManager.selectTurnOverFieldCard(
+          turnOverFieldCardIndex
+        )
+      }
+    }
+  }
+}
+
+case class BeanFieldCard(
+    flipped: Boolean = true,
+    isSelectable: Boolean = false,
+    bean: Bean,
+    scaleFactor: Float = mainCardScaleFactor,
+    var selectionManager: Option[SelectionManager] = None
+) extends Card(flipped, isSelectable, bean, scaleFactor) {
+  def flip(): Card = this
 }

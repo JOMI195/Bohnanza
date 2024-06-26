@@ -16,12 +16,12 @@ import scalafx.scene.layout.Priority
 class PlayerBeanFields(
     player: IPlayer,
     playerIndex: Int,
-    scaleFactor: Float = mainCardScaleFactor,
-    selectionManager: Option[SelectionManager]
+    scaleFactor: Float = mainCardScaleFactor
 ) extends HBox {
   val defaultBeanFieldStyle =
     "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
-  val beanFields = (0 to 2).map(createBeanField).toList
+  val beanFields: List[BeanFieldContainer] =
+    (0 to 2).map(createBeanField).toList
   val beanFieldsContainer = BeanFieldsContainer(beanFields)
 
   children = beanFieldsContainer
@@ -36,12 +36,7 @@ class PlayerBeanFields(
     val beanFieldCards: List[Card] = beanField.bean
       .map(bean =>
         List.fill(beanField.quantity)(
-          Card(
-            bean = bean,
-            scaleFactor = scaleFactor,
-            selectionManager = None,
-            selectedCards = List.empty
-          )
+          BeanFieldCard(bean = bean)
         )
       )
       .getOrElse(List.empty)
@@ -54,21 +49,29 @@ class PlayerBeanFields(
       beanFieldCards = beanFieldCards,
       beanFieldId = beanFieldIndex + 1, // the id = index + 1
       scaleFactor = scaleFactor,
-      selectionManager = selectionManager
+      selectionManager = None
     )
   }
 
-  def deselect(): Unit = {
-    selectionManager match {
-      case None =>
-      case Some(checkedSelectionManager) =>
-        if (checkedSelectionManager.selectedBeanFieldIndex == -1)
-          return;
-        beanFields(checkedSelectionManager.selectedBeanFieldIndex).style =
-          defaultBeanFieldStyle
-        beanFields(checkedSelectionManager.selectedBeanFieldIndex)
-          .stopAnimation()
-        checkedSelectionManager.selectedBeanFieldIndex = -1
+  // def deselect(): Unit = {
+  //   // TODO
+  //   // selectionManager match {
+  //   //   case None =>
+  //   //   case Some(checkedSelectionManager) =>
+  //   //     if (checkedSelectionManager.selectedBeanFieldIndex == -1)
+  //   //       return;
+  //   //     beanFields(checkedSelectionManager.selectedBeanFieldIndex).style =
+  //   //       defaultBeanFieldStyle
+  //   //     beanFields(checkedSelectionManager.selectedBeanFieldIndex)
+  //   //       .stopAnimation()
+  //   //     checkedSelectionManager.selectedBeanFieldIndex = -1
+  //   // }
+  // }
+
+  def updateSelectionManager(selectionManager: SelectionManager): Unit = {
+    beanFields.foreach { beanField =>
+      beanField.selectionManager = Some(selectionManager)
     }
   }
+
 }

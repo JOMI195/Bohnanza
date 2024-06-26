@@ -11,9 +11,7 @@ import de.htwg.se.bohnanza.aview.gui.components.gamePlayer.PlayerHand
 
 class TurnOverFieldContainer(
     cards: List[Bean],
-    scaleFactor: Float = mainCardScaleFactor,
-    selectionManager: Option[SelectionManager],
-    playerHand: Option[PlayerHand]
+    scaleFactor: Float = mainCardScaleFactor
 ) extends HBox(10) {
   fillHeight = false
 
@@ -38,41 +36,25 @@ class TurnOverFieldContainer(
     children.add(turnOverFieldImage2)
   }
 
-  var card1: Card = _
-  var card2: Card = _
+  var card1: TurnOverFieldCard = _
+  var card2: TurnOverFieldCard = _
   if (cards.nonEmpty) {
-    card1 = Card(
+    card1 = TurnOverFieldCard(
       bean = cards(0),
-      scaleFactor = scaleFactor,
-      selectionManager = selectionManager,
-      selectable = true,
-      turnOverFieldCardIndex = 0,
-      selectedCards = playerHand match {
-        case None => List.empty
-        case Some(checkedPlayerHand) =>
-          List(checkedPlayerHand.selectableCard)
-      }
+      selectionManager = None,
+      turnOverFieldCardIndex = 0
     )
 
     stackPane1.children.add(card1)
     card1.translateY = 50
 
     if (cards.length > 1) {
-      card2 = Card(
+      card1 = TurnOverFieldCard(
         bean = cards(1),
-        scaleFactor = scaleFactor,
-        selectionManager = selectionManager,
-        selectable = true,
-        turnOverFieldCardIndex = 1,
-        selectedCards = playerHand match {
-          case None => List.empty
-          case Some(checkedPlayerHand) =>
-            List(checkedPlayerHand.selectableCard)
-        }
+        selectionManager = None,
+        turnOverFieldCardIndex = 1
       )
 
-      card1.selectedCards = card2 :: card1.selectedCards
-      card2.selectedCards = card1 :: card2.selectedCards
       card2.translateY = 50
       stackPane2.children.add(card2)
     }
@@ -80,23 +62,8 @@ class TurnOverFieldContainer(
 
   children.addAll(stackPane1, stackPane2)
 
-  def deselect() = {
-    if (cards.nonEmpty) {
-      card1.deselect()
-      if (cards.length > 1)
-        card2.deselect()
-    }
-  }
-
-  def getTurnOverFieldCards(): List[Card] = {
-    val turnOverFieldCards: List[Card] = List.empty[Card]
-    if (card1 != null) {
-      val updatedTurnOverFieldCards = card1 :: turnOverFieldCards
-      if (card2 != null) {
-        return card2 :: updatedTurnOverFieldCards
-      }
-      return updatedTurnOverFieldCards
-    }
-    return turnOverFieldCards
+  def updateSelectionManager(selectionManager: SelectionManager): Unit = {
+    card1.selectionManager = Some(selectionManager)
+    card2.selectionManager = Some(selectionManager)
   }
 }
