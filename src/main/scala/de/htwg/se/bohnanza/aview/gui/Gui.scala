@@ -70,7 +70,6 @@ class Gui(controller: IController) extends JFXApp3 with Observer {
       windowHeight = windowHeight
     )
 
-    val selectionManager = SelectionManager()
     gamePlayerScene = GamePlayerScene(
       controller = controller,
       windowWidth = windowWidth,
@@ -80,8 +79,7 @@ class Gui(controller: IController) extends JFXApp3 with Observer {
         updateControllerOfScenes()
         stage.setScene(gameInfoScene)
       },
-      moveToGamePlayerScene = moveToGamePlayerScene,
-      selectionManager = selectionManager
+      moveToGamePlayerScene = moveToGamePlayerScene
     )
 
     gameInfoScene = GameInfoScene(

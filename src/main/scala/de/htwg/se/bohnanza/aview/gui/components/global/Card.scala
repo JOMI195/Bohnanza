@@ -19,17 +19,16 @@ import scalafx.animation.ScaleTransition
 val mainCardScaleFactor: Float = 0.35
 
 case class Card(
-    var selectedCards: List[Card],
     flipped: Boolean = true,
-    handCard: Boolean = false,
+    isHandCard: Boolean = false,
     turnOverFieldCardIndex: Int = -1,
-    selectable: Boolean = false,
+    isSelectable: Boolean = false,
     bean: Bean,
     scaleFactor: Float = mainCardScaleFactor,
     selectionManager: Option[SelectionManager]
 ) extends HBox {
-
   var isSelected: Boolean = false
+
   val cardsPath = "/images/cards/"
   val cardImage = ImageUtils.importImageAsView(
     imageUrl =
@@ -50,93 +49,30 @@ case class Card(
   pulsateTransition.cycleCount = ScaleTransition.Indefinite
   pulsateTransition.autoReverse = true
 
-  def selectOnClick(): Unit = {
-    isSelected = !isSelected
-
-    selectionManager match {
-      case None =>
-      case Some(checkedSelectionManager) => {
-        if (isSelected) {
-          if (handCard) {
-            checkedSelectionManager.selectFromHand = true
-            checkedSelectionManager.selectedTurnOverFieldIndex = -1
-          } else {
-            checkedSelectionManager.selectFromHand = false
-            checkedSelectionManager.selectedTurnOverFieldIndex =
-              turnOverFieldCardIndex
-          }
-          selectedCards
-            .filter(_ != null)
-            .foreach { card =>
-              if (handCard) {
-                card.deselect()
-              } else {
-                card.deselectTurnOverFieldCards()
-              }
-
-            }
-        }
-        style = if (isSelected) selectionStyle else defaultCardStyle
-
-        if (isSelected) {
-          pulsateTransition.play()
-        } else {
-          pulsateTransition.stop()
-          cardImage.scaleX = 1.0
-          cardImage.scaleY = 1.0
-        }
-      }
-    }
-  }
-
-  def deselectTurnOverFieldCards(): Unit = {
-    isSelected = false
-    style = defaultCardStyle
-    pulsateTransition.stop()
-    cardImage.scaleX = 1.0
-    cardImage.scaleY = 1.0
-  }
-
-  def deselect(): Unit = {
-    if (selectable) {
-      selectionManager match {
-        case None =>
-        case Some(checkedSelectionManager) => {
-          // need to be careful since filter in gamePlayerScene runs this everytime a card is not selected
-          isSelected = false
-          style = defaultCardStyle
-          if (handCard) {
-            checkedSelectionManager.selectFromHand = false
-          } else {
-            checkedSelectionManager.selectedTurnOverFieldIndex = -1
-          }
-          pulsateTransition.stop()
-          cardImage.scaleX = 1.0
-          cardImage.scaleY = 1.0
-        }
-      }
-
-      isSelected = false
-      style = defaultCardStyle
-      pulsateTransition.stop()
-      cardImage.scaleX = 1.0
-      cardImage.scaleY = 1.0
-    }
-  }
-
   children.add(cardImage)
-
-  onMouseClicked = (e: MouseEvent) => {
-    if (selectable) {
-      if (isSelected) {
-        deselect()
-      } else {
-        selectOnClick()
-      }
-    }
-  }
 
   def flip(): Card = {
     copy(flipped = !flipped)
+  }
+
+  onMouseClicked = (e: MouseEvent) => {
+    selectionManager match {
+      case None => println("Selection Manager not initalized yet.")
+      case Some(checkedSelectionManager) => {
+        if (isSelectable) {
+          if (isSelected) {
+            checkedSelectionManager.deselect(
+              isHandCard,
+              turnOverFieldCardIndex
+            )
+            isSelected = false
+          } else {
+            checkedSelectionManager.selectOnClick(isSelected)
+            isSelected = true
+          }
+        }
+      }
+    }
+
   }
 }

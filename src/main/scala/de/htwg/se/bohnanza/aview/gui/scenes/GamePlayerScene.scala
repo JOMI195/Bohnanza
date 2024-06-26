@@ -21,8 +21,7 @@ case class GamePlayerScene(
     windowHeight: Double,
     currentPlayerViewIndex: Int,
     onGameInfoButtonClick: () => Unit,
-    moveToGamePlayerScene: (index: Int) => Unit,
-    selectionManager: SelectionManager
+    moveToGamePlayerScene: (index: Int) => Unit
 ) extends Scene(windowWidth, windowHeight) {
   val bottomSnackbar =
     new BottomRightSnackbar(windowWidth, windowHeight)
@@ -96,12 +95,22 @@ case class GamePlayerScene(
     )
   }
 
+  val coins = Coins(currentViewPlayer.coins, 0.6, 1.5)
+
+  val playerHand = PlayerHand(currentViewPlayer)
+
+  val turnOverFieldContainer = TurnOverFieldContainer(
+    controller.game.turnOverField.cards,
+    scaleFactor = 0.4
+  )
   val playerBeanFields = PlayerBeanFields(
     player = currentViewPlayer,
     playerIndex = currentPlayerViewIndex,
-    scaleFactor = 0.4,
-    selectionManager = Some(selectionManager)
+    scaleFactor = 0.4
   )
+
+  val selectionManager =
+    SelectionManager(playerBeanFields, playerHand, turnOverFieldContainer)
 
   val actions = Actions(
     controller = controller,
@@ -144,17 +153,6 @@ case class GamePlayerScene(
     onDrawButtonClick = () => {
       controller.draw(currentPlayerViewIndex)
     }
-  )
-
-  val coins = Coins(currentViewPlayer.coins, 0.6, 1.5)
-
-  val playerHand = PlayerHand(currentViewPlayer, selectionManager)
-
-  val turnOverFieldContainer = TurnOverFieldContainer(
-    controller.game.turnOverField.cards,
-    scaleFactor = 0.4,
-    selectionManager = Some(selectionManager),
-    playerHand = Some(playerHand)
   )
 
   // need to be changed, since cards can be empty so there is no instance of selectedCard
@@ -203,8 +201,6 @@ case class GamePlayerScene(
       topSnackbar
     )
   }
-
-  var lastSelectedCard = SelectedCard.None
 
   this.addEventFilter(
     MouseEvent.MouseClicked,
