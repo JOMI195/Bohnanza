@@ -14,7 +14,6 @@ import de.htwg.se.bohnanza.aview.gui.components.gamePlayer.*
 import de.htwg.se.bohnanza.model.GameComponent.PlayerComponent.{IPlayer, Player}
 import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
 import de.htwg.se.bohnanza.aview.gui.Styles
-import de.htwg.se.bohnanza.aview.gui.model.selectionStyle
 
 case class GamePlayerScene(
     controller: IController,
@@ -100,13 +99,11 @@ case class GamePlayerScene(
 
   val playerHand = PlayerHand(currentViewPlayer)
   val turnOverFieldContainer = TurnOverFieldContainer(
-    controller.game.turnOverField.cards,
-    scaleFactor = 0.4
+    controller.game.turnOverField.cards
   )
   val playerBeanFields = PlayerBeanFields(
     player = currentViewPlayer,
-    playerIndex = currentPlayerViewIndex,
-    scaleFactor = 0.4
+    playerIndex = currentPlayerViewIndex
   )
   val selectionManager =
     SelectionManager(
@@ -131,7 +128,7 @@ case class GamePlayerScene(
           selectionManager.selectedBeanFieldIndex
         )
       }
-      // deselectOnAction()
+      selectionManager.deselectAllOnAction()
     },
     onPlantButtonClick = () => {
       if (
@@ -154,7 +151,7 @@ case class GamePlayerScene(
           )
         }
       }
-      // deselectOnAction()
+      selectionManager.deselectAllOnAction()
     },
     onDrawButtonClick = () => {
       controller.draw(currentPlayerViewIndex)
@@ -203,45 +200,26 @@ case class GamePlayerScene(
     )
   }
 
-  // this.addEventFilter(
-  //   MouseEvent.MouseClicked,
-  //   (e: MouseEvent) => {
-  //     val beanFieldContainer = "class javafx.scene.layout.VBox"
-  //     val card = "class javafx.scene.image.ImageView"
-  //     val button = "class javafx.scene.control.Button"
-  //     val labeledText = "class com.sun.javafx.scene.control.skin.LabeledText"
-  //     if (
-  //       e.target != null && !e.target
-  //         .getClass()
-  //         .toString()
-  //         .equals(beanFieldContainer)
-  //       && !e.target.getClass().toString().equals(card)
-  //       && !e.target.getClass().toString().equals(button)
-  //       && !e.target.getClass().toString().equals(labeledText)
-  //     ) {
-  //       playerHand.hand.cards.foreach(_.deselect())
-  //       turnOverFieldContainer.deselect()
-  //       playerBeanFields.deselect()
-  //     } else if (
-  //       e.target
-  //         .getClass()
-  //         .toString()
-  //         .equals(
-  //           beanFieldContainer
-  //         ) && selectionManager.selectedBeanFieldIndex != -1
-  //     ) {
-  //       playerBeanFields.deselect()
-  //     }
-
-  //   }
-  // )
-
-  // def deselectOnAction(): Unit = {
-  //   playerHand.hand.cards.foreach(_.deselect())
-  //   turnOverFieldContainer.deselect()
-  //   playerBeanFields.deselect()
-
-  // }
+  this.addEventFilter(
+    MouseEvent.MouseClicked,
+    (e: MouseEvent) => {
+      val beanFieldContainer = "class javafx.scene.layout.VBox"
+      val card = "class javafx.scene.image.ImageView"
+      val button = "class javafx.scene.control.Button"
+      val labeledText = "class com.sun.javafx.scene.control.skin.LabeledText"
+      if (
+        e.target != null && !e.target
+          .getClass()
+          .toString()
+          .equals(beanFieldContainer)
+        && !e.target.getClass().toString().equals(card)
+        && !e.target.getClass().toString().equals(button)
+        && !e.target.getClass().toString().equals(labeledText)
+      ) {
+        selectionManager.deselectAllOnAction()
+      }
+    }
+  )
 
   def showBottomSnackbar(message: String) = {
     bottomSnackbar.showSnackbar(message)

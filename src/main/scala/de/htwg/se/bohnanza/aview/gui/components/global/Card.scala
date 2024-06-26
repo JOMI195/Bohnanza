@@ -3,7 +3,6 @@ package de.htwg.se.bohnanza.aview.gui.components.global
 import de.htwg.se.bohnanza.aview.gui.utils.ImageUtils
 import de.htwg.se.bohnanza.model.GameComponent.Bean
 import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
-import de.htwg.se.bohnanza.aview.gui.model.selectionStyle
 
 import scalafx.scene.layout.{StackPane, HBox, VBox}
 import scalafx.scene.image.ImageView
@@ -18,7 +17,7 @@ import scalafx.animation.ScaleTransition
 
 val defaultCardStyle =
   "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
-val mainCardScaleFactor: Float = 0.35
+val mainCardScaleFactor: Float = 0.4
 
 abstract class Card(
     flipped: Boolean = true,
@@ -66,7 +65,7 @@ case class HandCard(
 
   onMouseClicked = (e: MouseEvent) => {
     selectionManager match {
-      case None => println("Selection Manager not initalized yet.")
+      case None => println("Debug: Selection Manager not initalized yet.")
       case Some(checkedSelectionManager) => {
         if (isSelectable) {
           checkedSelectionManager.selectHandCard()
@@ -91,7 +90,7 @@ case class TurnOverFieldCard(
 
   onMouseClicked = (e: MouseEvent) => {
     selectionManager match {
-      case None => println("Selection Manager not initalized yet.")
+      case None => println("Debug: Selection Manager not initalized yet.")
       case Some(checkedSelectionManager) => {
         checkedSelectionManager.selectTurnOverFieldCard(
           turnOverFieldCardIndex

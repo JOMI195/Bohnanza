@@ -7,9 +7,8 @@ import scalafx.geometry.Pos
 import de.htwg.se.bohnanza.model.GameComponent.Bean
 import de.htwg.se.bohnanza.aview.gui.utils.ImageUtils
 import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
-import de.htwg.se.bohnanza.aview.gui.components.gamePlayer.PlayerHand
 
-class TurnOverFieldContainer(
+case class TurnOverFieldContainer(
     cards: List[Bean],
     scaleFactor: Float = mainCardScaleFactor
 ) extends HBox(10) {
@@ -49,7 +48,7 @@ class TurnOverFieldContainer(
     card1.translateY = 50
 
     if (cards.length > 1) {
-      card1 = TurnOverFieldCard(
+      card2 = TurnOverFieldCard(
         bean = cards(1),
         selectionManager = None,
         turnOverFieldCardIndex = 1
@@ -63,7 +62,10 @@ class TurnOverFieldContainer(
   children.addAll(stackPane1, stackPane2)
 
   def updateSelectionManager(selectionManager: SelectionManager): Unit = {
-    card1.selectionManager = Some(selectionManager)
-    card2.selectionManager = Some(selectionManager)
+    if (cards.nonEmpty) {
+      card1.selectionManager = Some(selectionManager)
+      if (cards.length > 1)
+        card2.selectionManager = Some(selectionManager)
+    }
   }
 }

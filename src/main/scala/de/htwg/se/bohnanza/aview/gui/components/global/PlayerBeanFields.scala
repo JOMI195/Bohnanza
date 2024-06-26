@@ -53,21 +53,6 @@ class PlayerBeanFields(
     )
   }
 
-  // def deselect(): Unit = {
-  //   // TODO
-  //   // selectionManager match {
-  //   //   case None =>
-  //   //   case Some(checkedSelectionManager) =>
-  //   //     if (checkedSelectionManager.selectedBeanFieldIndex == -1)
-  //   //       return;
-  //   //     beanFields(checkedSelectionManager.selectedBeanFieldIndex).style =
-  //   //       defaultBeanFieldStyle
-  //   //     beanFields(checkedSelectionManager.selectedBeanFieldIndex)
-  //   //       .stopAnimation()
-  //   //     checkedSelectionManager.selectedBeanFieldIndex = -1
-  //   // }
-  // }
-
   def updateSelectionManager(selectionManager: SelectionManager): Unit = {
     beanFields.foreach { beanField =>
       beanField.selectionManager = Some(selectionManager)

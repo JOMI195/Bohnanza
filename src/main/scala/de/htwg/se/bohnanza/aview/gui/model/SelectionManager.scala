@@ -10,12 +10,8 @@ import de.htwg.se.bohnanza.aview.gui.components.global.{
   HandCard
 }
 import scalafx.animation.ScaleTransition
-
-val selectionStyle =
-  "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5); -fx-border-color: #FEED5D; -fx-border-width: 2; -fx-border-radius: 10px;"
-
-val defaultCardStyle =
-  "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0, 5, 5);"
+import de.htwg.se.bohnanza.aview.gui.components.global.defaultCardStyle
+import de.htwg.se.bohnanza.aview.gui.components.global.BeanFieldContainer
 
 class SelectionManager(
     var selectedBeanFieldIndex: Int = -1,
@@ -31,19 +27,30 @@ class SelectionManager(
     if (selectableCard.isSelected) {
       deselectHandCard()
     } else {
+      if (selectedTurnOverFieldIndex != -1) {
+        val selectedTurnOverFieldCard =
+          if (selectedTurnOverFieldIndex == 0)
+            turnOverField.card1
+          else turnOverField.card2
+        deselectTurnOverFieldCard(selectedTurnOverFieldCard)
+      }
+      selectFromHand = true
       selectableCard.isSelected = true
-      selectableCard.style = selectionStyle
       selectableCard.pulsateTransition.play()
+      selectedTurnOverFieldIndex = -1
     }
   }
 
   def deselectHandCard(): Unit = {
     val selectableCard = playerHand.selectableCard
-    selectableCard.pulsateTransition.stop()
-    selectableCard.cardImage.scaleX = 1.0
-    selectableCard.cardImage.scaleY = 1.0
-    selectableCard.style = defaultCardStyle
-    selectableCard.isSelected = false
+    if (selectableCard != null) {
+      selectableCard.pulsateTransition.stop()
+      selectableCard.cardImage.scaleX = 1.0
+      selectableCard.cardImage.scaleY = 1.0
+      selectableCard.style = defaultCardStyle
+      selectableCard.isSelected = false
+      selectFromHand = false
+    }
   }
 
   def selectTurnOverFieldCard(turnOverFieldCardIndex: Int): Unit = {
@@ -53,13 +60,20 @@ class SelectionManager(
       else (turnOverField.card2, turnOverField.card1)
     if (selectedTurnOverFieldIndex == turnOverFieldCardIndex) {
       deselectTurnOverFieldCard(selectedTurnOverFieldCard)
+      selectedTurnOverFieldIndex = -1
       return
-    } else if (otherTurnOverFieldCard.isSelected) {
+    } else if (
+      otherTurnOverFieldCard != null && otherTurnOverFieldCard.isSelected
+    ) {
       deselectTurnOverFieldCard(otherTurnOverFieldCard)
     }
+
+    if (selectFromHand) {
+      deselectHandCard()
+    }
     selectedTurnOverFieldCard.isSelected = true
-    selectedTurnOverFieldCard.style = selectionStyle
     selectedTurnOverFieldCard.pulsateTransition.play()
+    selectedTurnOverFieldIndex = turnOverFieldCardIndex
   }
 
   def deselectTurnOverFieldCard(turnOverFieldCard: TurnOverFieldCard): Unit = {
@@ -68,5 +82,41 @@ class SelectionManager(
     turnOverFieldCard.cardImage.scaleY = 1.0
     turnOverFieldCard.style = defaultCardStyle
     turnOverFieldCard.isSelected = false
+  }
+
+  def deselectAllOnAction(): Unit = {
+    if (turnOverField.cards.nonEmpty) {
+      deselectTurnOverFieldCard(turnOverField.card1)
+      if (turnOverField.cards.length > 1)
+        deselectTurnOverFieldCard(turnOverField.card2)
+    }
+
+    deselectHandCard()
+    if (selectedBeanFieldIndex != -1) {
+      deselectBeanField(playerBeanFields.beanFields(selectedBeanFieldIndex))
+    }
+    selectedBeanFieldIndex = -1
+    selectedTurnOverFieldIndex = -1
+  }
+
+  def selectBeanField(beanFieldIndex: Int): Unit = {
+    val selectedBeanField = playerBeanFields.beanFields(beanFieldIndex)
+    if (selectedBeanFieldIndex == beanFieldIndex) {
+      deselectBeanField(selectedBeanField)
+      selectedBeanFieldIndex = -1
+    } else {
+      if (selectedBeanFieldIndex != -1) {
+        deselectBeanField(playerBeanFields.beanFields(selectedBeanFieldIndex))
+      }
+      selectedBeanField.pulsateTransition.play()
+      selectedBeanFieldIndex = beanFieldIndex
+
+    }
+  }
+
+  def deselectBeanField(beanFieldContainer: BeanFieldContainer): Unit = {
+    beanFieldContainer.pulsateTransition.stop()
+    beanFieldContainer.beanFieldImage.scaleX = 1.0
+    beanFieldContainer.beanFieldImage.scaleY = 1.0
   }
 }

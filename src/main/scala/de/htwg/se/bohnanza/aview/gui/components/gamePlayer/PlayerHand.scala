@@ -65,6 +65,7 @@ case class PlayerHand(currentViewPlayer: IPlayer) extends VBox {
   }
 
   def updateSelectionManager(selectionManager: SelectionManager): Unit = {
-    selectableCard.selectionManager = Some(selectionManager)
+    if (!handcards.isEmpty)
+      selectableCard.selectionManager = Some(selectionManager)
   }
 }
