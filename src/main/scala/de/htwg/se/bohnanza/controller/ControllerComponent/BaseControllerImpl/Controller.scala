@@ -45,14 +45,14 @@ class Controller(
   }
 
   def loadGame(): Unit = {
-    val loadedGame = fileIO.load
-    game = loadedGame._1
-    phase = loadedGame._2
+    val (loadedGame, loadedPhase) = fileIO.load()
+    game = loadedGame
+    phase = loadedPhase
     notifyObservers(ObserverEvent.LoadGame)
   }
 
   def saveGame(): Unit = {
-    fileIO.save(game = game, phase = phase)
+    fileIO.save(game, phase)
     notifyObservers(ObserverEvent.SaveGame)
   }
 

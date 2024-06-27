@@ -26,15 +26,19 @@ import de.htwg.se.bohnanza.model.PhaseStateComponent.TradeAndPlantPhase
 import scala.xml.XML
 
 class FileIOXml extends IFileIO {
-  def load: (IGame, IPhaseState) = {
-    val xml = XML.loadFile(f"${SAVEGAMEDIR}bohnanza.xml")
+  def load(filename: String = "bohnanza.xml"): (IGame, IPhaseState) = {
+    val xml = XML.loadFile(f"${SAVEGAMEDIR}${filename}")
     val game = gameFromXml((xml \ "game").head)
     val phase = phaseFromXml((xml \ "phase").head)
     (game, phase)
   }
 
-  def save(game: IGame, phase: IPhaseState): Unit = {
-    val pw = new PrintWriter(new File(f"${SAVEGAMEDIR}bohnanza.xml"))
+  def save(
+      game: IGame,
+      phase: IPhaseState,
+      filename: String = "bohnanza.xml"
+  ): Unit = {
+    val pw = new PrintWriter(new File(f"${SAVEGAMEDIR}${filename}"))
     val prettyPrinter = new scala.xml.PrettyPrinter(120, 4)
     val xml = prettyPrinter.format(bohnanzaGameToXml(game, phase))
     pw.write(xml)

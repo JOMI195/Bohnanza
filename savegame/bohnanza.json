@@ -1,0 +1,23 @@
+{
+  "game" : {
+    "players" : [ {
+      "name" : "Player1",
+      "beanFields" : [ {
+        "bean" : "None",
+        "quantity" : 0
+      } ],
+      "coins" : 0,
+      "hand" : {
+        "cards" : [ ]
+      }
+    } ],
+    "currentPlayerIndex" : 0,
+    "deck" : {
+      "cards" : [ "ChiliBean" ]
+    },
+    "turnOverField" : {
+      "cards" : [ "BlueBean" ]
+    }
+  },
+  "phase" : "GameInitializationPhase"
+}

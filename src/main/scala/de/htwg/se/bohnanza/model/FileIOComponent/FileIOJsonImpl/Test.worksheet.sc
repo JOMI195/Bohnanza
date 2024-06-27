@@ -1,6 +1,6 @@
 import scala.io.Source
 import play.api.libs.json.Json
-import de.htwg.se.bohnanza.model.FileIOComponent.FileIO
+import de.htwg.se.bohnanza.model.FileIOComponent.FileIOJson
 import de.htwg.se.bohnanza.model.PhaseStateComponent.GameInitializationPhase
 import de.htwg.se.bohnanza.model.GameComponent.Bean
 import de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent.TurnOverField
@@ -37,7 +37,7 @@ val testPhase = GameInitializationPhase()
 // fileIO.gameStateToJson(testGame, testPhase)
 // val path1 = "bohnanza1.json"
 // val path2 = "bohnanza2.json"
-// val fileIO = FileIO()
-// fileIO.save(testGame, testPhase, path1)
+// val fileIO = FileIOJson()
+// fileIO.save(testGame, testPhase)
 // val (game1, phase1) = fileIO.load(path1)
 // fileIO.save(game1, phase1, path2)

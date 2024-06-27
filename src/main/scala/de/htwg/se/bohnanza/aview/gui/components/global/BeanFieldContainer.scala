@@ -47,7 +47,7 @@ class BeanFieldContainer(
 
   onMouseClicked = (e: MouseEvent) => {
     selectionManager match {
-      case None => println("Debug: Selection Manager not initalized yet.")
+      case None =>
       case Some(checkedSelectionManager) => {
         checkedSelectionManager.selectBeanField(beanFieldId - 1)
       }
