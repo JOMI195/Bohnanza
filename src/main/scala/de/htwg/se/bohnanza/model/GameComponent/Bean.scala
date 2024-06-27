@@ -17,11 +17,3 @@ enum Bean(
   case RedBean extends Bean(Map(2 -> 1, 3 -> 2, 4 -> 3, 5 -> 4), 20, "red")
   case GardenBean extends Bean(Map(2 -> 2, 3 -> 3), 20, "garden")
 }
-
-object Bean {
-  private val beansByShortName: Map[String, Bean] =
-    Bean.values.map(bean => bean.toString() -> bean).toMap
-
-  def getBeanByName(name: String): Option[Bean] =
-    beansByShortName.get(name)
-}
