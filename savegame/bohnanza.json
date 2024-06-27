@@ -1,8 +1,30 @@
 {
   "game" : {
     "players" : [ {
-      "name" : "Player1",
+      "name" : "Daniel",
       "beanFields" : [ {
+        "bean" : "BlueBean",
+        "quantity" : 1
+      }, {
+        "bean" : "RedBean",
+        "quantity" : 1
+      }, {
+        "bean" : "BlackEyedBean",
+        "quantity" : 1
+      } ],
+      "coins" : 0,
+      "hand" : {
+        "cards" : [ "SoyBean", "ChiliBean", "BlueBean", "GardenBean" ]
+      }
+    }, {
+      "name" : "JOMI",
+      "beanFields" : [ {
+        "bean" : "None",
+        "quantity" : 0
+      }, {
+        "bean" : "None",
+        "quantity" : 0
+      }, {
         "bean" : "None",
         "quantity" : 0
       } ],
@@ -13,11 +35,11 @@
     } ],
     "currentPlayerIndex" : 0,
     "deck" : {
-      "cards" : [ "ChiliBean" ]
+      "cards" : [ "SoyBean", "BlueBean", "BlueBean", "BlueBean", "BlackEyedBean", "GreenBean", "RedBean", "GardenBean", "GreenBean", "GardenBean", "GardenBean", "RedBean", "GreenBean", "RedBean", "RedBean", "BlackEyedBean", "BlueBean", "SoyBean", "GardenBean", "BlueBean", "BlueBean", "BlueBean", "ChiliBean", "RedBean", "BlackEyedBean", "StinkyBean", "BlueBean", "SoyBean", "SoyBean", "SoyBean", "RedBean", "RedBean", "BlackEyedBean", "GreenBean", "GreenBean", "RedBean", "GreenBean", "ChiliBean", "GardenBean", "GreenBean", "BlueBean", "SoyBean", "BlackEyedBean", "RedBean", "BlueBean", "ChiliBean", "SoyBean", "StinkyBean", "GardenBean", "ChiliBean", "GreenBean", "BlackEyedBean", "GardenBean", "GreenBean", "GreenBean", "GreenBean", "GreenBean", "BlackEyedBean", "BlackEyedBean", "GardenBean", "GreenBean", "ChiliBean", "RedBean", "StinkyBean", "BlackEyedBean", "RedBean", "StinkyBean", "RedBean", "BlueBean", "BlackEyedBean", "ChiliBean", "StinkyBean", "SoyBean", "SoyBean", "GreenBean", "ChiliBean", "GreenBean", "StinkyBean", "StinkyBean", "StinkyBean", "RedBean", "SoyBean", "StinkyBean", "BlackEyedBean", "GardenBean", "GreenBean", "BlackEyedBean", "StinkyBean", "BlueBean", "ChiliBean", "StinkyBean", "ChiliBean", "StinkyBean", "GardenBean", "GardenBean", "GreenBean", "BlueBean", "SoyBean", "GardenBean", "StinkyBean", "BlueBean", "ChiliBean", "GardenBean", "GardenBean", "StinkyBean", "SoyBean", "RedBean", "GardenBean", "ChiliBean", "GreenBean", "BlackEyedBean", "BlackEyedBean", "GardenBean", "StinkyBean", "StinkyBean", "BlueBean", "RedBean", "BlackEyedBean", "StinkyBean", "SoyBean", "BlueBean", "ChiliBean", "ChiliBean", "SoyBean", "StinkyBean", "GreenBean", "RedBean", "BlackEyedBean", "RedBean", "ChiliBean", "ChiliBean", "BlueBean", "SoyBean", "GardenBean", "RedBean", "ChiliBean", "SoyBean", "ChiliBean", "GardenBean", "BlackEyedBean", "BlueBean", "RedBean", "SoyBean", "StinkyBean", "BlackEyedBean", "GreenBean", "SoyBean", "BlackEyedBean", "GardenBean", "SoyBean" ]
     },
     "turnOverField" : {
-      "cards" : [ "BlueBean" ]
+      "cards" : [ ]
     }
   },
-  "phase" : "GameInitializationPhase"
+  "phase" : "DrawCardsPhase"
 }
