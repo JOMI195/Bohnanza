@@ -237,6 +237,22 @@ class Gui(controller: IController) extends JFXApp3 with Observer {
         })
       }
       case ObserverEvent.CreatePlayer =>
+      case ObserverEvent.LoadGame => {
+        Platform.runLater(() => {
+          updateControllerOfScenes()
+          stage.setScene(gamePlayerScene)
+          val snackbarMessage = "Saved game loaded."
+          gamePlayerScene.showTopSnackbar(snackbarMessage)
+        })
+      }
+      case ObserverEvent.SaveGame => {
+        Platform.runLater(() => {
+          updateControllerOfScenes()
+          stage.setScene(gamePlayerScene)
+          val snackbarMessage = "Game saved."
+          gamePlayerScene.showBottomSnackbar(snackbarMessage)
+        })
+      }
     }
   }
 

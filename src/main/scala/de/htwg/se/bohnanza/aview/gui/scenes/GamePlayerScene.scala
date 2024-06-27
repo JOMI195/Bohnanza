@@ -36,6 +36,15 @@ case class GamePlayerScene(
   }
   gameInfoButton.style = s"-fx-font-size: ${15}"
 
+  val saveGameButton = GameButtonFactory.createGameButton(
+    text = "Save game",
+    width = 200,
+    height = 40
+  ) { () =>
+    controller.saveGame()
+  }
+  saveGameButton.style = s"-fx-font-size: ${15}"
+
   val playersBar = new PlayersBar(
     controller = controller,
     moveToGamePlayerScene = moveToGamePlayerScene
@@ -58,6 +67,11 @@ case class GamePlayerScene(
     text = s"Current Phase: ${controller.phase.getClass.getSimpleName}"
     style = s"-fx-font-size: ${20};" +
       "-fx-text-fill: #7A2626;"
+  }
+
+  val gameInfoButtons = new VBox(5) {
+    alignment = Pos.TOP_CENTER
+    children = Seq(gameInfoButton, saveGameButton)
   }
 
   val topInfoText = new VBox {
@@ -87,7 +101,7 @@ case class GamePlayerScene(
 
   val topInfobar = new HBox {
     children = Seq(
-      gameInfoButton,
+      gameInfoButtons,
       topBarHSpacer1,
       topInfoText,
       topBarHSpacer2,
