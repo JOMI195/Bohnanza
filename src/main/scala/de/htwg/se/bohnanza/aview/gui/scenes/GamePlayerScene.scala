@@ -200,26 +200,26 @@ case class GamePlayerScene(
     )
   }
 
-  this.addEventFilter(
-    MouseEvent.MouseClicked,
-    (e: MouseEvent) => {
-      val beanFieldContainer = "class javafx.scene.layout.VBox"
-      val card = "class javafx.scene.image.ImageView"
-      val button = "class javafx.scene.control.Button"
-      val labeledText = "class com.sun.javafx.scene.control.skin.LabeledText"
-      if (
-        e.target != null && !e.target
-          .getClass()
-          .toString()
-          .equals(beanFieldContainer)
-        && !e.target.getClass().toString().equals(card)
-        && !e.target.getClass().toString().equals(button)
-        && !e.target.getClass().toString().equals(labeledText)
-      ) {
-        selectionManager.deselectAllOnAction()
-      }
-    }
-  )
+  // this.addEventFilter(
+  //   MouseEvent.MouseClicked,
+  //   (e: MouseEvent) => {
+  //     val beanFieldContainer = "class javafx.scene.layout.VBox"
+  //     val card = "class javafx.scene.image.ImageView"
+  //     val button = "class javafx.scene.control.Button"
+  //     val labeledText = "class com.sun.javafx.scene.control.skin.LabeledText"
+  //     if (
+  //       e.target != null && !e.target
+  //         .getClass()
+  //         .toString()
+  //         .equals(beanFieldContainer)
+  //       && !e.target.getClass().toString().equals(card)
+  //       && !e.target.getClass().toString().equals(button)
+  //       && !e.target.getClass().toString().equals(labeledText)
+  //     ) {
+  //       selectionManager.deselectAllOnAction()
+  //     }
+  //   }
+  // )
 
   def showBottomSnackbar(message: String) = {
     bottomSnackbar.showSnackbar(message)
