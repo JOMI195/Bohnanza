@@ -4,8 +4,8 @@ import de.htwg.se.bohnanza.model.PhaseStateComponent.*
 import de.htwg.se.bohnanza.model.ArgsHandlerComponent.*
 import de.htwg.se.bohnanza.model.GameComponent.*
 import de.htwg.se.bohnanza.util.*
-import de.htwg.se.bohnanza.model.FileIOComponent.IFileIO
-import de.htwg.se.bohnanza.BohanzaModule.given
+import _root_.de.htwg.se.bohnanza.model.FileIOComponent.IFileIO
+import _root_.de.htwg.se.bohnanza.BohanzaModule.given
 
 class Controller(
     var game: IGame,
