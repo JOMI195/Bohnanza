@@ -41,7 +41,7 @@ class FileIOJson extends IFileIO {
     return (game, phase)
   }
 
-  private def gameStateToJson(game: IGame, phase: IPhaseState): JsObject = {
+  def gameStateToJson(game: IGame, phase: IPhaseState): JsObject = {
     Json.obj(
       "game" -> gameToJson(game),
       "phase" -> phase.getClass().getSimpleName()
@@ -49,7 +49,7 @@ class FileIOJson extends IFileIO {
 
   }
 
-  private def gameToJson(game: IGame): JsObject = {
+  def gameToJson(game: IGame): JsObject = {
     Json.obj(
       "players" -> game.players.map(player => playerToJson(player)).toList,
       "currentPlayerIndex" -> game.currentPlayerIndex,
@@ -58,7 +58,7 @@ class FileIOJson extends IFileIO {
     )
   }
 
-  private def playerToJson(player: IPlayer): JsObject = {
+  def playerToJson(player: IPlayer): JsObject = {
     Json.obj(
       "name" -> player.name,
       "beanFields" -> player.beanFields
@@ -70,33 +70,33 @@ class FileIOJson extends IFileIO {
 
   }
 
-  private def beanFieldToJson(beanField: IBeanField): JsObject = {
+  def beanFieldToJson(beanField: IBeanField): JsObject = {
     Json.obj(
       "bean" -> optionBeanToString(beanField.bean),
       "quantity" -> beanField.quantity
     )
   }
 
-  private def optionBeanToString(bean: Option[Bean]): String = {
+  def optionBeanToString(bean: Option[Bean]): String = {
     bean match {
       case None              => "None"
       case Some(checkedBean) => checkedBean.toString()
     }
   }
 
-  private def handToJson(hand: IHand): JsObject = {
+  def handToJson(hand: IHand): JsObject = {
     Json.obj(
       "cards" -> hand.cards.map(_.toString()).toList
     )
   }
 
-  private def deckToJson(deck: IDeck): JsObject = {
+  def deckToJson(deck: IDeck): JsObject = {
     Json.obj(
       "cards" -> deck.cards.map(_.toString()).toList
     )
   }
 
-  private def turnOverFieldToJson(turnOverField: ITurnOverField): JsObject = {
+  def turnOverFieldToJson(turnOverField: ITurnOverField): JsObject = {
     Json.obj(
       "cards" -> turnOverField.cards.map(_.toString()).toList
     )
@@ -111,7 +111,7 @@ class FileIOJson extends IFileIO {
     }
   }
 
-  private def loadGameFromJson(gameJson: JsValue): IGame = {
+  def loadGameFromJson(gameJson: JsValue): IGame = {
     val players = (gameJson("players"))
       .as[List[JsValue]]
       .map(jsonPlayer => loadPlayerFromJson(jsonPlayer))
@@ -122,7 +122,7 @@ class FileIOJson extends IFileIO {
     Game(players, currentPlayerIndex, deck, turnOverField)
   }
 
-  private def loadPlayerFromJson(playerJson: JsValue): IPlayer = {
+  def loadPlayerFromJson(playerJson: JsValue): IPlayer = {
     val beanFields =
       playerJson("beanFields")
         .as[List[JsValue]]
@@ -143,14 +143,14 @@ class FileIOJson extends IFileIO {
     Player(name, beanFields, coins, hand)
   }
 
-  private def loadDeckFromJson(deckJson: JsValue): IDeck = {
+  def loadDeckFromJson(deckJson: JsValue): IDeck = {
     val cards = deckJson("cards")
       .as[List[JsValue]]
       .flatMap(jsonBean => loadBeanFromJson(jsonBean.as[String]))
     Deck(cards)
   }
 
-  private def loadTurnOverFieldFromJson(
+  def loadTurnOverFieldFromJson(
       turnOverFieldJson: JsValue
   ): ITurnOverField = {
     val cards = turnOverFieldJson("cards")
