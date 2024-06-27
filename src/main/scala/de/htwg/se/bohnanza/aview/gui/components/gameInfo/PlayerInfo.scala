@@ -14,7 +14,6 @@ class PlayerInfo(
     playerIndex: Int,
     scaleAvatar: Float,
     scaleFont: Float,
-    selectionManager: Option[SelectionManager],
     onPlayerNameButtonClick: () => Unit
 ) extends HBox(10) {
   fillHeight = true
@@ -37,8 +36,7 @@ class PlayerInfo(
 
   val playerBeanFields = PlayerBeanFields(
     player = player,
-    playerIndex = playerIndex,
-    selectionManager = selectionManager
+    playerIndex = playerIndex
   )
 
   children = Seq(playerStats, playerBeanFields)

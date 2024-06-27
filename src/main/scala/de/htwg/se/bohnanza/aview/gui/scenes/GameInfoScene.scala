@@ -44,9 +44,7 @@ case class GameInfoScene(
       moveToGamePlayerScene = moveToGamePlayerScene
     )
     val turnOverFieldContainer = TurnOverFieldContainer(
-      controller.game.turnOverField.cards,
-      selectionManager = None,
-      playerHand = None
+      controller.game.turnOverField.cards
     )
     turnOverFieldContainer.alignment = Pos.CENTER
     root = new StackPane {

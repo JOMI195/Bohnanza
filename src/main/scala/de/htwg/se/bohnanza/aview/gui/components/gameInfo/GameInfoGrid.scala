@@ -24,7 +24,6 @@ class GameInfoGrid(
       index,
       scaleAvatar = 1.0,
       scaleFont = 1.0,
-      selectionManager = None,
       onPlayerNameButtonClick = () => moveToGamePlayerScene(index)
     )
 
