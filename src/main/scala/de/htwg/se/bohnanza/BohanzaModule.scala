@@ -35,6 +35,8 @@ import de.htwg.se.bohnanza.model.ArgsHandlerComponent.{
   IArgumentHandler,
   ArgumentHandler
 }
+import de.htwg.se.bohnanza.model.FileIOComponent.FileIOXml
+import de.htwg.se.bohnanza.model.FileIOComponent.IFileIO
 
 object BohanzaModule {
   given IDeck = FullDeckCreateStrategy().createDeck();
@@ -55,4 +57,6 @@ object BohanzaModule {
   given IGameInitializationPhase = GameInitializationPhase()
   given IPlayCardPhase = PlayCardPhase()
   given ITradeAndPlantPhase = TradeAndPlantPhase()
+
+  given IFileIO = FileIOXml()
 }

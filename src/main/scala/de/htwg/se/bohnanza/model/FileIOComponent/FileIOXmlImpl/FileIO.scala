@@ -25,7 +25,7 @@ import de.htwg.se.bohnanza.model.PhaseStateComponent.PlayCardPhase
 import de.htwg.se.bohnanza.model.PhaseStateComponent.TradeAndPlantPhase
 import scala.xml.XML
 
-class FileIO extends IFileIO {
+class FileIOXml extends IFileIO {
   def load: (IGame, IPhaseState) = {
     val xml = XML.loadFile(f"${SAVEGAMEDIR}bohnanza.xml")
     val game = gameFromXml((xml \ "game").head)
