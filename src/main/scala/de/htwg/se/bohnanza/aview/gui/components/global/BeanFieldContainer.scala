@@ -4,7 +4,6 @@ import de.htwg.se.bohnanza.aview.gui.components.global.BeanFieldCards
 import de.htwg.se.bohnanza.aview.gui.utils.ImageUtils
 import de.htwg.se.bohnanza.aview.gui.components.global.mainCardScaleFactor
 import de.htwg.se.bohnanza.aview.gui.model.SelectionManager
-import de.htwg.se.bohnanza.aview.gui.model.selectionStyle
 
 import scalafx.scene.layout.StackPane
 import scalafx.scene.layout.{VBox, Region}
@@ -21,7 +20,7 @@ class BeanFieldContainer(
     beanFieldCards: BeanFieldCards,
     beanFieldId: Int,
     scaleFactor: Float = mainCardScaleFactor,
-    selectionManager: Option[SelectionManager]
+    var selectionManager: Option[SelectionManager]
 ) extends StackPane {
   alignment = Pos.TOP_CENTER
   style = "-fx-background-color: FFCD92;"
@@ -48,19 +47,11 @@ class BeanFieldContainer(
 
   onMouseClicked = (e: MouseEvent) => {
     selectionManager match {
-      case None =>
+      case None => println("Debug: Selection Manager not initalized yet.")
       case Some(checkedSelectionManager) => {
-        checkedSelectionManager.selectedBeanFieldIndex = beanFieldId - 1
-        style = selectionStyle
-        pulsateTransition.play()
+        checkedSelectionManager.selectBeanField(beanFieldId - 1)
       }
     }
-  }
-
-  def stopAnimation(): Unit = {
-    pulsateTransition.stop()
-    beanFieldImage.scaleX = 1.0
-    beanFieldImage.scaleY = 1.0
   }
 
   children.addAll(beanFieldImage, beanFieldCardsSpaced)

@@ -21,8 +21,7 @@ case class GamePlayerScene(
     windowHeight: Double,
     currentPlayerViewIndex: Int,
     onGameInfoButtonClick: () => Unit,
-    moveToGamePlayerScene: (index: Int) => Unit,
-    selectionManager: SelectionManager
+    moveToGamePlayerScene: (index: Int) => Unit
 ) extends Scene(windowWidth, windowHeight) {
   val bottomSnackbar =
     new BottomRightSnackbar(windowWidth, windowHeight)
@@ -96,12 +95,25 @@ case class GamePlayerScene(
     )
   }
 
+  val coins = Coins(currentViewPlayer.coins, 0.6, 1.5)
+
+  val playerHand = PlayerHand(currentViewPlayer)
+  val turnOverFieldContainer = TurnOverFieldContainer(
+    controller.game.turnOverField.cards
+  )
   val playerBeanFields = PlayerBeanFields(
     player = currentViewPlayer,
-    playerIndex = currentPlayerViewIndex,
-    scaleFactor = 0.4,
-    selectionManager = Some(selectionManager)
+    playerIndex = currentPlayerViewIndex
   )
+  val selectionManager =
+    SelectionManager(
+      playerBeanFields = playerBeanFields,
+      playerHand = playerHand,
+      turnOverField = turnOverFieldContainer
+    )
+  playerHand.updateSelectionManager(selectionManager)
+  turnOverFieldContainer.updateSelectionManager(selectionManager)
+  playerBeanFields.updateSelectionManager(selectionManager)
 
   val actions = Actions(
     controller = controller,
@@ -116,7 +128,7 @@ case class GamePlayerScene(
           selectionManager.selectedBeanFieldIndex
         )
       }
-      deselectOnAction()
+      selectionManager.deselectAllOnAction()
     },
     onPlantButtonClick = () => {
       if (
@@ -139,28 +151,12 @@ case class GamePlayerScene(
           )
         }
       }
-      deselectOnAction()
+      selectionManager.deselectAllOnAction()
     },
     onDrawButtonClick = () => {
       controller.draw(currentPlayerViewIndex)
     }
   )
-
-  val coins = Coins(currentViewPlayer.coins, 0.6, 1.5)
-
-  val playerHand = PlayerHand(currentViewPlayer, selectionManager)
-
-  val turnOverFieldContainer = TurnOverFieldContainer(
-    controller.game.turnOverField.cards,
-    scaleFactor = 0.4,
-    selectionManager = Some(selectionManager),
-    playerHand = Some(playerHand)
-  )
-
-  // need to be changed, since cards can be empty so there is no instance of selectedCard
-  if (playerHand.currentViewPlayer.hand.cards.nonEmpty)
-    playerHand.selectableCard.selectedCards =
-      turnOverFieldContainer.getTurnOverFieldCards()
 
   val leftElements = new VBox {
     alignment = Pos.TOP_LEFT
@@ -204,8 +200,6 @@ case class GamePlayerScene(
     )
   }
 
-  var lastSelectedCard = SelectedCard.None
-
   this.addEventFilter(
     MouseEvent.MouseClicked,
     (e: MouseEvent) => {
@@ -222,29 +216,10 @@ case class GamePlayerScene(
         && !e.target.getClass().toString().equals(button)
         && !e.target.getClass().toString().equals(labeledText)
       ) {
-        playerHand.hand.cards.foreach(_.deselect())
-        turnOverFieldContainer.deselect()
-        playerBeanFields.deselect()
-      } else if (
-        e.target
-          .getClass()
-          .toString()
-          .equals(
-            beanFieldContainer
-          ) && selectionManager.selectedBeanFieldIndex != -1
-      ) {
-        playerBeanFields.deselect()
+        selectionManager.deselectAllOnAction()
       }
-
     }
   )
-
-  def deselectOnAction(): Unit = {
-    playerHand.hand.cards.foreach(_.deselect())
-    turnOverFieldContainer.deselect()
-    playerBeanFields.deselect()
-
-  }
 
   def showBottomSnackbar(message: String) = {
     bottomSnackbar.showSnackbar(message)
