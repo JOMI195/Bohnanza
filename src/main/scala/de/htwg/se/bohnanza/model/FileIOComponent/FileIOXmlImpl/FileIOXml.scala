@@ -42,66 +42,66 @@ class FileIOXml extends IFileIO {
   }
 
   // ---------- Bean ----------
-  private val beansByShortName: Map[String, Bean] =
+  val beansByShortName: Map[String, Bean] =
     Bean.values.map(bean => bean.toString() -> bean).toMap
 
-  private def getBeanByName(name: String): Option[Bean] =
+  def getBeanByName(name: String): Option[Bean] =
     beansByShortName.get(name)
 
-  private def beanToXml(bean: Bean): Elem = {
+  def beanToXml(bean: Bean): Elem = {
     <bean>{bean.toString}</bean>
   }
 
-  private def beanFromXml(node: Node): Option[Bean] = {
+  def beanFromXml(node: Node): Option[Bean] = {
     getBeanByName(node.text)
   }
 
   // ---------- BeanField ----------
-  private def beanFieldToXml(beanField: IBeanField): Elem = {
+  def beanFieldToXml(beanField: IBeanField): Elem = {
     <beanField>
         {beanField.bean.map(beanToXml).getOrElse(<None/>)}
       <quantity>{beanField.quantity}</quantity>
     </beanField>
   }
 
-  private def beanFieldFromXml(node: Node): IBeanField = {
+  def beanFieldFromXml(node: Node): IBeanField = {
     val bean = (node \ "bean").headOption.flatMap(beanFromXml)
     val quantity = (node \ "quantity").text.toInt
     BeanField(bean, quantity)
   }
 
   // ---------- Hand ----------
-  private def handToXml(hand: IHand): Elem = {
+  def handToXml(hand: IHand): Elem = {
     <cards>{hand.cards.map { card => beanToXml(card) }}</cards>
   }
 
-  private def handFromXml(node: Node): IHand = {
+  def handFromXml(node: Node): IHand = {
     val cards = (node \ "cards" \ "bean").map(beanFromXml).flatten.toList
     Hand(cards)
   }
 
   // ---------- Deck ----------
-  private def deckToXml(deck: IDeck): Elem = {
+  def deckToXml(deck: IDeck): Elem = {
     <cards>{deck.cards.map { card => beanToXml(card) }}</cards>
   }
 
-  private def deckFromXml(node: Node): IDeck = {
+  def deckFromXml(node: Node): IDeck = {
     val cards = (node \ "cards" \ "bean").map(beanFromXml).flatten.toList
     Deck(cards)
   }
 
   // ---------- TurnoverField ----------
-  private def turnOverFieldToXml(turnOverField: ITurnOverField): Elem = {
+  def turnOverFieldToXml(turnOverField: ITurnOverField): Elem = {
     <cards>{turnOverField.cards.map { card => beanToXml(card) }}</cards>
   }
 
-  private def turnOverFieldFromXml(node: Node): ITurnOverField = {
+  def turnOverFieldFromXml(node: Node): ITurnOverField = {
     val cards = (node \ "cards" \ "bean").map(beanFromXml).flatten.toList
     TurnOverField(cards)
   }
 
   // ---------- Player ----------
-  private def playerToXml(player: IPlayer): Elem = {
+  def playerToXml(player: IPlayer): Elem = {
     <player>
         <name>{player.name}</name>
         <coins>{player.coins}</coins>
@@ -112,7 +112,7 @@ class FileIOXml extends IFileIO {
     </player>
   }
 
-  private def playerFromXml(node: Node): IPlayer = {
+  def playerFromXml(node: Node): IPlayer = {
     val name = (node \ "name").text
     val beanFields =
       (node \ "beanFields" \ "beanField").map(beanFieldFromXml).toList
@@ -122,7 +122,7 @@ class FileIOXml extends IFileIO {
   }
 
   // ---------- Game ----------
-  private def gameToXml(game: IGame): Elem = {
+  def gameToXml(game: IGame): Elem = {
     <game>
         <players>{game.players.map { player => playerToXml(player) }}</players>
         <currentPlayerIndex>{game.currentPlayerIndex}</currentPlayerIndex>
@@ -131,7 +131,7 @@ class FileIOXml extends IFileIO {
     </game>
   }
 
-  private def gameFromXml(node: Node): IGame = {
+  def gameFromXml(node: Node): IGame = {
     val players = (node \ "players" \ "player").map(playerFromXml).toList
     val currentPlayerIndex = (node \ "currentPlayerIndex").text.toInt
     val deck = deckFromXml((node \ "deck").head)
@@ -140,11 +140,11 @@ class FileIOXml extends IFileIO {
   }
 
   // ---------- Phase ----------
-  private def phaseToXml(phase: IPhaseState): Elem = {
+  def phaseToXml(phase: IPhaseState): Elem = {
     <phase>{phase.getClass().getSimpleName()}</phase>
   }
 
-  private def phaseFromXml(node: Node): IPhaseState = {
+  def phaseFromXml(node: Node): IPhaseState = {
     (node.text.trim match {
       case "GameInitializationPhase" => GameInitializationPhase()
       case "DrawCardsPhase"          => DrawCardsPhase()
@@ -154,7 +154,7 @@ class FileIOXml extends IFileIO {
   }
 
   // ---------- Bohnanza game ----------
-  private def bohnanzaGameToXml(game: IGame, phase: IPhaseState): Elem = {
+  def bohnanzaGameToXml(game: IGame, phase: IPhaseState): Elem = {
     <bohnanzaGame>
     {gameToXml(game)}
     {phaseToXml(phase)}
