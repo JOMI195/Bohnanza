@@ -22,6 +22,6 @@ object Bean {
   private val beansByShortName: Map[String, Bean] =
     Bean.values.map(bean => bean.toString() -> bean).toMap
 
-  def getBeanByShortName(name: String): Option[Bean] =
+  def getBeanByName(name: String): Option[Bean] =
     beansByShortName.get(name)
 }
