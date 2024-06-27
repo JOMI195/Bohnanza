@@ -28,12 +28,12 @@ import de.htwg.se.bohnanza.model.GameComponent.HandComponent.Hand
 
 class FileIOJson extends IFileIO {
   def save(game: IGame, phase: IPhaseState): Unit = {
-    val pw = new PrintWriter("")
+    val pw = new PrintWriter(f"${SAVEGAMEDIR}bohnanza.json")
     pw.write(Json.prettyPrint(gameStateToJson(game, phase)))
     pw.close()
   }
 
-  def load(name: String): (IGame, IPhaseState) = {
+  def load: (IGame, IPhaseState) = {
     val source: String = Source.fromFile("bohnanza.json").getLines.mkString
     val json = Json.parse(source)
     val game = loadGameFromJson(json("game"))
