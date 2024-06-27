@@ -21,17 +21,26 @@ case class StartScene(
 
   /** BUTTON */
   val playButton = GameButtonFactory.createGameButton(
-    text = "Play",
-    width = 350,
+    text = "New game",
+    width = 500,
     height = 70
   ) { () =>
     onGamePlayButtonClick()
   }
-  val playButtonBox = new VBox(0) {
-    alignment = Pos.BOTTOM_CENTER
-    children = Seq(playButton)
+
+  val loadGameButton = GameButtonFactory.createGameButton(
+    text = "Load saved game",
+    width = 500,
+    height = 70
+  ) { () =>
+    controller.loadGame()
   }
-  playButtonBox.prefHeight = 180
+
+  val playButtonBox = new VBox(10) {
+    alignment = Pos.BOTTOM_CENTER
+    children = Seq(playButton, loadGameButton)
+  }
+  playButtonBox.prefHeight = 230
 
   /** IMAGE */
   val titleImage =
