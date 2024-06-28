@@ -67,5 +67,5 @@ git clone https://github.com/JOMI195/Bohnanza.git
 
 3. Build and Run with Docker Compose:
 ```bash
-docker-compose run -rm --service-ports bohnanza-game
+docker-compose run --service-ports bohnanza-game
 ```
