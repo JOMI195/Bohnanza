@@ -1,7 +1,7 @@
 package de.htwg.se.bohnanza.model.GameComponent.TurnOverFieldComponent
 
 import de.htwg.se.bohnanza.model.GameComponent.Bean
-
+import play.api.libs.json.{JsNull, Json, JsString, JsValue}
 case class TurnOverField(override val cards: List[Bean])
     extends ITurnOverField(cards) {
 

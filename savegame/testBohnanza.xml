@@ -1,0 +1,31 @@
+<bohnanzaGame>
+    <game>
+        <players>
+            <player>
+                <name>Player1</name>
+                <coins>0</coins>
+                <beanFields>
+                    <beanField>
+                        <None/>
+                        <quantity>0</quantity>
+                    </beanField>
+                </beanFields>
+                <hand>
+                    <cards></cards>
+                </hand>
+            </player>
+        </players>
+        <currentPlayerIndex>0</currentPlayerIndex>
+        <deck>
+            <cards>
+                <bean>ChiliBean</bean>
+            </cards>
+        </deck>
+        <turnOverField>
+            <cards>
+                <bean>BlueBean</bean>
+            </cards>
+        </turnOverField>
+    </game>
+    <phase>GameInitializationPhase</phase>
+</bohnanzaGame>

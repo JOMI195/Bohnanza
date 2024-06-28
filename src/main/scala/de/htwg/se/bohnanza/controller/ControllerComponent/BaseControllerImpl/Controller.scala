@@ -4,6 +4,8 @@ import de.htwg.se.bohnanza.model.PhaseStateComponent.*
 import de.htwg.se.bohnanza.model.ArgsHandlerComponent.*
 import de.htwg.se.bohnanza.model.GameComponent.*
 import de.htwg.se.bohnanza.util.*
+import _root_.de.htwg.se.bohnanza.model.FileIOComponent.IFileIO
+import _root_.de.htwg.se.bohnanza.BohanzaModule.given
 
 class Controller(
     var game: IGame,
@@ -12,6 +14,7 @@ class Controller(
 
   val undoManager = new UndoManager
   val argumentHandler: IArgumentHandler = new ArgumentHandler();
+  val fileIO = summon[IFileIO]
 
   def createPlayer(playerName: String): Unit = {
     val response = argumentHandler.checkOrDelegate(
@@ -39,6 +42,18 @@ class Controller(
   def redo(): Unit = {
     undoManager.redoStep
     notifyObservers(ObserverEvent.Redo)
+  }
+
+  def loadGame(): Unit = {
+    val (loadedGame, loadedPhase) = fileIO.load()
+    game = loadedGame
+    phase = loadedPhase
+    notifyObservers(ObserverEvent.LoadGame)
+  }
+
+  def saveGame(): Unit = {
+    fileIO.save(game, phase)
+    notifyObservers(ObserverEvent.SaveGame)
   }
 
   def draw(playerIndex: Int): Unit = {

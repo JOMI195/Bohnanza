@@ -14,6 +14,10 @@ trait IController extends Observable {
 
   def redo(): Unit
 
+  def saveGame(): Unit
+
+  def loadGame(): Unit
+
   def draw(playerIndex: Int): Unit
 
   def plant(playerIndex: Int, beanFieldIndex: Int): Unit

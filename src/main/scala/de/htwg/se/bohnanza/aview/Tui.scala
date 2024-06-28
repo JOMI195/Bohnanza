@@ -177,6 +177,16 @@ class Tui(controller: IController) extends Observer {
         }
       }
 
+      case "save" => {
+        controller.saveGame()
+        None
+      }
+
+      case "load" => {
+        controller.loadGame()
+        None
+      }
+
       // case "cards"
       case "exit" => {
         Option("Exiting game...")
@@ -235,6 +245,9 @@ class Tui(controller: IController) extends Observer {
         println(controller.game.players(controller.game.currentPlayerIndex))
       case ObserverEvent.Turn =>
         println(controller.game.turnOverField.toString() + "\n")
+      case ObserverEvent.SaveGame => println("Game saved")
+      case ObserverEvent.LoadGame =>
+        println("Loaded game successfully\n" + controller.game)
       case ObserverEvent.Undo         => println(controller.game)
       case ObserverEvent.Redo         => println(controller.game)
       case ObserverEvent.CreatePlayer => println(controller.game)
