@@ -1,5 +1,5 @@
 services:
-  bohnanza:
+  bohnanza-game:
     build: .
     environment:
       - DISPLAY=host.docker.internal:0
@@ -7,4 +7,6 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
     network_mode: host
+    stdin_open: true
+    tty: true
     command: [ "java", "-jar", "target/scala-3.3.3/Bohnanza.jar" ]

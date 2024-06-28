@@ -53,15 +53,19 @@ Bohnanza is a card game that revolves around trading and planting beans. Each pl
 
 ## Installation
 ### Prerequisites
-- JDK 11
-- sbt
+- Docker: Install Docker from Docker's official website.
+- Docker Compose: Ensure Docker Compose is installed. It usually comes bundled with Docker Desktop.
+- VcXsrv: Install VcXsrv, an X-server for Windows, from VcXsrv's official website. This could differ to other os systems.
 
 ### Setup
-1. Clone the repository
+1. Clone the repository.
 ```bash
 git clone https://github.com/JOMI195/Bohnanza.git
 ```
-2. Run the Project
+
+2. Start VcXsrv (X-Server) for GUI to host forwarding.
+
+3. Build and Run with Docker Compose:
 ```bash
-sbt run
+docker-compose up --build
 ```
